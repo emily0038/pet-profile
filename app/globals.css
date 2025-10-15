@@ -12,6 +12,16 @@
   --font-mono: var(--font-geist-mono);
 }
 
+@layer base {
+  h1 {
+    font-weight: bold;
+    font-size: var(--text-xl);
+  }
+  h2 {
+    font-size: var(--text-l);
+  }
+}
+
 @media (prefers-color-scheme: dark) {
   :root {
     --background: #0a0a0a;
