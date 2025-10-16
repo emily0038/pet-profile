@@ -2,6 +2,7 @@
 
 import React, { useState, useRef } from 'react';
 import * as Bytescale from "@bytescale/sdk";
+import Image from 'next/image';
 
 // Initialize Bytescale upload manager
 const uploadManager = new Bytescale.UploadManager({
@@ -76,9 +77,10 @@ export default function UploadProfilePhoto({ onPhotoSave }: ProfilePhotoFramePro
     setShowUploadModal(false);
     setPreviewPhoto(null);
       setSelectedFile(null);
-    } catch (error: any) {
+    } catch (error) {
       console.error('Upload error:', error);
-      alert(`Error uploading image: ${error.message}`);
+      const message = error instanceof Error ? error.message : 'Unknown error occurred';
+      alert(`Error uploading image: ${message}`);
     } finally {
       setUploading(false);
     }
@@ -102,8 +104,10 @@ export default function UploadProfilePhoto({ onPhotoSave }: ProfilePhotoFramePro
         className="w-48 h-48 rounded-full border-4 border-gray-300 flex items-center justify-center cursor-pointer hover:border-purple-400 transition-colors overflow-hidden bg-gray-100"
       >
         {savedPhoto ? (
-          <img
+          <Image
             src={savedPhoto}
+            width={192}
+            height={192}
             alt="Profile"
             className="w-full h-full object-cover"
           />
@@ -127,16 +131,20 @@ export default function UploadProfilePhoto({ onPhotoSave }: ProfilePhotoFramePro
               {/* If preview photo exists, show rounded frame, OTHERWISE show default image */}  
               {previewPhoto ? (
                 <div className="w-48 h-48 mx-auto rounded-full overflow-hidden border-4 border-gray-300">
-                  <img
+                  <Image
                     src={previewPhoto}
+                    width={192}
+                    height={192}
                     alt="Preview"
                     className="w-full h-full object-cover"
                   />
                 </div>
               ) : (
                 <div className="w-48 h-48 mx-auto rounded-full overflow-hidden border-4 border-gray-300">
-                  <img
+                  <Image
                     src={"person.svg"}
+                    width={192}
+                    height={192}
                     alt="Default"
                     className="w-full h-full object-cover"
                   />

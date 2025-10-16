@@ -115,21 +115,3 @@ export default function AboutMe({ onTextSave, initialText = '' }: AboutMeProps) 
     </div>
   );
 }
-
-// Example usage in editor page:
-function EditorExample() {
-  const handleTextSave = (text: string) => {
-    console.log('Bio saved:', text);
-    // Save to database here
-  };
-
-  return (
-    <div className="p-8">
-      <h2 className="text-xl font-semibold mb-2">About Me</h2>
-      <p className="text-gray-600 mb-4">
-        Tell clients about yourself, your experience, and what makes you stand out
-      </p>
-      <AboutMe onTextSave={handleTextSave} />
-    </div>
-  );
-}

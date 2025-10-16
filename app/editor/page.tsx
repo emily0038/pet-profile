@@ -2,6 +2,7 @@ import Header from '@/components/header'
 import UploadProfilePhoto from '@/components/uploadProfilePhoto'
 import PortfolioGallery from '@/components/uploadGallery'
 import AboutMe from '@/components/aboutMe'
+import AcceptedClients from '@/components/acceptedClients'
 
 export default function Page() {
   return (
@@ -22,6 +23,10 @@ export default function Page() {
           <h1>About Me</h1>
           <h2>Tell clients about yourself, your experience and background, and what makes you stand out</h2>
           <AboutMe />
+        </div>
+        <div>
+          <h1>Accepted Clients</h1>
+          <AcceptedClients />
         </div>
       </div>
     </div>

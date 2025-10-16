@@ -2,6 +2,7 @@
 
 import React, { useState, useRef } from 'react';
 import * as Bytescale from "@bytescale/sdk";
+import Image from 'next/image';
 
 // Initialize Bytescale upload manager
 const uploadManager = new Bytescale.UploadManager({
@@ -171,9 +172,10 @@ export default function PortfolioGallery({ onPhotosChange, initialPhotos = [] }:
       // await savePhotosToDatabase(uploadedUrls);
 
       setShowModal(false);
-    } catch (error: any) {
+    } catch (error) {
       console.error('Upload error:', error);
-      alert(`Failed to upload images: ${error.message}`);
+      const message = error instanceof Error ? error.message : 'Unknown error occurred';
+      alert(`Failed to upload images: ${message}`);
     } finally {
       setUploading(false);
     }
@@ -213,7 +215,7 @@ export default function PortfolioGallery({ onPhotosChange, initialPhotos = [] }:
               {/* Display saved photos */}
               {savedPhotos.map((photoUrl, index) => (
                 <div key={`saved-${index}`} className="relative aspect-square bg-gray-100 rounded-lg overflow-hidden">
-                  <img
+                  <Image
                     src={photoUrl}
                     alt={`Portfolio ${index + 1}`}
                     className="w-full h-full object-cover"
@@ -230,7 +232,7 @@ export default function PortfolioGallery({ onPhotosChange, initialPhotos = [] }:
               {/* Display preview photos (with visual indicator they're not saved yet) */}
               {previewPhotos.map((photoUrl, index) => (
                 <div key={`preview-${index}`} className="relative aspect-square bg-gray-100 rounded-lg overflow-hidden border-2 border-purple-400">
-                  <img
+                  <Image
                     src={photoUrl}
                     alt={`Preview ${index + 1}`}
                     className="w-full h-full object-cover opacity-80"
