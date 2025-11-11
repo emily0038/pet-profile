@@ -247,18 +247,3 @@ export default function AcceptedClients({ onSave, initialData = DEFAULT_DATA }: 
     </div>
   );
 }
-
-// Example usage in editor page:
-function EditorExample() {
-  const handleSave = (data: AcceptedClientsData) => {
-    console.log('Accepted clients saved:', data);
-    // Save to database
-  };
-
-  return (
-    <div className="p-8">
-      <h2 className="text-xl font-semibold mb-2">Accepted Clients</h2>
-      <AcceptedClients onSave={handleSave} />
-    </div>
-  );
-}

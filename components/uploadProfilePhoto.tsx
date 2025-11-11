@@ -183,18 +183,3 @@ export default function UploadProfilePhoto({ initialPhoto, onPhotoSave }: Profil
     </>
   );
 }
-
-// Example usage in your editor page: - WILL NEED TO DELETE
-function EditorExample() {
-  const handlePhotoSave = (photoUrl: string) => {
-    console.log('Photo saved:', photoUrl);
-    // You can save this to your state management or database
-  };
-
-  return (
-    <div className="p-8">
-      <h1 className="text-2xl font-bold mb-6">Profile Editor</h1>
-      <UploadProfilePhoto onPhotoSave={handlePhotoSave} />
-    </div>
-  );
-}

@@ -159,12 +159,16 @@ export default function PortfolioGallery({
     setUploading(true);
 
     try {
-      // Delete photos marked for deletion
+      // Remove deleted photos from local state immediately (optimistic update)
+      const remainingPhotos = savedPhotos.filter(photo => !photosToDelete.includes(photo.id));
+
+      // Delete photos marked for deletion from database
       if (photosToDelete.length > 0 && onPhotoDelete) {
         await Promise.all(photosToDelete.map(photoId => onPhotoDelete(photoId)));
       }
 
       // Upload new photos if any
+      let newPhotos: GalleryPhoto[] = [];
       if (pendingFiles.length > 0) {
         const uploadPromises = pendingFiles.map(async (file) => {
           const { fileUrl } = await uploadManager.upload({ data: file });
@@ -177,7 +181,18 @@ export default function PortfolioGallery({
         if (onPhotosSave) {
           await onPhotosSave(uploadedUrls);
         }
+
+        // Create temporary photo objects for optimistic update
+        // These will have the correct URLs but temporary IDs
+        newPhotos = uploadedUrls.map((url, index) => ({
+          id: `temp-${Date.now()}-${index}`,
+          photo_url: url,
+          order: remainingPhotos.length + index
+        }));
       }
+
+      // Update local state immediately (optimistic update)
+      setSavedPhotos([...remainingPhotos, ...newPhotos]);
 
       // Clear all pending changes
       setPreviewPhotos([]);
@@ -185,9 +200,6 @@ export default function PortfolioGallery({
       setPhotosToDelete([]);
 
       setShowModal(false);
-
-      // Refresh the page to show updated photos from database
-      window.location.reload();
     } catch (error) {
       console.error('Save error:', error);
       const message = error instanceof Error ? error.message : 'Unknown error occurred';

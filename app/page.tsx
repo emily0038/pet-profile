@@ -6,38 +6,24 @@ export default async function Page() {
 
   // Test connection
   const { data: testData, error: testError } = await supabase.from('test_connection').select('*')
-  const { data: todos, error: todosError } = await supabase.from('todos').select()
 
   return (
     <div className="font-sans grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20">
       <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
         {/* Testing supabase connection with test data*/}
-          <div className="mb-8 p-4 bg-gray-100 dark:bg-gray-800 rounded-lg">
-            <h2 className="text-xl font-bold mb-2">Supabase Connection Test</h2>
-            {testError ? (
-              <p className="text-red-600">❌ Error: {testError.message}</p>
-            ) : testData ? (
-              <div>
-                <p className="text-green-600">✅ Connected successfully!</p>
-                <pre className="mt-2 text-sm">{JSON.stringify(testData, null, 2)}</pre>
-              </div>
-            ) : (
-              <p className="text-yellow-600">⏳ Loading...</p>
-            )}
-          </div>
-          {/* This is a blog that prints todos from the database */}
-          <div className="mb-8">
-            <h2 className="text-xl font-bold mb-2">Todos:</h2>
-            {todosError ? (
-              <p className="text-red-600">❌ Error: {todosError.message}</p>
-            ) : (
-              <ul>
-                {todos?.map((todo: any) => (
-                  <li key={todo.id}>{JSON.stringify(todo)}</li>
-                ))}
-              </ul>
-            )}
-          </div>
+        <div className="mb-8 p-4 bg-gray-100 dark:bg-gray-800 rounded-lg">
+          <h2 className="text-xl font-bold mb-2">Supabase Connection Test</h2>
+          {testError ? (
+            <p className="text-red-600">❌ Error: {testError.message}</p>
+          ) : testData ? (
+            <div>
+              <p className="text-green-600">✅ Connected successfully!</p>
+              <pre className="mt-2 text-sm">{JSON.stringify(testData, null, 2)}</pre>
+            </div>
+          ) : (
+            <p className="text-yellow-600">⏳ Loading...</p>
+          )}
+        </div>
         <Image
           className="dark:invert"
           src="/next.svg"

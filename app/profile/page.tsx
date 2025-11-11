@@ -4,6 +4,13 @@ import { redirect } from 'next/navigation'
 import { createClient } from '@/utils/supabase/server'
 import GallerySwiper from '@/components/gallerySwiper'
 
+interface MenuItem {
+    id: string;
+    name: string;
+    price: string;
+    is_add_on_only: boolean;
+}
+
 export default async function Page() {
     const supabase = await createClient()
       
@@ -119,9 +126,8 @@ export default async function Page() {
                             )}
                             {service.menu_items && service.menu_items.length > 0 && (
                                 <div className="space-y-2">
-                                    {service.menu_items?.map((item: any) => (
+                                    {service.menu_items?.map((item: MenuItem) => (
                                         <div key={item.id} className="grid grid-cols-[1fr_1fr_auto] gap-4 items-center">
-                                            {/* Column 1: Name (with overflow handling) */}
                                             <div className="min-w-0">
                                                 <div className="break-words">
                                                     <span className="font-medium">{item.name}</span>
@@ -130,15 +136,11 @@ export default async function Page() {
                                                     )}
                                                 </div>
                                             </div>
-
-                                            {/* Column 2: Price (fixed width, always present for alignment) */}
                                             <div className="text-center min-w-[60px]">
                                                 {item.price && (
                                                     <span>${item.price}</span>
                                                 )}
                                             </div>
-
-                                            {/* Column 3: Button (fixed width) */}
                                             <div>
                                                 <button className="rounded-sm px-2 py-1 border border-[#9185FF] bg-[#E4E1FF] text-[#878787] text-sm font-bold whitespace-nowrap">Request</button>
                                             </div>
