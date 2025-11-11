@@ -9,27 +9,43 @@ const uploadManager = new Bytescale.UploadManager({
   apiKey: "public_223k2RMDA3XCvtqA2sr4V7rKhoHU"
 });
 
-interface PortfolioGalleryProps {
-  onPhotosChange?: (photoUrls: string[]) => void;
-  initialPhotos?: string[]; // For loading from database
+interface GalleryPhoto {
+  id: string;
+  photo_url: string;
+  order: number;
 }
 
-export default function PortfolioGallery({ onPhotosChange, initialPhotos = [] }: PortfolioGalleryProps) {
+interface PortfolioGalleryProps {
+  initialPhotos?: GalleryPhoto[];
+  onPhotosSave?: (photoUrls: string[]) => Promise<void>;
+  onPhotoDelete?: (photoId: string) => Promise<void>;
+}
+
+export default function PortfolioGallery({
+  initialPhotos = [],
+  onPhotosSave,
+  onPhotoDelete
+}: PortfolioGalleryProps) {
   // Saved photos (from database)
-  const [savedPhotos, setSavedPhotos] = useState<string[]>(initialPhotos);
-  
+  const [savedPhotos, setSavedPhotos] = useState<GalleryPhoto[]>(initialPhotos);
+
   // New photos being previewed (not yet saved)
   const [previewPhotos, setPreviewPhotos] = useState<string[]>([]);
-  
+
   // Files to upload when user clicks Save
   const [pendingFiles, setPendingFiles] = useState<File[]>([]);
-  
+
+  // Photos marked for deletion (will be deleted on Save)
+  const [photosToDelete, setPhotosToDelete] = useState<string[]>([]);
+
   const [showModal, setShowModal] = useState(false);
   const [uploading, setUploading] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const MAX_PHOTOS = 8;
-  const totalPhotos = savedPhotos.length + previewPhotos.length;
+  // Count visible photos (excluding ones marked for deletion)
+  const visibleSavedPhotos = savedPhotos.filter(photo => !photosToDelete.includes(photo.id));
+  const totalPhotos = visibleSavedPhotos.length + previewPhotos.length;
   const remainingSlots = MAX_PHOTOS - totalPhotos;
 
   const handleButtonClick = () => {
@@ -110,11 +126,10 @@ export default function PortfolioGallery({ onPhotosChange, initialPhotos = [] }:
   };
 
   const handleRemoveSaved = (indexToRemove: number) => {
-    const newSavedPhotos = savedPhotos.filter((_, index) => index !== indexToRemove);
-    setSavedPhotos(newSavedPhotos);
-    
-    // NOTE: When connected to database, you'd also delete from database here
-    // await deletePhotoFromDatabase(savedPhotos[indexToRemove]);
+    const photoToDelete = savedPhotos[indexToRemove];
+
+    // Mark for deletion (will be deleted on Save)
+    setPhotosToDelete([...photosToDelete, photoToDelete.id]);
   };
 
   const handleRemovePreview = (indexToRemove: number) => {
@@ -126,70 +141,71 @@ export default function PortfolioGallery({ onPhotosChange, initialPhotos = [] }:
   };
 
   const handleCancel = () => {
-    // Discard all preview photos
+    // Discard all changes
     setPreviewPhotos([]);
     setPendingFiles([]);
+    setPhotosToDelete([]);
     setShowModal(false);
   };
 
   const handleSave = async () => {
-    if (pendingFiles.length === 0) {
-      // No new photos to upload, just close modal
+    // Check if there are any changes to save
+    if (pendingFiles.length === 0 && photosToDelete.length === 0) {
+      // No changes, just close modal
       setShowModal(false);
-
-      // Notify parent of any removed photos
-      if (onPhotosChange) {
-        onPhotosChange(savedPhotos);
-      }
       return;
     }
 
     setUploading(true);
 
     try {
-      // Upload all pending files to Bytescale
-      const uploadPromises = pendingFiles.map(async (file) => {
-        const { fileUrl } = await uploadManager.upload({ data: file });
-        return fileUrl;
-      });
-
-      const uploadedUrls = await Promise.all(uploadPromises);
-
-      // Add uploaded URLs to saved photos
-      const newSavedPhotos = [...savedPhotos, ...uploadedUrls];
-      setSavedPhotos(newSavedPhotos);
-
-      // Clear preview state
-      setPreviewPhotos([]);
-      setPendingFiles([]);
-
-      // Notify parent component with all saved photo URLs
-      if (onPhotosChange) {
-        onPhotosChange(newSavedPhotos);
+      // Delete photos marked for deletion
+      if (photosToDelete.length > 0 && onPhotoDelete) {
+        await Promise.all(photosToDelete.map(photoId => onPhotoDelete(photoId)));
       }
 
-      // NOTE: When connected to database, save the new URLs:
-      // await savePhotosToDatabase(uploadedUrls);
+      // Upload new photos if any
+      if (pendingFiles.length > 0) {
+        const uploadPromises = pendingFiles.map(async (file) => {
+          const { fileUrl } = await uploadManager.upload({ data: file });
+          return fileUrl;
+        });
+
+        const uploadedUrls = await Promise.all(uploadPromises);
+
+        // Save to database
+        if (onPhotosSave) {
+          await onPhotosSave(uploadedUrls);
+        }
+      }
+
+      // Clear all pending changes
+      setPreviewPhotos([]);
+      setPendingFiles([]);
+      setPhotosToDelete([]);
 
       setShowModal(false);
+
+      // Refresh the page to show updated photos from database
+      window.location.reload();
     } catch (error) {
-      console.error('Upload error:', error);
+      console.error('Save error:', error);
       const message = error instanceof Error ? error.message : 'Unknown error occurred';
-      alert(`Failed to upload images: ${message}`);
+      alert(`Failed to save changes: ${message}`);
     } finally {
       setUploading(false);
     }
   };
 
-  // Combine saved and preview photos for display
-  const allDisplayPhotos = [...savedPhotos, ...previewPhotos];
+  // Total count for display
+  const totalDisplayPhotos = savedPhotos.length + previewPhotos.length;
 
   return (
     <>
       {/* Add Photos Button */}
       <button
         onClick={handleButtonClick}
-        className="px-6 py-2 border-2 border-purple-400 text-purple-600 rounded-lg hover:bg-purple-50 transition-colors"
+        className="px-6 py-2 border-2 border-[#9185FF] text-[#9185FF] rounded-lg hover:bg-[#5B4FC6] transition-colors"
       >
         {savedPhotos.length > 0 
           ? `View / add photos (${savedPhotos.length}/${MAX_PHOTOS})` 
@@ -212,28 +228,36 @@ export default function PortfolioGallery({ onPhotosChange, initialPhotos = [] }:
 
             {/* Photo Grid */}
             <div className="grid grid-cols-3 gap-4 mb-6">
-              {/* Display saved photos */}
-              {savedPhotos.map((photoUrl, index) => (
-                <div key={`saved-${index}`} className="relative aspect-square bg-gray-100 rounded-lg overflow-hidden">
-                  <Image
-                    src={photoUrl}
-                    alt={`Portfolio ${index + 1}`}
-                    className="w-full h-full object-cover"
-                  />
-                  <button
-                    onClick={() => handleRemoveSaved(index)}
-                    className="absolute top-2 right-2 bg-red-500 text-white rounded-full w-7 h-7 flex items-center justify-center hover:bg-red-600 transition-colors text-sm"
-                  >
-                    ×
-                  </button>
-                </div>
-              ))}
+              {/* Display saved photos (excluding ones marked for deletion) */}
+              {savedPhotos
+                .filter(photo => !photosToDelete.includes(photo.id))
+                .map((photo, index) => (
+                  <div key={photo.id} className="relative aspect-square bg-gray-100 rounded-lg overflow-hidden">
+                    <Image
+                      src={photo.photo_url}
+                      alt={`Portfolio ${index + 1}`}
+                      fill
+                      className="object-cover"
+                    />
+                    <button
+                      onClick={() => {
+                        const originalIndex = savedPhotos.findIndex(p => p.id === photo.id);
+                        handleRemoveSaved(originalIndex);
+                      }}
+                      className="absolute top-2 right-2 bg-red-500 text-white rounded-full w-7 h-7 flex items-center justify-center hover:bg-red-600 transition-colors text-sm"
+                    >
+                      ×
+                    </button>
+                  </div>
+                ))}
 
               {/* Display preview photos (with visual indicator they're not saved yet) */}
               {previewPhotos.map((photoUrl, index) => (
                 <div key={`preview-${index}`} className="relative aspect-square bg-gray-100 rounded-lg overflow-hidden border-2 border-purple-400">
                   <Image
                     src={photoUrl}
+                    width={500}
+                    height={500}
                     alt={`Preview ${index + 1}`}
                     className="w-full h-full object-cover opacity-80"
                   />
@@ -266,12 +290,12 @@ export default function PortfolioGallery({ onPhotosChange, initialPhotos = [] }:
             </div>
 
             {/* Empty state */}
-            {allDisplayPhotos.length === 0 && (
+            {totalDisplayPhotos === 0 && (
               <div
                 onDrop={handleDrop}
                 onDragOver={handleDragOver}
                 onClick={handleAddPhotos}
-                className="mb-6 p-16 border-2 border-dashed border-gray-300 rounded-lg text-center cursor-pointer hover:border-purple-400 hover:bg-purple-50 transition-colors"
+                className="mb-6 p-16 border-2 border-dashed border-gray-300 rounded-lg text-center cursor-pointer hover:border-[#9185FF] hover:bg-[#E4E1FF] transition-colors"
               >
                 <div className="text-gray-400 mb-2 text-4xl">📸</div>
                 <p className="text-gray-600 mb-1">Drag and drop photos here</p>
@@ -292,9 +316,11 @@ export default function PortfolioGallery({ onPhotosChange, initialPhotos = [] }:
             {/* Photo count */}
             <p className="text-sm text-gray-500 mb-4">
               {totalPhotos} / {MAX_PHOTOS} photos
-              {previewPhotos.length > 0 && (
-                <span className="text-purple-600 ml-2">
-                  ({previewPhotos.length} new, not saved yet)
+              {(previewPhotos.length > 0 || photosToDelete.length > 0) && (
+                <span className="text-[#9185FF] ml-2">
+                  ({previewPhotos.length > 0 && `${previewPhotos.length} new`}
+                  {previewPhotos.length > 0 && photosToDelete.length > 0 && ', '}
+                  {photosToDelete.length > 0 && `${photosToDelete.length} to delete`} - unsaved)
                 </span>
               )}
             </p>
@@ -310,46 +336,15 @@ export default function PortfolioGallery({ onPhotosChange, initialPhotos = [] }:
               </button>
               <button
                 onClick={handleSave}
-                disabled={uploading}
-                className="flex-1 px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 disabled:bg-gray-300 disabled:cursor-not-allowed transition-colors"
+                disabled={uploading || (previewPhotos.length === 0 && photosToDelete.length === 0)}
+                className="flex-1 px-4 py-2 bg-[#9185FF] text-white rounded-lg hover:bg-[#5B4FC6] disabled:bg-gray-300 disabled:cursor-not-allowed transition-colors"
               >
-                {uploading ? 'Uploading...' : previewPhotos.length > 0 ? `Save ${previewPhotos.length} Photo${previewPhotos.length > 1 ? 's' : ''}` : 'Save'}
+                {uploading ? 'Saving...' : 'Save Changes'}
               </button>
             </div>
           </div>
         </div>
       )}
     </>
-  );
-}
-
-// Example usage:
-function EditorExample() {
-  // When connected to database, load initial photos like this:
-  const [portfolioPhotos, setPortfolioPhotos] = useState<string[]>([
-    // These would come from your database
-    // 'https://bytescale.com/saved-photo-1.jpg',
-    // 'https://bytescale.com/saved-photo-2.jpg',
-  ]);
-
-  const handlePhotosChange = (photoUrls: string[]) => {
-    console.log('Updated portfolio photos:', photoUrls);
-    setPortfolioPhotos(photoUrls);
-    
-    // Save to database:
-    // await database.profiles.update({
-    //   portfolioPhotos: photoUrls
-    // });
-  };
-
-  return (
-    <div className="p-8">
-      <h2 className="text-xl font-semibold mb-4">Portfolio</h2>
-      <p className="text-gray-600 mb-4">Showcase your space and happy clients</p>
-      <PortfolioGallery 
-        onPhotosChange={handlePhotosChange}
-        initialPhotos={portfolioPhotos}
-      />
-    </div>
   );
 }

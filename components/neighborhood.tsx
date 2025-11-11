@@ -2,17 +2,17 @@
 
 import React, { useState } from 'react';
 
-interface AboutMeProps {
+interface NeighborhoodProps {
   onTextSave?: (text: string) => void;
   initialText?: string;
 }
 
-export default function AboutMe({ onTextSave, initialText = '' }: AboutMeProps) {
+export default function Neighborhood({ onTextSave, initialText = '' }: NeighborhoodProps) {
   const [savedText, setSavedText] = useState<string>(initialText || '');
   const [editingText, setEditingText] = useState<string>(initialText || '');
   const [isEditing, setIsEditing] = useState<boolean>(false);
 
-  const MAX_CHARS = 1000;
+  const MAX_CHARS = 100;
   const remainingChars = MAX_CHARS - editingText?.length;
 
   const handleEditClick = () => {
@@ -54,9 +54,9 @@ export default function AboutMe({ onTextSave, initialText = '' }: AboutMeProps) 
           <textarea
             value={editingText}
             onChange={handleTextChange}
-            placeholder="E.g. I'm a full-time pet sitter with a mini golden doodle of my own. I've been caring for pets professionally for 6 years."
-            className="w-full p-4 border-2 border-[#9185FF] rounded-lg focus:outline-none focus:border-[#9185FF] resize-none"
-            rows={8}
+            placeholder="E.g. Upper East Side, Midtown East"
+            className="w-full p-4 border-2 border-purple-300 rounded-lg focus:outline-none focus:border-purple-500 resize-none"
+            rows={1}
             style={{ whiteSpace: 'pre-wrap' }} // Preserves spacing and line breaks
           />
           
@@ -89,16 +89,16 @@ export default function AboutMe({ onTextSave, initialText = '' }: AboutMeProps) 
           {savedText ? (
             <div
               onClick={handleEditClick}
-              className="p-4 border-2 border-gray-200 rounded-lg cursor-pointer hover:border-[#E4E1FF] transition-colors min-h-[120px] whitespace-pre-wrap"
+              className="p-4 border-2 border-gray-200 rounded-lg cursor-pointer hover:border-[#E4E1FF] transition-colors min-h-[60px] whitespace-pre-wrap"
             >
               {savedText}
             </div>
           ) : (
             <div
               onClick={handleEditClick}
-              className="p-4 border-2 border-dashed border-gray-300 rounded-lg cursor-pointer hover:border-[#E4E1FF] transition-colors min-h-[120px] flex items-center justify-center"
+              className="p-4 border-2 border-dashed border-gray-300 rounded-lg cursor-pointer hover:border-[#E4E1FF] transition-colors min-h-[60px] flex items-center justify-center"
             >
-              <span className="text-gray-400">Add your bio</span>
+              <span className="text-gray-400">What neighborhoods do you work in?</span>
             </div>
           )}
           
@@ -107,7 +107,7 @@ export default function AboutMe({ onTextSave, initialText = '' }: AboutMeProps) 
               onClick={handleEditClick}
               className="mt-2 text-sm text-[#878787] hover:text-[#9185FF]"
             >
-              Edit bio
+              Edit neighborhood
             </button>
           )}
         </div>

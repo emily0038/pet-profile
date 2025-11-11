@@ -10,11 +10,12 @@ const uploadManager = new Bytescale.UploadManager({
 });
 
 interface ProfilePhotoFrameProps {
+  initialPhoto?: string | null;
   onPhotoSave?: (photoUrl: string) => void;
 }
 
-export default function UploadProfilePhoto({ onPhotoSave }: ProfilePhotoFrameProps) {
-  const [savedPhoto, setSavedPhoto] = useState<string | null>(null);
+export default function UploadProfilePhoto({ initialPhoto, onPhotoSave }: ProfilePhotoFrameProps) {
+  const [savedPhoto, setSavedPhoto] = useState<string | null>(initialPhoto || null);
   const [previewPhoto, setPreviewPhoto] = useState<string | null>(null);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [showUploadModal, setShowUploadModal] = useState(false);

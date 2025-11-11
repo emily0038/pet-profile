@@ -1,12 +1,12 @@
 'use client';
 
 import React, { useState } from 'react';
+import Image from 'next/image';
 
 interface AcceptedClientsData {
   acceptsCats: boolean;
   acceptsDogs: boolean;
-  noSizeLimit: boolean;
-  maxWeight: number;
+  maxWeight: number | null; // null = no size limit
 }
 
 interface AcceptedClientsProps {
@@ -17,7 +17,6 @@ interface AcceptedClientsProps {
 const DEFAULT_DATA: AcceptedClientsData = {
   acceptsCats: false,
   acceptsDogs: false,
-  noSizeLimit: false,
   maxWeight: 40,
 };
 
@@ -28,14 +27,12 @@ export default function AcceptedClients({ onSave, initialData = DEFAULT_DATA }: 
   // Editing state (only used when in edit mode)
   const [acceptsCats, setAcceptsCats] = useState(initialData.acceptsCats);
   const [acceptsDogs, setAcceptsDogs] = useState(initialData.acceptsDogs);
-  const [noSizeLimit, setNoSizeLimit] = useState(initialData.noSizeLimit);
-  const [maxWeight, setMaxWeight] = useState(initialData.maxWeight);
+  const [maxWeight, setMaxWeight] = useState<number | null>(initialData.maxWeight);
 
   const handleEdit = () => {
     // Load saved data into editing state
     setAcceptsCats(savedData.acceptsCats);
     setAcceptsDogs(savedData.acceptsDogs);
-    setNoSizeLimit(savedData.noSizeLimit);
     setMaxWeight(savedData.maxWeight);
     setIsEditing(true);
   };
@@ -47,21 +44,21 @@ export default function AcceptedClients({ onSave, initialData = DEFAULT_DATA }: 
   const handleDogsChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setAcceptsDogs(e.target.checked);
     if (!e.target.checked) {
-      setNoSizeLimit(false);
+      setMaxWeight(40); // Reset to default when unchecking dogs
     }
   };
 
   const handleNoSizeLimitChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setNoSizeLimit(e.target.checked);
+    if (e.target.checked) {
+      setMaxWeight(null); // null = no size limit
+    } else {
+      setMaxWeight(40); // Reset to default weight when unchecking
+    }
   };
 
   const handleWeightChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newWeight = parseInt(e.target.value);
     setMaxWeight(newWeight);
-    
-    if (noSizeLimit) {
-      setNoSizeLimit(false);
-    }
   };
 
   const handleCancel = () => {
@@ -72,7 +69,6 @@ export default function AcceptedClients({ onSave, initialData = DEFAULT_DATA }: 
     const data: AcceptedClientsData = {
       acceptsCats,
       acceptsDogs,
-      noSizeLimit,
       maxWeight,
     };
 
@@ -84,7 +80,11 @@ export default function AcceptedClients({ onSave, initialData = DEFAULT_DATA }: 
     }
 
     // NOTE: When connected to database, save here:
-    // await database.profiles.update({ acceptedClients: data });
+    // await database.profiles.update({
+    //   accepts_cats: data.acceptsCats,
+    //   accepts_dogs: data.acceptsDogs,
+    //   max_weight: data.maxWeight  // null = no size limit
+    // });
   };
 
   // Check if anything is selected
@@ -126,13 +126,13 @@ export default function AcceptedClients({ onSave, initialData = DEFAULT_DATA }: 
 
             {/* Dog Size Options */}
             {acceptsDogs && (
-              <div className="ml-8 mt-3 space-y-4 p-4 bg-purple-50 rounded-lg border border-purple-100">
+              <div className="ml-8 mt-3 space-y-4 p-4">
                 {/* No Size Limit Checkbox */}
                 <div className="flex items-center">
                   <input
                     type="checkbox"
                     id="noSizeLimit"
-                    checked={noSizeLimit}
+                    checked={maxWeight === null}
                     onChange={handleNoSizeLimitChange}
                     className="w-5 h-5 text-purple-600 border-gray-300 rounded focus:ring-purple-500"
                   />
@@ -152,25 +152,26 @@ export default function AcceptedClients({ onSave, initialData = DEFAULT_DATA }: 
                       min="5"
                       max="80"
                       step="5"
-                      value={maxWeight}
+                      value={maxWeight ?? 40}
                       onChange={handleWeightChange}
-                      className={`flex-1 h-2 bg-purple-200 rounded-lg appearance-none cursor-pointer
-                        ${noSizeLimit ? 'opacity-50' : 'opacity-100'}
+                      disabled={maxWeight === null}
+                      className={`flex-1 h-2 bg-[#E4E1FF] rounded-lg appearance-none cursor-pointer
+                        ${maxWeight === null ? 'opacity-50 cursor-not-allowed' : 'opacity-100'}
                         [&::-webkit-slider-thumb]:appearance-none
                         [&::-webkit-slider-thumb]:w-5
                         [&::-webkit-slider-thumb]:h-5
                         [&::-webkit-slider-thumb]:rounded-full
-                        [&::-webkit-slider-thumb]:bg-purple-600
+                        [&::-webkit-slider-thumb]:bg-[#5B4FC6]
                         [&::-webkit-slider-thumb]:cursor-pointer
                         [&::-moz-range-thumb]:w-5
                         [&::-moz-range-thumb]:h-5
                         [&::-moz-range-thumb]:rounded-full
-                        [&::-moz-range-thumb]:bg-purple-600
+                        [&::-moz-range-thumb]:bg-purple-[#5B4FC6]
                         [&::-moz-range-thumb]:border-0
                         [&::-moz-range-thumb]:cursor-pointer`}
                     />
-                    <span className={`text-gray-700 font-medium min-w-[50px] ${noSizeLimit ? 'opacity-50' : 'opacity-100'}`}>
-                      {maxWeight} lbs
+                    <span className={`text-gray-700 font-medium min-w-[50px] ${maxWeight === null ? 'opacity-50' : 'opacity-100'}`}>
+                      {maxWeight ?? 40} lbs
                     </span>
                   </div>
                 </div>
@@ -188,7 +189,7 @@ export default function AcceptedClients({ onSave, initialData = DEFAULT_DATA }: 
             </button>
             <button
               onClick={handleSave}
-              className="flex-1 px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors"
+              className="flex-1 px-4 py-2 bg-[#9185FF] text-white rounded-lg hover:bg-[#5B4FC6] transition-colors"
             >
               Save
             </button>
@@ -201,24 +202,34 @@ export default function AcceptedClients({ onSave, initialData = DEFAULT_DATA }: 
             <div className="space-y-3">
               {/* Display saved selections */}
               {savedData.acceptsCats && (
-                <div className="flex items-center gap-3 p-3 bg-gray-50 rounded-lg">
-                  <span className="text-2xl">🐱</span>
-                  <span className="text-gray-700 font-medium">Cats</span>
+                <div className="flex items-center gap-3 p-1">
+                  <Image
+                    src="/cat-icon.svg"
+                    width={32}
+                    height={32}
+                    alt="Cat"
+                   />
+                  <span className="text-[#9185FF] font-medium">Cats</span>
                 </div>
               )}
               
               {savedData.acceptsDogs && (
-                <div className="flex items-center gap-3 p-3 bg-gray-50 rounded-lg">
-                  <span className="text-2xl">🐶</span>
-                  <span className="text-gray-700 font-medium">
-                    Dogs {!savedData.noSizeLimit && `under ${savedData.maxWeight} lbs`}
+                <div className="flex items-center gap-3 p-1">
+                  <Image
+                    src="/dog-icon.svg"
+                    width={32}
+                    height={32}
+                    alt="Dog"
+                   />
+                  <span className="text-[#9185FF] font-medium">
+                    Dogs {savedData.maxWeight !== null && `under ${savedData.maxWeight} lbs`}
                   </span>
                 </div>
               )}
 
               <button
                 onClick={handleEdit}
-                className="mt-2 text-sm text-purple-600 hover:text-purple-700"
+                className="mt-2 text-sm text-[#878787] hover:text-[#9185FF]"
               >
                 Edit accepted clients
               </button>
