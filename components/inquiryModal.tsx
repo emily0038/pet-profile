@@ -107,7 +107,7 @@ export default function InquiryModal({ isOpen, onClose, profileId }: InquiryModa
     return (
       <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
         <div className="bg-white rounded-lg p-8 max-w-md w-full text-center">
-          <p className="text-gray-600">Thank you for reaching out! I'll get back to you as soon as possible.</p>
+          <p className="text-gray-600">Thank you for reaching out! I&apos;ll get back to you as soon as possible.</p>
         </div>
       </div>
     );
