@@ -2,25 +2,25 @@
 
 import React, { useState } from 'react';
 
-interface NeighborhoodProps {
+interface DisplayNameProps {
   onTextSave?: (text: string) => void;
   initialText?: string;
 }
 
-export default function Neighborhood({ onTextSave, initialText = '' }: NeighborhoodProps) {
+export default function DisplayName({ onTextSave, initialText = '' }: DisplayNameProps) {
   const [savedText, setSavedText] = useState<string>(initialText || '');
   const [editingText, setEditingText] = useState<string>(initialText || '');
   const [isEditing, setIsEditing] = useState<boolean>(false);
 
-  const MAX_CHARS = 100;
-  const remainingChars = MAX_CHARS - editingText?.length;
+  const MAX_CHARS = 35;
+  const remainingChars = MAX_CHARS - editingText.length;
 
   const handleEditClick = () => {
     setEditingText(savedText);
     setIsEditing(true);
   };
 
-  const handleTextChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+  const handleTextChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const text = e.target.value;
     // Only update if under character limit
     if (text.length <= MAX_CHARS) {
@@ -40,9 +40,6 @@ export default function Neighborhood({ onTextSave, initialText = '' }: Neighborh
     if (onTextSave) {
       onTextSave(editingText);
     }
-
-    // NOTE: When connected to database, save here:
-    // await database.profiles.update({ bio: editingText });
   };
 
   return (
@@ -50,18 +47,17 @@ export default function Neighborhood({ onTextSave, initialText = '' }: Neighborh
       {isEditing ? (
         // Editing Mode
         <div>
-          <textarea
+          <input
+            type="text"
             value={editingText}
             onChange={handleTextChange}
-            placeholder="E.g. Upper East Side, Midtown East"
-            className="w-full p-4 border-2 border-[#9185FF] rounded-lg focus:outline-none resize-none"
-            rows={1}
-            style={{ whiteSpace: 'pre-wrap' }} // Preserves spacing and line breaks
+            placeholder="E.g. Emily's Pampered Pups"
+            className="w-full px-4 py-3 border-2 border-[#9185FF] rounded-lg focus:outline-none"
           />
-          
+
           {/* Character Counter */}
           <div className="flex justify-between items-center mt-2">
-            <span className={`text-sm ${remainingChars < 50 ? 'text-red-500' : 'text-gray-500'}`}>
+            <span className={`text-sm ${remainingChars < 10 ? 'text-red-500' : 'text-gray-500'}`}>
               {remainingChars} characters remaining
             </span>
           </div>
@@ -88,7 +84,7 @@ export default function Neighborhood({ onTextSave, initialText = '' }: Neighborh
           {savedText ? (
             <div
               onClick={handleEditClick}
-              className="p-4 border-2 border-gray-200 rounded-lg cursor-pointer hover:border-[#E4E1FF] transition-colors min-h-[60px] whitespace-pre-wrap"
+              className="p-4 border-2 border-gray-200 rounded-lg cursor-pointer hover:border-[#E4E1FF] transition-colors min-h-[60px]"
             >
               {savedText}
             </div>
@@ -97,16 +93,16 @@ export default function Neighborhood({ onTextSave, initialText = '' }: Neighborh
               onClick={handleEditClick}
               className="p-4 border-2 border-dashed border-gray-300 rounded-lg cursor-pointer hover:border-[#E4E1FF] transition-colors min-h-[60px] flex items-center justify-center"
             >
-              <span className="text-gray-400">What neighborhoods do you work in?</span>
+              <span className="text-gray-400">Click to edit</span>
             </div>
           )}
-          
+
           {savedText && (
             <button
               onClick={handleEditClick}
               className="mt-2 text-sm text-[#878787] hover:text-[#9185FF]"
             >
-              Edit neighborhood
+              Edit
             </button>
           )}
         </div>

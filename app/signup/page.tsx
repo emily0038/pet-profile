@@ -84,6 +84,35 @@ export default function SignupPage() {
               />
             </div>
 
+            <div>
+              <label htmlFor="phone_number" className="block text-sm font-medium mb-1">
+                Phone number
+              </label>
+              <input
+                id="phone_number"
+                name="phone_number"
+                type="tel"
+                autoComplete="tel"
+                required
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-600 dark:bg-gray-800 dark:border-gray-700"
+                placeholder="(555) 123-4567"
+              />
+            </div>
+
+            <div>
+              <label htmlFor="business" className="block text-sm font-medium mb-1">
+                Business <span className="text-gray-400 text-xs">(optional)</span>
+              </label>
+              <input
+                id="business"
+                name="business"
+                type="text"
+                autoComplete="organization"
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-600 dark:bg-gray-800 dark:border-gray-700"
+                placeholder="Pet Care Co."
+              />
+            </div>
+
             {/* Turned off autoComplete to avoid React hydration error */}
             <div>
               <label htmlFor="password" className="block text-sm font-medium mb-1">

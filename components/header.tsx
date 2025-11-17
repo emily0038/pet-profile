@@ -12,7 +12,7 @@ export default async function Header({ title }: HeaderProps) {
   const { data: { user } } = await supabase.auth.getUser();
 
   return (
-    <header className="w-full bg-[#9185FF] px-6 py-4 flex relative top-0 items-center justify-between z-100">
+    <header className="w-full bg-[#9185FF] px-6 py-4 flex fixed top-0 items-center justify-between z-100">
       {user ? (
         <form action={logout}>
           <button
@@ -25,7 +25,7 @@ export default async function Header({ title }: HeaderProps) {
       ) : (
         <div></div>
       )}
-      <h1 className="text-white text-2xl font-bold">{title}</h1>
+      <h1 className="text-white text-2xl text-center font-bold">{title}</h1>
       {/* NOTE: Will need to swap with an SVG tag at some point */}
       <Image
         src='pawprint.svg'

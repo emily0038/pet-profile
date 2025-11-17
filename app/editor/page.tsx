@@ -6,9 +6,10 @@ import AboutMe from '@/components/aboutMe'
 import AcceptedClients from '@/components/acceptedClients'
 import Neighborhood from '@/components/neighborhood'
 import ServicesOffered from '@/components/servicesOffered'
+import DisplayName from '@/components/displayName'
 import { redirect } from 'next/navigation'
 import { createClient } from '@/utils/supabase/server'
-import { updateProfilePhoto, addGalleryPhotos, deleteGalleryPhoto, updateAboutMe, updateAcceptedClients, updateNeighborhood, saveService, deleteService } from '@/app/actions/profile'
+import { updateProfilePhoto, addGalleryPhotos, deleteGalleryPhoto, updateAboutMe, updateAcceptedClients, updateNeighborhood, saveService, deleteService, updateDisplayName } from '@/app/actions/profile'
 
 export default async function Page() {
   const supabase = await createClient()
@@ -47,13 +48,21 @@ export default async function Page() {
   return (
     <div>
       <Header title="Editor" />
-      <div className="px-8 py-8 space-y-4">
+      <div className="px-8 py-8 space-y-4 mt-16">
         <div className="space-y-2">
           <h1>Profile photo</h1>
           <h2>Share a photo of yourself for prospective clients</h2>
           <UploadProfilePhoto
             initialPhoto={profile?.profile_photo_url}
             onPhotoSave={updateProfilePhoto}
+          />
+        </div>
+        <div className="space-y-2">
+          <h1>Display Name</h1>
+          <h2>Choose how your name appears on your profile</h2>
+          <DisplayName
+            onTextSave={updateDisplayName}
+            initialText={profile?.display_name}
           />
         </div>
         <div className="space-y-2">

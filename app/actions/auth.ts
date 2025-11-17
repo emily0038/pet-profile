@@ -35,6 +35,11 @@ export async function login(prevState: { error: string } | null, formData: FormD
         .from('profiles')
         .insert({
           user_id: authData.user.id,
+          email: authData.user.email,
+          first_name: authData.user.user_metadata.first_name,
+          last_name: authData.user.user_metadata.last_name,
+          phone_number: authData.user.user_metadata.phone_number,
+          business: authData.user.user_metadata.business,
           accepts_cats: false,
           accepts_dogs: false,
         })
@@ -62,6 +67,8 @@ export async function signup(prevState: { error: string } | null, formData: Form
       data: {
         first_name: formData.get('first_name') as string,
         last_name: formData.get('last_name') as string,
+        phone_number: formData.get('phone_number') as string,
+        business: formData.get('business') as string,
       }
     }
   }

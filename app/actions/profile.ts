@@ -67,6 +67,30 @@ export async function updateAboutMe(text: string) {
   revalidatePath('/profile')
 }
 
+export async function updateDisplayName(displayName: string) {
+  const supabase = await createClient()
+  const { data: { user } } = await supabase.auth.getUser()
+
+  if (!user) {
+    throw new Error('Not authenticated')
+  }
+
+  const { error } = await supabase
+    .from('profiles')
+    .update({
+      display_name: displayName,
+      updated_at: new Date().toISOString()
+    })
+    .eq('user_id', user.id)
+
+  if (error) {
+    throw new Error('Failed to update display name: ' + error.message)
+  }
+
+  revalidatePath('/editor')
+  revalidatePath('/profile')
+}
+
 export async function updateAcceptedClients(data: {
   acceptsCats: boolean
   acceptsDogs: boolean
