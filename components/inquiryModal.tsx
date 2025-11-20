@@ -114,8 +114,14 @@ export default function InquiryModal({ isOpen, onClose, profileId }: InquiryModa
   }
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-      <div className="bg-white rounded-lg p-6 max-w-md w-full text-gray-600">
+    <div
+      className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4"
+      onClick={handleClose}
+    >
+      <div
+        className="bg-white rounded-lg p-6 max-w-md w-full text-gray-600"
+        onClick={(e) => e.stopPropagation()}
+      >
         <div className="flex justify-between items-center mb-4">
           <h2 className="text-xl font-bold text-gray-400">Get In Touch</h2>
           <button
@@ -128,7 +134,7 @@ export default function InquiryModal({ isOpen, onClose, profileId }: InquiryModa
 
         {/* Phone Number */}
         <div className="mb-4">
-          <label className="block text-sm text-gray-600 mb-1">Phone number*</label>
+          <label className="block text-sm text-gray-600 mb-1 text-left">Phone number*</label>
           <input
             type="tel"
             value={phoneNumber}
@@ -141,7 +147,7 @@ export default function InquiryModal({ isOpen, onClose, profileId }: InquiryModa
         {/* First Name and Last Name */}
         <div className="mb-4 flex gap-2">
           <div className="flex-1">
-            <label className="block text-sm text-gray-600 mb-1">First name*</label>
+            <label className="block text-sm text-gray-600 mb-1 text-left">First name*</label>
             <input
               type="text"
               value={firstName}
@@ -150,7 +156,7 @@ export default function InquiryModal({ isOpen, onClose, profileId }: InquiryModa
             />
           </div>
           <div className="flex-1">
-            <label className="block text-sm text-gray-600 mb-1">Last name*</label>
+            <label className="block text-sm text-gray-600 mb-1 text-left">Last name*</label>
             <input
               type="text"
               value={lastName}
@@ -162,7 +168,7 @@ export default function InquiryModal({ isOpen, onClose, profileId }: InquiryModa
 
         {/* Message */}
         <div className="mb-4">
-          <label className="block text-sm text-gray-600 mb-1">Message</label>
+          <label className="block text-sm text-gray-600 mb-1 text-left">Message</label>
           <textarea
             value={message}
             onChange={(e) => setMessage(e.target.value)}

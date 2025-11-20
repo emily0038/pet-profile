@@ -14,7 +14,7 @@ export default function InquiryButton({ profileId }: InquiryButtonProps) {
     <>
       <button
         onClick={() => setIsModalOpen(true)}
-        className="rounded-sm px-8 py-2 bg-[#9185FF] font-semibold"
+        className="rounded-sm px-8 py-2 bg-[#9185FF] hover:bg-[#6E5FEE] font-semibold border border-[#5B4FC6]"
       >
         Get In Touch
       </button>

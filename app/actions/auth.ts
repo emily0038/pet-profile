@@ -3,6 +3,7 @@
 import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
 import { createClient } from '@/utils/supabase/server'
+import { generateUsername } from '@/utils/username'
 
 // Added prevState to allow login to be null at initial state; maybe check back
 export async function login(prevState: { error: string } | null, formData: FormData) {
@@ -31,6 +32,13 @@ export async function login(prevState: { error: string } | null, formData: FormD
 
     // Create profile if it doesn't exist (first login after signup)
     if (!profile) {
+      // Generate unique username
+      const username = await generateUsername(
+        authData.user.user_metadata.first_name || '',
+        authData.user.user_metadata.last_name || '',
+        authData.user.user_metadata.business
+      )
+
       const { error: profileError } = await supabase
         .from('profiles')
         .insert({
@@ -40,6 +48,7 @@ export async function login(prevState: { error: string } | null, formData: FormD
           last_name: authData.user.user_metadata.last_name,
           phone_number: authData.user.user_metadata.phone_number,
           business: authData.user.user_metadata.business,
+          username: username,
           accepts_cats: false,
           accepts_dogs: false,
         })

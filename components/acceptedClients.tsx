@@ -222,7 +222,7 @@ export default function AcceptedClients({ onSave, initialData = DEFAULT_DATA }: 
                     alt="Dog"
                    />
                   <span className="text-[#9185FF] font-medium">
-                    Dogs {savedData.maxWeight !== null && `under ${savedData.maxWeight} lbs`}
+                    Dogs {savedData.maxWeight !== null && `up to ${savedData.maxWeight} lbs`}
                   </span>
                 </div>
               )}
@@ -237,7 +237,7 @@ export default function AcceptedClients({ onSave, initialData = DEFAULT_DATA }: 
           ) : (
             <div
               onClick={handleEdit}
-              className="p-6 border-2 border-dashed border-gray-300 rounded-lg cursor-pointer hover:border-purple-400 transition-colors text-center"
+              className="p-6 border-2 border-dashed border-gray-300 rounded-lg cursor-pointer hover:border-[#9185FF] transition-colors text-center"
             >
               <span className="text-gray-400">Click to select accepted clients</span>
             </div>

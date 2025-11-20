@@ -3,6 +3,7 @@
 import React, { useState, useRef } from 'react';
 import * as Bytescale from "@bytescale/sdk";
 import Image from 'next/image';
+import ReviewModal from './reviewModal';
 
 // Initialize Bytescale upload manager
 const uploadManager = new Bytescale.UploadManager({
@@ -13,18 +14,23 @@ interface GalleryPhoto {
   id: string;
   photo_url: string;
   order: number;
+  pet_details?: string;
+  review?: string;
+  owner?: string;
 }
 
 interface PortfolioGalleryProps {
   initialPhotos?: GalleryPhoto[];
   onPhotosSave?: (photoUrls: string[]) => Promise<void>;
   onPhotoDelete?: (photoId: string) => Promise<void>;
+  onReviewSave?: (photoId: string, petDetails: string, review: string, owner: string) => Promise<void>;
 }
 
 export default function PortfolioGallery({
   initialPhotos = [],
   onPhotosSave,
-  onPhotoDelete
+  onPhotoDelete,
+  onReviewSave
 }: PortfolioGalleryProps) {
   // Saved photos (from database)
   const [savedPhotos, setSavedPhotos] = useState<GalleryPhoto[]>(initialPhotos);
@@ -41,6 +47,27 @@ export default function PortfolioGallery({
   const [showModal, setShowModal] = useState(false);
   const [uploading, setUploading] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
+
+  // Review modal state
+  const [reviewModalOpen, setReviewModalOpen] = useState(false);
+  const [selectedPhotoForReview, setSelectedPhotoForReview] = useState<GalleryPhoto | null>(null);
+
+  const handleOpenReviewModal = (photo: GalleryPhoto) => {
+    setSelectedPhotoForReview(photo);
+    setReviewModalOpen(true);
+  };
+
+  const handleReviewSave = async (photoId: string, petDetails: string, review: string, owner: string) => {
+    if (onReviewSave) {
+      await onReviewSave(photoId, petDetails, review, owner);
+      // Update local state to reflect the review
+      setSavedPhotos(savedPhotos.map(photo =>
+        photo.id === photoId
+          ? { ...photo, pet_details: petDetails, review, owner }
+          : photo
+      ));
+    }
+  };
 
   const MAX_PHOTOS = 8;
   // Count visible photos (excluding ones marked for deletion)
@@ -217,7 +244,7 @@ export default function PortfolioGallery({
       {/* Add Photos Button */}
       <button
         onClick={handleButtonClick}
-        className="px-6 py-2 border-2 border-[#9185FF] text-[#9185FF] rounded-lg hover:bg-[#5B4FC6] transition-colors"
+        className="px-6 py-2 border-2 border-[#9185FF] text-[#9185FF] rounded-lg hover:bg-[#E4E1FF] transition-colors"
       >
         {savedPhotos.length > 0 
           ? `View / add photos (${savedPhotos.length}/${MAX_PHOTOS})` 
@@ -260,12 +287,27 @@ export default function PortfolioGallery({
                     >
                       ×
                     </button>
+                    {/* Review icon - only show for photos with real IDs (not temp IDs) */}
+                    {!photo.id.startsWith('temp-') && (
+                      <button
+                        onClick={() => handleOpenReviewModal(photo)}
+                        className="absolute bottom-2 right-2 rounded-full hover:bg-[#BCB5FF] w-8 h-8 flex items-center justify-center transition-colors shadow-md"
+                        title={photo.review ? "Edit review" : "Add review"}
+                      >
+                        <Image
+                          src={photo.review ? "/review-edit.svg" : "/review-add.svg"}
+                          alt={photo.review ? "Edit review" : "Add review"}
+                          width={20}
+                          height={20}
+                        />
+                      </button>
+                    )}
                   </div>
                 ))}
 
               {/* Display preview photos (with visual indicator they're not saved yet) */}
               {previewPhotos.map((photoUrl, index) => (
-                <div key={`preview-${index}`} className="relative aspect-square bg-gray-100 rounded-lg overflow-hidden border-2 border-purple-400">
+                <div key={`preview-${index}`} className="relative aspect-square bg-gray-100 rounded-lg overflow-hidden border-2 border-[#9185FF]">
                   <Image
                     src={photoUrl}
                     width={500}
@@ -273,7 +315,7 @@ export default function PortfolioGallery({
                     alt={`Preview ${index + 1}`}
                     className="w-full h-full object-cover opacity-80"
                   />
-                  <div className="absolute top-2 left-2 bg-purple-600 text-white text-xs px-2 py-1 rounded">
+                  <div className="absolute top-2 left-2 bg-[#9185FF] text-white text-xs px-2 py-1 rounded">
                     New
                   </div>
                   <button
@@ -291,7 +333,7 @@ export default function PortfolioGallery({
                   onDrop={handleDrop}
                   onDragOver={handleDragOver}
                   onClick={handleAddPhotos}
-                  className="aspect-square border-2 border-dashed border-gray-300 rounded-lg flex items-center justify-center cursor-pointer hover:border-purple-400 hover:bg-purple-50 transition-colors"
+                  className="aspect-square border-2 border-dashed border-gray-300 rounded-lg flex items-center justify-center cursor-pointer hover:border-[#9185FF] hover:bg-[#E4E1FF] transition-colors"
                 >
                   <div className="text-center text-gray-400">
                     <div className="text-3xl mb-1">+</div>
@@ -356,6 +398,19 @@ export default function PortfolioGallery({
             </div>
           </div>
         </div>
+      )}
+
+      {/* Review Modal */}
+      {reviewModalOpen && selectedPhotoForReview && (
+        <ReviewModal
+          photoUrl={selectedPhotoForReview.photo_url}
+          photoId={selectedPhotoForReview.id}
+          initialPetDetails={selectedPhotoForReview.pet_details}
+          initialReview={selectedPhotoForReview.review}
+          initialOwner={selectedPhotoForReview.owner}
+          onSave={handleReviewSave}
+          onClose={() => setReviewModalOpen(false)}
+        />
       )}
     </>
   );

@@ -22,7 +22,7 @@ export default function RequestButton({ profileId, serviceTypes, prefilledServic
     <>
       <button
         onClick={() => setIsModalOpen(true)}
-        className="rounded-sm px-4 py-1 border border-[#9185FF] bg-[#E4E1FF] text-[#878787] text-sm font-bold whitespace-nowrap"
+        className="rounded-sm px-4 py-1 border border-[#9185FF] bg-[#E4E1FF] hover:bg-[#BCB5FF] text-[#878787] text-sm font-bold whitespace-nowrap"
       >
         Request
       </button>

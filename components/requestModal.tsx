@@ -259,8 +259,14 @@ export default function RequestModal({ isOpen, onClose, profileId, serviceTypes,
   }
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-      <div className="bg-white rounded-lg p-6 text-gray-600 max-w-md w-full max-h-[80vh] overflow-y-auto">
+    <div
+      className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4"
+      onClick={handleClose}
+    >
+      <div
+        className="bg-white rounded-lg p-6 text-gray-600 max-w-md w-full max-h-[80vh] overflow-y-auto"
+        onClick={(e) => e.stopPropagation()}
+      >
         <div className="flex justify-between items-center mb-4">
           <h2 className="text-xl font-bold text-gray-400">Request</h2>
           <button
@@ -421,21 +427,8 @@ export default function RequestModal({ isOpen, onClose, profileId, serviceTypes,
           disabled={!canAddAnotherService()}
           className="w-full mb-4 px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors flex items-center justify-center gap-2 disabled:bg-gray-100 disabled:text-gray-400 disabled:cursor-not-allowed"
         >
-          <span className="text-xl">+</span> Add another service or add-on
+          <span className="text-xl">+</span> Add another service
         </button>
-
-        {/* Pet Details */}
-        <div className="mb-4">
-          <label className="block text-sm text-gray-600 mb-1">
-            Pet details* - breed, weight, age
-          </label>
-          <input
-            type="text"
-            value={petDetails}
-            onChange={(e) => setPetDetails(e.target.value)}
-            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#9185FF]"
-          />
-        </div>
 
         {/* Name */}
         <div className="mb-4 flex gap-2">
@@ -467,6 +460,19 @@ export default function RequestModal({ isOpen, onClose, profileId, serviceTypes,
             value={phoneNumber}
             onChange={handlePhoneChange}
             placeholder="(555) 123-4567"
+            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#9185FF]"
+          />
+        </div>
+
+        {/* Pet Details */}
+        <div className="mb-4">
+          <label className="block text-sm text-gray-600 mb-1">
+            Pet details* - breed, weight, age
+          </label>
+          <input
+            type="text"
+            value={petDetails}
+            onChange={(e) => setPetDetails(e.target.value)}
             className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#9185FF]"
           />
         </div>

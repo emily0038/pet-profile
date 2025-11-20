@@ -102,7 +102,7 @@ export default function UploadProfilePhoto({ initialPhoto, onPhotoSave }: Profil
       {/* Profile Photo Frame */}
       <div
         onClick={handleFrameClick}
-        className="w-48 h-48 rounded-full border-4 border-gray-300 flex items-center justify-center cursor-pointer hover:border-purple-400 transition-colors overflow-hidden bg-gray-100"
+        className="w-48 h-48 rounded-full border-4 border-gray-300 flex items-center justify-center cursor-pointer hover:border-[#E4E1FF] transition-colors overflow-hidden bg-gray-100"
       >
         {savedPhoto ? (
           <Image
@@ -127,7 +127,7 @@ export default function UploadProfilePhoto({ initialPhoto, onPhotoSave }: Profil
               onDrop={handleDrop}
               onDragOver={handleDragOver}
               onClick={triggerFileInput}
-              className="border-2 border-dashed border-gray-300 rounded-lg p-8 mb-4 cursor-pointer hover:border-purple-400 transition-colors"
+              className="border-2 border-dashed border-gray-300 rounded-lg p-8 mb-4 cursor-pointer hover:border-[#9185FF] transition-colors"
             >
               {/* If preview photo exists, show rounded frame, OTHERWISE show default image */}  
               {previewPhoto ? (

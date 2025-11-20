@@ -9,7 +9,7 @@ import ServicesOffered from '@/components/servicesOffered'
 import DisplayName from '@/components/displayName'
 import { redirect } from 'next/navigation'
 import { createClient } from '@/utils/supabase/server'
-import { updateProfilePhoto, addGalleryPhotos, deleteGalleryPhoto, updateAboutMe, updateAcceptedClients, updateNeighborhood, saveService, deleteService, updateDisplayName } from '@/app/actions/profile'
+import { updateProfilePhoto, addGalleryPhotos, deleteGalleryPhoto, updateAboutMe, updateAcceptedClients, updateNeighborhood, saveService, deleteService, updateDisplayName, updatePhotoReview } from '@/app/actions/profile'
 
 export default async function Page() {
   const supabase = await createClient()
@@ -45,6 +45,8 @@ export default async function Page() {
     .eq('profile_id', profile?.id)
     .order('created_at', { ascending: true })
 
+  const username = profile?.username || '';
+
   return (
     <div>
       <Header title="Editor" />
@@ -77,6 +79,7 @@ export default async function Page() {
               }
             }}
             onPhotoDelete={deleteGalleryPhoto}
+            onReviewSave={updatePhotoReview}
           />
         </div>
         <div className="space-y-2">
@@ -113,7 +116,7 @@ export default async function Page() {
             initialServices={services || []}
           />
         </div>
-        <Link href="/profile"><button className="bg-[#9185FF] rounded-md py-2 w-full hover:bg-[#5B4FC6]">View Profile</button></Link>
+        <Link href={`/${username}`}><button className="bg-[#9185FF] rounded-md py-2 w-full text-white font-bold hover:bg-[#5B4FC6]">View Profile</button></Link>
       </div>
     </div>
   )

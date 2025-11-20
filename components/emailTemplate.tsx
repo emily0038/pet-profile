@@ -32,7 +32,7 @@ export function RequestEmail({ requestedServices, petDetails, firstName, lastNam
     const lastInitial = lastName.substring(0,1) + ".";
 
   return (
-    <div style={{ fontFamily: 'Arial, sans-serif', maxWidth: '600px', margin: '0 auto' }}>
+    <div style={{ fontFamily: 'Roboto, Arial, sans-serif', maxWidth: '600px', margin: '0 auto' }}>
       <h2 style={{ color: '#333', borderBottom: '2px solid #9185FF', paddingBottom: '10px' }}>
         New Service Request
       </h2>

@@ -306,7 +306,7 @@ export default function ServicesOffered({
             <div key={service.id || service.type}>
               {/* Saved Service Display */}
               {!isThisServiceEditing && (
-                <div className="border-2 border-purple-200 rounded-lg p-4 bg-purple-50">
+                <div className="border-2 border-[#9185FF] rounded-lg p-4 bg-[#E4E1FF]">
                   <div className="flex items-start justify-between mb-2">
                     <h3 className="text-gray-800 font-semibold text-lg">{service.type}</h3>
                     <button

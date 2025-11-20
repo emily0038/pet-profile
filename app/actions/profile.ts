@@ -179,6 +179,31 @@ export async function deleteGalleryPhoto(photoId: string) {
   revalidatePath('/profile')
 }
 
+export async function updatePhotoReview(photoId: string, petDetails: string, review: string, owner: string) {
+  const supabase = await createClient()
+  const { data: { user } } = await supabase.auth.getUser()
+
+  if (!user) {
+    throw new Error('Not authenticated')
+  }
+
+  const { error } = await supabase
+    .from('gallery_photos')
+    .update({
+      pet_details: petDetails,
+      review: review,
+      owner: owner
+    })
+    .eq('id', photoId)
+
+  if (error) {
+    throw new Error('Failed to update photo review: ' + error.message)
+  }
+
+  revalidatePath('/editor')
+  revalidatePath('/profile')
+}
+
 export async function updateNeighborhood(text: string) {
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
