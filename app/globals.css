@@ -62,3 +62,11 @@ body {
   font-family: var(--font-roboto-slab);
   font-weight: bold;
 }
+
+.font-flex {
+  font-family: var(--font-roboto-flex);
+}
+
+.font-slab {
+  font-family: var(--font-roboto-slab);
+}
