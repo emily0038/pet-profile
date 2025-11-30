@@ -100,7 +100,7 @@ export default function DisplayName({ onTextSave, initialText = '' }: DisplayNam
           {savedText && (
             <button
               onClick={handleEditClick}
-              className="mt-2 text-sm text-[#878787] hover:text-[#9185FF]"
+              className="mt-2 text-sm text-[#878787] hover:text-[#9185FF] shadow-none"
             >
               Edit
             </button>

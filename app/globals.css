@@ -36,6 +36,17 @@
   button {
     font-family: var(--font-roboto-slab);
     font-weight: bold;
+    box-shadow: 1px 2px;
+  }
+
+  textarea {
+    font-family: var(--font-roboto);
+    color: #878787;
+  }
+
+  input {
+    font-family: var(--font-roboto);
+    color: #878787;
   }
 }
 
@@ -65,8 +76,10 @@ body {
 
 .font-flex {
   font-family: var(--font-roboto-flex);
+  font-weight: 400;
 }
 
 .font-slab {
   font-family: var(--font-roboto-slab);
+  font-weight: normal;
 }

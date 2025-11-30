@@ -12,7 +12,7 @@ function SubmitButton() {
     <button
       type="submit"
       disabled={pending}
-      className="w-full px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 disabled:bg-gray-300 disabled:cursor-not-allowed transition-colors"
+      className="w-full px-4 py-2 bg-[#9185FF] text-white rounded-lg hover:bg-[#6E5FEE] disabled:bg-gray-300 disabled:cursor-not-allowed transition-colors"
     >
       {pending ? 'Logging in...' : 'Log in'}
     </button>
@@ -29,7 +29,7 @@ export default function LoginPage() {
           <h2 className="text-center text-3xl font-bold">Log in to your account</h2>
           <p className="mt-2 text-center text-sm text-gray-600 dark:text-gray-400">
             Or{' '}
-            <Link href="/signup" className="text-purple-600 hover:text-purple-500">
+            <Link href="/signup" className="text-[#9185FF] hover:text-[#6E5FEE]">
               create a new account
             </Link>
           </p>
@@ -47,7 +47,7 @@ export default function LoginPage() {
                 type="email"
                 autoComplete="email"
                 required
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-600 dark:bg-gray-800 dark:border-gray-700"
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#9185FF] dark:bg-gray-800 dark:border-gray-700"
                 placeholder="you@example.com"
               />
             </div>
@@ -62,7 +62,7 @@ export default function LoginPage() {
                 type="password"
                 autoComplete="current-password"
                 required
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-600 dark:bg-gray-800 dark:border-gray-700"
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#9185FF] dark:bg-gray-800 dark:border-gray-700"
                 placeholder="••••••••"
               />
             </div>

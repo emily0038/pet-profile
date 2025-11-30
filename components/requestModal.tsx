@@ -100,6 +100,7 @@ export default function RequestModal({ isOpen, onClose, profileId, serviceTypes,
 
   const cancelClose = () => {
     setShowConfirmClose(false);
+    console.log('Clicked Keep Editing');
   };
 
   const formatPhoneNumber = (value: string) => {

@@ -2,7 +2,7 @@
 
 import { createClient } from '@/utils/supabase/server'
 import { Resend } from 'resend'
-import { RequestEmail, InquiryEmailTemplate } from '@/components/emailTemplate'
+import { RequestEmail, InquiryEmailTemplate, MeetGreetEmailTemplate } from '@/components/emailTemplate'
 
 const resend = new Resend(process.env.RESEND_API_KEY)
 
@@ -183,6 +183,87 @@ export async function submitInquiry(data: SubmitInquiryData) {
     return { success: true }
   } catch (error) {
     console.error('Error submitting inquiry:', error)
+    throw error
+  }
+}
+
+interface MeetingTime {
+  date: string
+  startTime: string
+  endTime: string
+}
+
+interface SubmitMeetGreetData {
+  profileId: string
+  selectedServices: string[]
+  meetingTimes: MeetingTime[]
+  meetingSpot: string
+  firstName: string
+  lastName: string
+  phoneNumber: string
+  petDetails: string
+  message: string
+}
+
+export async function submitMeetGreet(data: SubmitMeetGreetData) {
+  const supabase = await createClient()
+
+  try {
+    // Get profile owner's email from profiles table
+    const { data: profile, error: profileError } = await supabase
+      .from('profiles')
+      .select('user_id, email, first_name, last_name')
+      .eq('user_id', data.profileId)
+      .single()
+
+    if (profileError || !profile || !profile.email) {
+      throw new Error('Profile not found or email missing')
+    }
+
+    // Insert meet & greet record
+    const { error: meetGreetError } = await supabase
+      .from('meet_greet_requests')
+      .insert({
+        profile_id: data.profileId,
+        selected_services: data.selectedServices,
+        meeting_times: data.meetingTimes,
+        meeting_spot: data.meetingSpot || null,
+        first_name: data.firstName,
+        last_name: data.lastName,
+        phone_number: data.phoneNumber,
+        pet_details: data.petDetails,
+        message: data.message || null,
+      })
+
+    if (meetGreetError) {
+      throw new Error('Failed to create meet & greet request')
+    }
+
+    // Send email notification
+    const { error: emailError } = await resend.emails.send({
+      from: 'Pets Friendz <no-reply@petsfriendz.com>',
+      to: [profile.email],
+      subject: `New Meet & Greet Request from ${data.firstName} ${data.lastName}`,
+      react: MeetGreetEmailTemplate({
+        firstName: data.firstName,
+        lastName: data.lastName,
+        phoneNumber: data.phoneNumber,
+        selectedServices: data.selectedServices,
+        meetingTimes: data.meetingTimes,
+        meetingSpot: data.meetingSpot || '',
+        petDetails: data.petDetails,
+        message: data.message || '',
+      }),
+    })
+
+    if (emailError) {
+      console.error('Failed to send email:', emailError)
+      // Don't fail the request if email fails - request is still saved
+    }
+
+    return { success: true }
+  } catch (error) {
+    console.error('Error submitting meet & greet:', error)
     throw error
   }
 }

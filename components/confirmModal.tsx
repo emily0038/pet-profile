@@ -27,7 +27,10 @@ export default function ConfirmModal({
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-[60] p-4">
-      <div className="bg-white rounded-lg p-6 max-w-sm w-full">
+      <div
+        className="bg-white rounded-lg p-6 max-w-sm w-full"
+        onClick={(e) => e.stopPropagation()}
+      >
         <h3 className="text-lg text-gray-600 font-semibold mb-3">{title}</h3>
         <p className="text-gray-600 mb-6">{message}</p>
         <div className="flex gap-3">

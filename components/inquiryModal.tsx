@@ -93,7 +93,7 @@ export default function InquiryModal({ isOpen, onClose, profileId }: InquiryModa
         setPhoneNumber('');
         setFirstName('');
         setLastName('');
-        setMessage('');
+        setMessage('')
       }, 3000);
     } catch (error) {
       console.error('Error submitting inquiry:', error);
@@ -126,7 +126,7 @@ export default function InquiryModal({ isOpen, onClose, profileId }: InquiryModa
           <h2 className="text-xl font-bold text-gray-400">Get In Touch</h2>
           <button
             onClick={handleClose}
-            className="text-gray-500 hover:text-gray-700 text-2xl"
+            className="text-gray-500 hover:text-gray-700 text-2xl shadow-none"
           >
             ×
           </button>

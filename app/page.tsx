@@ -18,7 +18,7 @@ export default function HomePage() {
         </Link>
 
         <div className="flex items-center gap-6">
-          <Link href="/login" className="text-xl">
+          <Link href="/login" className="text-xl text-black">
             Login
           </Link>
           <Link
@@ -42,9 +42,7 @@ export default function HomePage() {
             </h1>
 
             <p className="text-2xl text-gray-700 leading-relaxed font-flex">
-              Build your page in <b>seconds</b><br />
-              and get requests directly in your<br />
-              inbox
+              Build your profile in <b>seconds</b>, share your page, and get requests directly in your inbox
             </p>
 
             {/* Waitlist Form Container */}

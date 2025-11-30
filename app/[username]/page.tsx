@@ -5,6 +5,7 @@ import { createClient } from '@/utils/supabase/server'
 import GallerySwiper from '@/components/gallerySwiper'
 import RequestButton from '@/components/requestButton'
 import InquiryButton from '@/components/inquiryButton'
+import MeetGreetButton from '@/components/meetGreetButton'
 
 interface MenuItem {
     id: string;
@@ -25,6 +26,9 @@ export default async function PublicProfilePage({ params }: PageProps) {
     // Use username directly from params
     const username = params.username;
 
+    // Get current logged-in user
+    const { data: { user } } = await supabase.auth.getUser();
+
     // Load profile by username (public access, no auth required)
     const { data: profile, error: profileError } = await supabase
         .from('profiles')
@@ -36,6 +40,9 @@ export default async function PublicProfilePage({ params }: PageProps) {
     if (profileError || !profile) {
         notFound()
     }
+
+    // Check if the logged-in user is viewing their own profile
+    const isViewMode = user && user.id === profile.user_id;
 
     // Load gallery photos
     const { data: galleryPhotos } = await supabase
@@ -70,7 +77,7 @@ export default async function PublicProfilePage({ params }: PageProps) {
 
     return (
         <div>
-            <Header title={displayName} />
+            <Header title={displayName} isViewMode={!!isViewMode} />
             <div className="px-4 py-8 space-y-6">
                 <div className="flex flex-wrap items-center gap-4 bg-cover bg-center bg-no-repeat px-4 py-6 mx-[-1rem] mt-8 border-b border-[#9185FF]" style={{ backgroundImage: "url('/your-background-image.jpg')" }}>
                     <div className="space-y-4 flex-shrink-0 max-w-[200px] lg:max-w-none">
@@ -104,40 +111,17 @@ export default async function PublicProfilePage({ params }: PageProps) {
                         )}
                     </div>
 
-                    {/* Nested flex container for Services and Clients */}
-                    <div className="flex flex-wrap gap-4 items-start flex-1 min-w-0">
+                    {/* Nested flex container for Services and Meet & Greet Button */}
+                    <div className="flex flex-col gap-4 items-start flex-1 min-w-0">
                         <div className="flex flex-col sm:flex-row flex-wrap items-start gap-2">
                             {services?.map((service) => (
                                 <div key={service.id} className="rounded-lg px-2 py-1 bg-[#9185FF] text-white text-sm button-style whitespace-nowrap">{service.type}</div>
                             ))}
                         </div>
-                        <div className="px-4 py-4 bg-white border border-[#9185FF] rounded-lg max-w-3xs">
-                            <h2 className="text-[#9185FF] font-bold mb-2">Clients</h2>
-                            {profile.accepts_cats && (
-                                <div className="flex items-center gap-2 p-1">
-                                    <Image
-                                        src="/cat-icon.svg"
-                                        width={32}
-                                        height={32}
-                                        alt="Cat"
-                                    />
-                                    <span className="text-[#9185FF] font-medium text-sm">Cats</span>
-                                </div>
-                            )}
-                            {profile.accepts_dogs && (
-                                <div className="flex items-center gap-2 p-1">
-                                    <Image
-                                        src="/dog-icon.svg"
-                                        width={32}
-                                        height={32}
-                                        alt="Dog"
-                                    />
-                                    <span className="text-[#9185FF] font-medium text-sm">
-                                        Dogs {profile.max_weight !== null && `up to ${profile.max_weight} lbs`}
-                                    </span>
-                                </div>
-                            )}
-                        </div>
+                        <MeetGreetButton
+                            profileId={profile.user_id}
+                            serviceTypes={services?.map(s => ({ type: s.type })) || []}
+                        />
                     </div>
                 </div>
                 <div>

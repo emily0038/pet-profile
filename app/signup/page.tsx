@@ -12,7 +12,7 @@ function SubmitButton() {
     <button
       type="submit"
       disabled={pending}
-      className="w-full px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 disabled:bg-gray-300 disabled:cursor-not-allowed transition-colors"
+      className="w-full px-4 py-2 bg-[#9185FF] text-white rounded-lg hover:bg-[#6E5FEE] disabled:bg-gray-300 disabled:cursor-not-allowed transition-colors"
     >
       {pending ? 'Creating account...' : 'Sign up'}
     </button>
@@ -29,7 +29,7 @@ export default function SignupPage() {
           <h2 className="text-center text-3xl font-bold">Create your account</h2>
           <p className="mt-2 text-center text-sm text-gray-600 dark:text-gray-400">
             Already have an account?{' '}
-            <Link href="/login" className="text-purple-600 hover:text-purple-500">
+            <Link href="/login" className="text-[#9185FF] hover:text-[#6E5FEE]">
               Log in
             </Link>
           </p>
@@ -48,7 +48,7 @@ export default function SignupPage() {
                   type="text"
                   autoComplete="given-name"
                   required
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-600 dark:bg-gray-800 dark:border-gray-700"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#9185FF] dark:bg-gray-800 dark:border-gray-700"
                   placeholder="Jane"
                 />
               </div>
@@ -63,7 +63,7 @@ export default function SignupPage() {
                   type="text"
                   autoComplete="family-name"
                   required
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-600 dark:bg-gray-800 dark:border-gray-700"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#9185FF] dark:bg-gray-800 dark:border-gray-700"
                   placeholder="Eyre"
                 />
               </div>
@@ -79,7 +79,7 @@ export default function SignupPage() {
                 type="email"
                 autoComplete="email"
                 required
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-600 dark:bg-gray-800 dark:border-gray-700"
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#9185FF] dark:bg-gray-800 dark:border-gray-700"
                 placeholder="you@example.com"
               />
             </div>
@@ -94,7 +94,7 @@ export default function SignupPage() {
                 type="tel"
                 autoComplete="tel"
                 required
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-600 dark:bg-gray-800 dark:border-gray-700"
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#9185FF] dark:bg-gray-800 dark:border-gray-700"
                 placeholder="(555) 123-4567"
               />
             </div>
@@ -108,7 +108,7 @@ export default function SignupPage() {
                 name="business"
                 type="text"
                 autoComplete="organization"
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-600 dark:bg-gray-800 dark:border-gray-700"
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#9185FF] dark:bg-gray-800 dark:border-gray-700"
                 placeholder="Pet Care Co."
               />
             </div>
@@ -125,7 +125,7 @@ export default function SignupPage() {
                 autoComplete="off"
                 required
                 minLength={6}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-600 dark:bg-gray-800 dark:border-gray-700"
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#9185FF] dark:bg-gray-800 dark:border-gray-700"
                 placeholder="••••••••"
               />
               <p className="mt-1 text-xs text-gray-500">Must be at least 6 characters</p>

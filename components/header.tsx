@@ -1,14 +1,15 @@
 import React from 'react';
-import Image from 'next/image';
 import Link from 'next/link';
 import { logout } from '@/app/actions/auth';
 import { createClient } from '@/utils/supabase/server';
+import HeaderDropdown from '@/components/headerDropdown';
 
 interface HeaderProps {
   title: string;
+  isViewMode?: boolean;
 }
 
-export default async function Header({ title }: HeaderProps) {
+export default async function Header({ title, isViewMode = false }: HeaderProps) {
   const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
 
@@ -30,7 +31,7 @@ export default async function Header({ title }: HeaderProps) {
         <form action={logout}>
           <button
             type="submit"
-            className="text-white hover:text-gray-200 transition-colors text-sm"
+            className="text-white hover:text-gray-200 transition-colors text-sm shadow-none"
           >
             Log out
           </button>
@@ -45,14 +46,7 @@ export default async function Header({ title }: HeaderProps) {
       )}
       <h1 className="text-white text-2xl text-center font-bold whitespace-nowrap overflow-hidden text-ellipsis max-w-[50%]">{title}</h1>
       {user && username ? (
-        <Link href={`/${username}`} className="hover:opacity-80 transition-opacity">
-          <Image
-            src='pawprint.svg'
-            alt='View my profile'
-            width={48}
-            height={48}
-          />
-        </Link>
+        <HeaderDropdown username={username} isViewMode={isViewMode} />
       ) : (
         <div className="w-12"></div>
       )}
