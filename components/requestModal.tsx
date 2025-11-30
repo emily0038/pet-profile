@@ -100,7 +100,6 @@ export default function RequestModal({ isOpen, onClose, profileId, serviceTypes,
 
   const cancelClose = () => {
     setShowConfirmClose(false);
-    console.log('Clicked Keep Editing');
   };
 
   const formatPhoneNumber = (value: string) => {
@@ -261,18 +260,18 @@ export default function RequestModal({ isOpen, onClose, profileId, serviceTypes,
 
   return (
     <div
-      className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4"
+      className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4 pt-20"
       onClick={handleClose}
     >
       <div
-        className="bg-white rounded-lg p-6 text-gray-600 max-w-md w-full max-h-[80vh] overflow-y-auto"
+        className="bg-white rounded-lg p-6 text-gray-600 max-w-md w-full max-h-[calc(100vh-6rem)] overflow-y-auto"
         onClick={(e) => e.stopPropagation()}
       >
         <div className="flex justify-between items-center mb-4">
           <h2 className="text-xl font-bold text-gray-400">Request</h2>
           <button
             onClick={handleClose}
-            className="text-gray-500 hover:text-gray-700 text-2xl"
+            className="text-gray-500 hover:text-gray-700 text-2x shadow-none"
           >
             ×
           </button>
