@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react';
 import ConfirmModal from '@/components/confirmModal';
+import MeetGreetModal from '@/components/meetGreetModal';
 
 interface Service {
   serviceType: string;
@@ -52,6 +53,7 @@ export default function RequestModal({ isOpen, onClose, profileId, serviceTypes,
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
   const [showConfirmClose, setShowConfirmClose] = useState(false);
+  const [isMeetGreetModalOpen, setIsMeetGreetModalOpen] = useState(false);
 
   if (!isOpen) return null;
 
@@ -275,6 +277,18 @@ export default function RequestModal({ isOpen, onClose, profileId, serviceTypes,
           >
             ×
           </button>
+        </div>
+
+        {/* Meet & Greet Notice */}
+        <div className="mb-6 p-4 bg-purple-50 border border-purple-200 rounded-lg text-sm text-gray-700">
+          All new clients are required to complete a complimentary meet & greet before submitting a booking.{' '}
+          <button
+            onClick={() => setIsMeetGreetModalOpen(true)}
+            className="text-[#9185FF] hover:text-[#5B4FC6] underline font-medium shadow-none"
+          >
+            Schedule yours now.
+          </button>
+          .
         </div>
 
         {/* Services */}
@@ -510,6 +524,14 @@ export default function RequestModal({ isOpen, onClose, profileId, serviceTypes,
         confirmButtonClass="bg-red-600 hover:bg-red-700"
         onConfirm={confirmClose}
         onCancel={cancelClose}
+      />
+
+      {/* Meet & Greet Modal */}
+      <MeetGreetModal
+        isOpen={isMeetGreetModalOpen}
+        onClose={() => setIsMeetGreetModalOpen(false)}
+        profileId={profileId}
+        serviceTypes={serviceTypes.map(st => ({ type: st.type }))}
       />
     </div>
   );
