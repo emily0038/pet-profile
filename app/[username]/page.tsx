@@ -129,7 +129,7 @@ export default async function PublicProfilePage({ params }: PageProps) {
                         <p className="whitespace-pre-line">{profile.about_me}</p>
                     )}
                 </div>
-                <h2 className="text-xl font-bold">Previous Clients</h2>
+                <h2 className="text-xl font-bold">Client Testimonials</h2>
                 <GallerySwiper photos={galleryPhotos || []} />
                 <div className="space-y-6 py-4">
                     {services?.map((service) => (

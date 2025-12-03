@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Roboto, Roboto_Slab, Roboto_Flex } from "next/font/google";
+import Script from "next/script";
 import "./globals.css";
 
 const roboto = Roboto({
@@ -35,6 +36,20 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <head>
+        <Script
+          strategy="afterInteractive"
+          src="https://www.googletagmanager.com/gtag/js?id=G-K9QK4B1LR0"
+        />
+        <Script id="google-analytics" strategy="afterInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'G-K9QK4B1LR0');
+          `}
+        </Script>
+      </head>
       <body
         className={`${roboto.variable} ${robotoSlab.variable} ${robotoFlex.variable} antialiased`}
       >
