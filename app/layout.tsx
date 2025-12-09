@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Roboto, Roboto_Slab, Roboto_Flex } from "next/font/google";
 import Script from "next/script";
+import CookieBanner from "@/components/cookieBanner";
 import "./globals.css";
 
 const roboto = Roboto({
@@ -54,6 +55,7 @@ export default function RootLayout({
         className={`${roboto.variable} ${robotoSlab.variable} ${robotoFlex.variable} antialiased`}
       >
         {children}
+        <CookieBanner />
       </body>
     </html>
   );

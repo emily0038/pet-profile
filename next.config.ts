@@ -15,6 +15,7 @@ const nextConfig: NextConfig = {
   turbopack: {
     root: path.resolve(__dirname),
   },
+  pageExtensions: ['js', 'jsx', 'ts', 'tsx'],
 };
 
 export default nextConfig;

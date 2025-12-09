@@ -286,7 +286,7 @@ export default function RequestModal({ isOpen, onClose, profileId, serviceTypes,
             onClick={() => setIsMeetGreetModalOpen(true)}
             className="text-[#9185FF] hover:text-[#5B4FC6] underline font-medium shadow-none"
           >
-            Schedule yours now.
+            Schedule yours now
           </button>
           .
         </div>

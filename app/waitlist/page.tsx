@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import Image from 'next/image'
 import WaitlistForm from '@/components/waitlistForm'
+import Footer from "@/components/footer";
 
 export default function WaitlistPage() {
   return (
@@ -57,6 +58,7 @@ export default function WaitlistPage() {
           </p>
         </div>
       </main>
+      <Footer />
     </div>
   )
 }

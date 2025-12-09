@@ -60,6 +60,23 @@
     h2, p {
       color: #ffffff;
     }
+
+    /* Override dark mode for blog posts and content pages to ensure readability */
+    article h1, article h2, article h3, article p,
+    .prose h1, .prose h2, .prose h3, .prose h4, .prose p, .prose li {
+      color: #374151 !important;
+    }
+
+    /* Style hyperlinks in prose */
+    .prose a {
+      color: #9185FF;
+      text-decoration: underline;
+      font-weight: 500;
+    }
+
+    .prose a:hover {
+      color: #5B4FC6;
+    }
   }
 }
 
@@ -82,4 +99,140 @@ body {
 .font-slab {
   font-family: var(--font-roboto-slab);
   font-weight: normal;
+}
+
+/* Blog Post Styles */
+.blog-callout-info {
+  background-color: #eff6ff;
+  border-left: 4px solid #60a5fa;
+  padding: 1rem;
+  border-radius: 0 0.5rem 0.5rem 0;
+  margin: 1.5rem 0;
+  color: #1e3a8a;
+}
+
+.blog-callout-warning {
+  background-color: #fefce8;
+  border-left: 4px solid #facc15;
+  padding: 1rem;
+  border-radius: 0 0.5rem 0.5rem 0;
+  margin: 1.5rem 0;
+  color: #713f12;
+}
+
+.blog-callout-success {
+  background-color: #f0fdf4;
+  border-left: 4px solid #4ade80;
+  padding: 1rem;
+  border-radius: 0 0.5rem 0.5rem 0;
+  margin: 1.5rem 0;
+  color: #14532d;
+}
+
+.blog-callout-tip {
+  background-color: #faf5ff;
+  border-left: 4px solid #a78bfa;
+  padding: 1rem;
+  border-radius: 0 0.5rem 0.5rem 0;
+  margin: 1.5rem 0;
+  color: #581c87;
+}
+
+.blog-quote {
+  border-left: 4px solid #d1d5db;
+  padding-left: 1.5rem;
+  padding-right: 1rem;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+  margin: 1.5rem 0;
+  font-style: italic;
+  color: #374151;
+  font-size: 1.125rem;
+}
+
+.blog-list {
+  margin: 1.5rem 0;
+  padding-left: 1.5rem;
+  color: #374151;
+}
+
+.blog-list li {
+  position: relative;
+  padding-left: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.blog-list li::before {
+  content: "•";
+  position: absolute;
+  left: 0;
+  color: #9185FF;
+  font-weight: 700;
+}
+
+.blog-ordered-list {
+  margin: 1.5rem 0;
+  padding-left: 1.5rem;
+  list-style-type: decimal;
+}
+
+.blog-ordered-list li {
+  padding-left: 0.5rem;
+  color: #374151;
+  margin-bottom: 0.5rem;
+}
+
+/* Blog Post Typography Enhancements */
+.prose h2 {
+  font-size: 2.25rem;
+  font-weight: 700;
+  color: #000000;
+  font-family: var(--font-roboto-slab);
+  margin-top: 3rem;
+  margin-bottom: 1.5rem;
+}
+
+.prose h3 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #000000;
+  font-family: var(--font-roboto-slab);
+  margin-top: 2rem;
+  margin-bottom: 1rem;
+}
+
+.prose p {
+  margin-bottom: 1.5rem;
+}
+
+.prose ul li {
+  position: relative;
+  padding-left: 0.5rem;
+  margin-bottom: 0.5rem;
+  list-style: none;
+}
+
+.prose ul li::before {
+  content: "•";
+  position: absolute;
+  left: -1rem;
+  color: #9185FF;
+  font-weight: 700;
+}
+
+.prose ol li {
+  padding-left: 0.5rem;
+  margin-bottom: 0.5rem;
+  color: #374151;
+}
+
+/* Style hyperlinks in prose (light mode) */
+.prose a {
+  color: #9185FF;
+  text-decoration: underline;
+  font-weight: 500;
+}
+
+.prose a:hover {
+  color: #5B4FC6;
 }

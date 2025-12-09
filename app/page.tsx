@@ -1,32 +1,36 @@
 import Image from "next/image";
 import Link from "next/link";
 import WaitlistForm from "@/components/waitlistForm";
+import Footer from "@/components/footer";
 
 export default function HomePage() {
   return (
     <div className="min-h-screen flex flex-col bg-white">
       {/* Header */}
-      <header className="flex items-center justify-between px-8 py-6 border-b border-gray-200">
-        <Link href="/" className="flex items-center gap-3">
+      <header className="flex items-center justify-between px-8 py-5 border-b border-gray-200">
+        <Link href="/" className="flex items-center gap-2">
           <Image
             src="/logo.svg"
             alt="Pets Friendz Logo"
-            width={60}
-            height={60}
+            width={50}
+            height={50}
           />
-          <span className="text-3xl text-black font-bold font-slab">Pets Friendz</span>
+          <span className="text-2xl text-black font-bold font-slab">Pets Friendz</span>
         </Link>
 
-        <div className="flex items-center gap-6">
-          <Link href="/login" className="text-xl text-black">
+        <div className="flex items-center gap-5">
+          <Link href="/blog" className="text-lg text-black hover:text-gray-600 transition-colors">
+            Blog
+          </Link>
+          <Link href="/login" className="text-lg text-black hover:text-gray-600 transition-colors">
             Login
           </Link>
           <Link
             href="/waitlist"
-            className="bg-black text-white px-8 py-3 rounded text-lg flex items-center gap-2 hover:bg-gray-800 transition-colors"
+            className="bg-black text-white px-6 py-2.5 rounded text-base flex items-center gap-2 hover:bg-gray-800 transition-colors"
           >
             Build your page
-            <span className="text-xl">→</span>
+            <span className="text-lg">→</span>
           </Link>
         </div>
       </header>
@@ -110,6 +114,69 @@ export default function HomePage() {
           </div>
         </div>
       </main>
+
+      {/* FAQ Section */}
+      <section id="faq" className="bg-gray-50 py-16 px-8">
+        <div className="max-w-4xl mx-auto">
+          <h2 className="text-4xl font-bold text-black text-center mb-12 font-slab">
+            Frequently Asked Questions
+          </h2>
+          <div className="space-y-6">
+            <details className="bg-white border border-gray-200 rounded-lg p-6 group">
+              <summary className="text-xl font-bold text-black cursor-pointer list-none flex justify-between items-center">
+                How does Pets Friendz work?
+                <span className="text-2xl group-open:rotate-180 transition-transform">›</span>
+              </summary>
+              <p className="mt-4 text-gray-700 font-flex">
+                Pets Friendz makes it easy to create a professional profile for your pet sitting business. Simply add your details, services, and photos, then share your unique link with clients. They can view your services and request bookings directly through your page.
+              </p>
+            </details>
+
+            <details className="bg-white border border-gray-200 rounded-lg p-6 group">
+              <summary className="text-xl font-bold text-black cursor-pointer list-none flex justify-between items-center">
+                Is Pets Friendz free to use?
+                <span className="text-2xl group-open:rotate-180 transition-transform">›</span>
+              </summary>
+              <p className="mt-4 text-gray-700 font-flex">
+                We offer a free (always!) plan to get you started. Premium features and advanced customization options will be available with our paid plans once we launch.
+              </p>
+            </details>
+
+            <details className="bg-white border border-gray-200 rounded-lg p-6 group">
+              <summary className="text-xl font-bold text-black cursor-pointer list-none flex justify-between items-center">
+                Can I customize my profile?
+                <span className="text-2xl group-open:rotate-180 transition-transform">›</span>
+              </summary>
+              <p className="mt-4 text-gray-700 font-flex">
+                Yes! You can add your business details, set your own pricing, upload photos, and customize your services to match your unique offerings.
+              </p>
+            </details>
+
+            <details className="bg-white border border-gray-200 rounded-lg p-6 group">
+              <summary className="text-xl font-bold text-black cursor-pointer list-none flex justify-between items-center">
+                How do I receive booking requests?
+                <span className="text-2xl group-open:rotate-180 transition-transform">›</span>
+              </summary>
+              <p className="mt-4 text-gray-700 font-flex">
+                When a client submits a request through your profile, you'll receive an email notification with all the details. You can then respond directly to the client.
+              </p>
+            </details>
+
+            <details className="bg-white border border-gray-200 rounded-lg p-6 group">
+              <summary className="text-xl font-bold text-black cursor-pointer list-none flex justify-between items-center">
+                When will Pets Friendz launch?
+                <span className="text-2xl group-open:rotate-180 transition-transform">›</span>
+              </summary>
+              <p className="mt-4 text-gray-700 font-flex">
+                We're currently in beta and working hard to perfect the platform. Join our waitlist to be the first to know when we launch!
+              </p>
+            </details>
+          </div>
+        </div>
+      </section>
+
+      {/* Footer */}
+      <Footer />
     </div>
   );
 }
