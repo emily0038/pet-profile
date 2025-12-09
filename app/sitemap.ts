@@ -1,5 +1,6 @@
 import { MetadataRoute } from 'next'
 import { createClient } from '@/utils/supabase/server'
+import { getAllPosts } from '@/lib/mdx'
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const baseUrl = 'https://petsfriendz.com'
@@ -10,6 +11,9 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     .from('profiles')
     .select('username, updated_at')
     .not('username', 'is', null)
+
+  // Fetch all blog posts
+  const blogPosts = getAllPosts()
 
   // Create static pages
   const staticPages: MetadataRoute.Sitemap = [
@@ -67,6 +71,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       changeFrequency: 'monthly',
       priority: 0.7,
     },
+        {
+      url: `${baseUrl}/get-involved`,
+      lastModified: new Date(),
+      changeFrequency: 'monthly',
+      priority: 0.7,
+    },
   ]
 
   // Create dynamic profile pages
@@ -77,5 +87,13 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: 0.8,
   })) || []
 
-  return [...staticPages, ...profilePages]
+  // Create blog post pages
+  const blogPages: MetadataRoute.Sitemap = blogPosts.map((post) => ({
+    url: `${baseUrl}/blog/${post.slug}`,
+    lastModified: new Date(post.date),
+    changeFrequency: 'monthly',
+    priority: 0.7,
+  }))
+
+  return [...staticPages, ...profilePages, ...blogPages]
 }
