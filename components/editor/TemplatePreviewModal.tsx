@@ -57,7 +57,7 @@ export default function TemplatePreviewModal({ template, onClose, onSelect }: Te
           borderRadius: '12px',
           width: '100%',
           maxWidth: '1400px',
-          maxHeight: '90vh',
+          height: '90vh',
           display: 'flex',
           flexDirection: 'column',
           boxShadow: '0 20px 60px rgba(0, 0, 0, 0.3)',
@@ -120,7 +120,7 @@ export default function TemplatePreviewModal({ template, onClose, onSelect }: Te
                 height: '100%',
                 border: 'none',
               }}
-              title={`${template.name} Template Preview`}
+              title={`Template Preview - ${template.name}`}
             />
           ) : (
             <div style={{

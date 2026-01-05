@@ -7,7 +7,6 @@ interface Template {
   id: string;
   name: string;
   description: string;
-  isPopular?: boolean;
   isComingSoon?: boolean;
   previewGradient: string;
   previewUrl?: string;
@@ -17,29 +16,29 @@ const templates: Template[] = [
   {
     id: 'pro',
     name: 'Professional',
-    description: 'Clean and trustworthy design perfect for established pet care professionals. Features elegant typography and a refined color palette.',
-    isPopular: true,
+    description: 'Clean aesthetic with earthy tones. Communicates trust and quality care to wellness-conscious pet owners.',
     previewGradient: 'linear-gradient(135deg, #2c5f4f 0%, #1a3d31 100%)',
-    previewUrl: 'https://petsfriendz.com/emilyw',
+    previewUrl: '/preview/pro',
   },
   {
     id: 'bubbly',
     name: 'Bubbly',
-    description: 'Fun and playful design with bright colors and friendly styling. Perfect for showing your energetic, pet-loving personality.',
+    description: 'Playful design with soft pastel gradients. Perfect for sitters who want to showcase their fun, pet-loving personality.',
     previewGradient: 'linear-gradient(135deg, #ff6b9d 0%, #ffc93c 100%)',
-    previewUrl: undefined, // Coming soon
+    previewUrl: '/preview/bubbly',
   },
   {
     id: 'sleek',
     name: 'Sleek',
-    description: 'Modern minimalist design with bold typography and striking contrast. Ideal for contemporary pet care businesses.',
+    description: '',
+    isComingSoon: true,
     previewGradient: 'linear-gradient(135deg, #0a0a0a 0%, #333333 100%)',
-    previewUrl: undefined, // Coming soon
+    previewUrl: undefined,
   },
   {
     id: 'classic',
     name: 'Classic',
-    description: 'Traditional and timeless design with classic fonts and warm colors. Perfect for established businesses.',
+    description: '',
     isComingSoon: true,
     previewGradient: 'linear-gradient(135deg, #f0f0f0 0%, #e0e0e0 100%)',
     previewUrl: undefined,
@@ -124,37 +123,54 @@ export default function TemplateSelector({ onSelectTemplate }: TemplateSelectorP
                   position: 'relative',
                   overflow: 'hidden',
                 }}>
-                  {template.isComingSoon && (
-                    <div style={{
-                      position: 'absolute',
-                      top: '50%',
-                      left: '50%',
-                      transform: 'translate(-50%, -50%)',
-                      background: 'rgba(0, 0, 0, 0.8)',
-                      color: 'white',
-                      padding: '12px 24px',
-                      borderRadius: '8px',
-                      fontWeight: 600,
-                      fontSize: '18px',
-                      zIndex: 10,
-                    }}>
-                      Coming Soon
-                    </div>
+                  {template.previewUrl && !template.isComingSoon ? (
+                    <iframe
+                      src={template.previewUrl}
+                      style={{
+                        width: '200%',
+                        height: '200%',
+                        border: 'none',
+                        pointerEvents: 'none',
+                        transform: 'scale(0.5)',
+                        transformOrigin: 'top left',
+                      }}
+                      title={`${template.name} preview`}
+                    />
+                  ) : (
+                    <>
+                      {template.isComingSoon && (
+                        <div style={{
+                          position: 'absolute',
+                          top: '50%',
+                          left: '50%',
+                          transform: 'translate(-50%, -50%)',
+                          background: 'rgba(0, 0, 0, 0.8)',
+                          color: 'white',
+                          padding: '12px 24px',
+                          borderRadius: '8px',
+                          fontWeight: 600,
+                          fontSize: '18px',
+                          zIndex: 10,
+                        }}>
+                          Coming Soon
+                        </div>
+                      )}
+                      <div style={{
+                        position: 'absolute',
+                        top: '50%',
+                        left: '50%',
+                        transform: 'translate(-50%, -50%)',
+                        color: 'white',
+                        fontSize: '32px',
+                        fontWeight: 700,
+                        fontFamily: 'Roboto Slab, serif',
+                        textAlign: 'center',
+                        opacity: 0.3,
+                      }}>
+                        {template.name.toUpperCase()}
+                      </div>
+                    </>
                   )}
-                  <div style={{
-                    position: 'absolute',
-                    top: '50%',
-                    left: '50%',
-                    transform: 'translate(-50%, -50%)',
-                    color: 'white',
-                    fontSize: '32px',
-                    fontWeight: 700,
-                    fontFamily: 'Roboto Slab, serif',
-                    textAlign: 'center',
-                    opacity: 0.3,
-                  }}>
-                    {template.name.toUpperCase()}
-                  </div>
                 </div>
 
                 {/* Template Info */}
@@ -163,20 +179,6 @@ export default function TemplateSelector({ onSelectTemplate }: TemplateSelectorP
                     <h2 style={{ fontFamily: 'Roboto Slab, serif', fontSize: '28px', fontWeight: 700, color: '#000000', margin: 0 }}>
                       {template.name}
                     </h2>
-                    {template.isPopular && (
-                      <span style={{
-                        background: '#E4E1FF',
-                        color: '#5B4FC6',
-                        padding: '4px 12px',
-                        borderRadius: '12px',
-                        fontSize: '12px',
-                        fontWeight: 600,
-                        textTransform: 'uppercase',
-                        letterSpacing: '0.5px',
-                      }}>
-                        Popular
-                      </span>
-                    )}
                   </div>
 
                   <p style={{ fontSize: '16px', color: '#374151', marginBottom: '20px', lineHeight: 1.6 }}>
