@@ -1,122 +1,126 @@
 import Image from "next/image";
 import Link from "next/link";
-import WaitlistForm from "@/components/waitlistForm";
 import Footer from "@/components/footer";
+import PublicHeader from "@/components/publicHeader";
 
 export default function HomePage() {
   return (
     <div className="min-h-screen flex flex-col bg-white">
-      {/* Header */}
-      <header className="flex items-center justify-between px-8 py-5 border-b border-gray-200">
-        <Link href="/" className="flex items-center gap-2">
-          <Image
-            src="/logo.svg"
-            alt="Pets Friendz Logo"
-            width={50}
-            height={50}
-          />
-          <span className="text-2xl text-black font-bold font-slab">Pets Friendz</span>
+      <PublicHeader />
+
+      {/* Hero Section */}
+      <section className="text-center py-20 px-8 bg-white">
+        <h1 className="text-5xl font-bold text-black mb-5 leading-tight font-slab">
+          The easiest way to grow<br />your pet sitting business
+        </h1>
+        <p className="text-xl text-gray-700 mb-10 max-w-[700px] mx-auto font-flex">
+          Build your profile in <strong>seconds</strong>, share your page, and get requests directly in your inbox
+        </p>
+        <Link
+          href="/waitlist"
+          className="bg-black text-white px-8 py-3.5 rounded text-base inline-flex items-center gap-2.5 hover:bg-gray-800 transition-colors font-medium"
+        >
+          Get Started
+          <span className="text-xl">→</span>
         </Link>
+      </section>
 
-        <div className="flex items-center gap-5">
-          <Link href="/blog" className="text-lg text-black hover:text-gray-600 transition-colors">
-            Blog
-          </Link>
-          <Link href="/login" className="text-lg text-black hover:text-gray-600 transition-colors">
-            Login
-          </Link>
-          <Link
-            href="/waitlist"
-            className="bg-black text-white px-6 py-2.5 rounded text-base flex items-center gap-2 hover:bg-gray-800 transition-colors"
-          >
-            Build your page
-            <span className="text-lg">→</span>
-          </Link>
-        </div>
-      </header>
-
-      {/* Main Content */}
-      <main className="flex-1 flex items-center px-8 py-16 font-flex">
-        <div className="max-w-7xl mx-auto w-full grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
-          {/* Left Column - Text Content */}
-          <div className="space-y-8">
-            <h1 className="text-6xl text-black font-normal leading-tight">
-              The easiest way<br />
-              to grow your pet sitting business
-            </h1>
-
-            <p className="text-2xl text-gray-700 leading-relaxed font-flex">
-              Build your profile in <b>seconds</b>, share your page, and get requests directly in your inbox
-            </p>
-
-            {/* Waitlist Form Container */}
-            <div className="bg-white border-2 border-gray-200 rounded-2xl p-6 shadow-sm">
-              <div className="space-y-4">
-                <h3 className="text-2xl text-black font-normal">
-                  Ready to build?
-                </h3>
-                <p className="text-base text-gray-600">
-                  Be the first to know when we launch.
-                </p>
-                <WaitlistForm />
-                <p className="text-xs text-gray-500">
-                  No spam, ever. We&apos;ll only email you when we&apos;re live.
-                </p>
-              </div>
+      {/* Steps Section */}
+      <section className="py-16 px-8 bg-gray-50">
+        <div className="max-w-screen-xl mx-auto">
+          <div className="text-center mb-16">
+            <div className="text-sm font-semibold text-[#9185FF] uppercase tracking-widest mb-3 font-flex">
+              HOW IT WORKS
             </div>
+            <h2 className="text-4xl font-bold text-black leading-tight font-slab">
+              Get started in 3 simple steps
+            </h2>
           </div>
 
-          {/* Right Column - Product Showcase */}
-          <div className="relative space-y-12">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
             {/* Step 1 */}
-            <div className="space-y-4">
-              <div className="flex items-start gap-6">
-                <div className="flex-shrink-0 bg-black text-white rounded-full w-16 h-16 flex items-center justify-center text-2xl font-bold">
+            <div className="bg-white rounded-lg border border-gray-200 overflow-hidden">
+              <div className="bg-white p-4 border-b border-gray-200">
+                <div className="rounded shadow-sm overflow-hidden">
+                  <Image
+                    src="/template-selector.png"
+                    alt="Template selection"
+                    width={400}
+                    height={300}
+                    className="w-full h-auto"
+                  />
+                </div>
+              </div>
+              <div className="p-8 pb-6">
+                <div className="inline-flex items-center justify-center w-10 h-10 bg-[#E4E1FF] text-[#9185FF] rounded-full text-xl font-bold mb-4">
                   1
                 </div>
-                <p className="text-xl text-black font-flex pt-3">
-                  Add business details,<br />
-                  services, and photos
+                <h3 className="text-2xl font-bold mb-3 text-black leading-snug font-slab">
+                  Select a template
+                </h3>
+                <p className="text-base text-gray-700 leading-relaxed font-flex">
+                  Choose from professionally designed templates that showcase your business.
                 </p>
-              </div>
-              <div className="pl-0">
-                <Image
-                  src="/iphone-edit.png"
-                  alt="Editor interface showing profile setup"
-                  width={300}
-                  height={600}
-                  className="max-w-full h-auto"
-                />
               </div>
             </div>
 
             {/* Step 2 */}
-            <div className="space-y-4">
-              <div className="flex items-start gap-6">
-                <div className="flex-shrink-0 bg-black text-white rounded-full w-16 h-16 flex items-center justify-center text-2xl font-bold">
+            <div className="bg-white rounded-lg border border-gray-200 overflow-hidden">
+              <div className="bg-white p-4 border-b border-gray-200">
+                <div className="rounded shadow-sm overflow-hidden">
+                  <Image
+                    src="/template-editor.png"
+                    alt="Editor interface"
+                    width={400}
+                    height={300}
+                    className="w-full h-auto"
+                  />
+                </div>
+              </div>
+              <div className="p-8 pb-6">
+                <div className="inline-flex items-center justify-center w-10 h-10 bg-[#E4E1FF] text-[#9185FF] rounded-full text-xl font-bold mb-4">
                   2
                 </div>
-                <p className="text-xl text-black font-flex pt-3">
-                  Publish your<br />
-                  profile and share
+                <h3 className="text-2xl font-bold mb-3 text-black leading-snug font-slab">
+                  Add your business details, services, and photos
+                </h3>
+                <p className="text-base text-gray-700 leading-relaxed font-flex">
+                  Customize with your information, services, pricing, and photos.
                 </p>
               </div>
-              <div className="pl-0">
-                <Image
-                  src="/iphone-ui.png"
-                  alt="Published profile interface"
-                  width={300}
-                  height={600}
-                  className="max-w-full h-auto"
-                />
+            </div>
+
+            {/* Step 3 */}
+            <div className="bg-white rounded-lg border border-gray-200 overflow-hidden">
+              <div className="bg-white p-4 border-b border-gray-200">
+                <div className="rounded shadow-sm overflow-hidden">
+                  <Image
+                    src="/bubbly-example.png"
+                    alt="Published website"
+                    width={400}
+                    height={300}
+                    className="w-full h-auto"
+                  />
+                </div>
+              </div>
+              <div className="p-8 pb-6">
+                <div className="inline-flex items-center justify-center w-10 h-10 bg-[#E4E1FF] text-[#9185FF] rounded-full text-xl font-bold mb-4">
+                  3
+                </div>
+                <h3 className="text-2xl font-bold mb-3 text-black leading-snug font-slab">
+                  Publish your website and share
+                </h3>
+                <p className="text-base text-gray-700 leading-relaxed font-flex">
+                  Go live and start receiving booking requests in your inbox.
+                </p>
               </div>
             </div>
           </div>
         </div>
-      </main>
+      </section>
 
       {/* FAQ Section */}
-      <section id="faq" className="bg-gray-50 py-16 px-8">
+      <section id="faq" className="bg-white py-16 px-8">
         <div className="max-w-4xl mx-auto">
           <h2 className="text-4xl font-bold text-black text-center mb-12 font-slab">
             Frequently Asked Questions
@@ -144,11 +148,11 @@ export default function HomePage() {
 
             <details className="bg-white border border-gray-200 rounded-lg p-6 group">
               <summary className="text-xl font-bold text-black cursor-pointer list-none flex justify-between items-center">
-                Can I customize my profile?
+                Can I customize my page?
                 <span className="text-2xl group-open:rotate-180 transition-transform">›</span>
               </summary>
               <p className="mt-4 text-gray-700 font-flex">
-                Yes! You can add your business details, set your own pricing, upload photos, and customize your services to match your unique offerings.
+                Yes! Once you select your template, you can add your business details, upload photos, and customize your services to match your unique offerings. You can also leave optional sections blank to exclude them from your page.
               </p>
             </details>
 
@@ -168,7 +172,7 @@ export default function HomePage() {
                 <span className="text-2xl group-open:rotate-180 transition-transform">›</span>
               </summary>
               <p className="mt-4 text-gray-700 font-flex">
-                We&apos;re currently in beta and working hard to perfect the platform. Join our waitlist to be the first to know when we launch!
+                We&apos;re working hard to perfect the platform before we launch in February 2026. Join our waitlist to be the first to know when we launch!
               </p>
             </details>
           </div>

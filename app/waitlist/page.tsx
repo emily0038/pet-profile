@@ -1,27 +1,12 @@
-import Link from 'next/link'
 import Image from 'next/image'
 import WaitlistForm from '@/components/waitlistForm'
 import Footer from "@/components/footer";
+import PublicHeader from "@/components/publicHeader";
 
 export default function WaitlistPage() {
   return (
     <div className="min-h-screen flex flex-col bg-white">
-      {/* Header */}
-      <header className="flex items-center justify-between px-8 py-6 border-b border-gray-200">
-        <Link href="/" className="flex items-center gap-3">
-          <Image
-            src="/logo.svg"
-            alt="Pets Friendz Logo"
-            width={60}
-            height={60}
-          />
-          <span className="text-3xl text-black font-bold font-slab">Pets Friendz</span>
-        </Link>
-
-        <Link href="/login" className="text-xl">
-          Login
-        </Link>
-      </header>
+      <PublicHeader />
 
       {/* Main Content */}
       <main className="flex-1 flex items-center justify-center px-4 py-16 font-flex">
@@ -40,10 +25,10 @@ export default function WaitlistPage() {
 
           <div className="space-y-4">
             <h1 className="text-5xl font-normal text-black">
-              Coming Soon
+              Coming February 2026
             </h1>
-            <p className="text-2xl text-gray-600">
-              We&apos;re putting the finishing touches on the Pets Friendz sitter experience.
+            <p className="text-xl text-gray-700 mb-10 max-w-[700px] mx-auto font-flex">
+              We&apos;re putting the finishing touches on our page builder.
               Join the waitlist to be notified when we launch!
             </p>
           </div>
