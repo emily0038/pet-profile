@@ -14,7 +14,7 @@ export default function HomePage() {
           The easiest way to grow<br />your pet sitting business
         </h1>
         <p className="text-xl text-gray-700 mb-10 max-w-[700px] mx-auto font-flex">
-          Build your profile in <strong>seconds</strong>, share your page, and get requests directly in your inbox
+          Launch a professional pet care website in <b>seconds</b> to take your business to the next level
         </p>
         <Link
           href="/waitlist"
