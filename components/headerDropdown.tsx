@@ -7,18 +7,18 @@ import ShareModal from '@/components/shareModal';
 import QRCode from 'qrcode';
 
 interface HeaderDropdownProps {
-  username: string;
+  domain: string;
   isViewMode?: boolean;
 }
 
-export default function HeaderDropdown({ username, isViewMode = false }: HeaderDropdownProps) {
+export default function HeaderDropdown({ domain, isViewMode = false }: HeaderDropdownProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [isShareModalOpen, setIsShareModalOpen] = useState(false);
   const [qrCodeDataUrl, setQrCodeDataUrl] = useState('');
   const dropdownRef = useRef<HTMLDivElement>(null);
 
   const profileUrl = typeof window !== 'undefined'
-    ? `${window.location.origin}/${username}`
+    ? `${window.location.origin}/${domain}`
     : '';
 
   useEffect(() => {

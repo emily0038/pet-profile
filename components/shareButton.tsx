@@ -6,14 +6,14 @@ import QRCode from 'qrcode';
 import Image from 'next/image';
 
 interface ShareButtonProps {
-  username: string;
+  domain: string;
 }
 
-export default function ShareButton({ username }: ShareButtonProps) {
+export default function ShareButton({ domain }: ShareButtonProps) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [qrCodeDataUrl, setQrCodeDataUrl] = useState('');
   const profileUrl = typeof window !== 'undefined'
-    ? `${window.location.origin}/${username}`
+    ? `${window.location.origin}/${domain}`
     : '';
 
   const generateQRCode = useCallback(async () => {

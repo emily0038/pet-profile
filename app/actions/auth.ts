@@ -32,8 +32,8 @@ export async function login(prevState: { error: string } | null, formData: FormD
 
     // Create profile if it doesn't exist (first login after signup)
     if (!profile) {
-      // Generate unique username
-      const username = await generateUsername(
+      // Generate unique domain
+      const domain = await generateUsername(
         authData.user.user_metadata.first_name || '',
         authData.user.user_metadata.last_name || '',
         authData.user.user_metadata.business
@@ -47,8 +47,8 @@ export async function login(prevState: { error: string } | null, formData: FormD
           first_name: authData.user.user_metadata.first_name,
           last_name: authData.user.user_metadata.last_name,
           phone_number: authData.user.user_metadata.phone_number,
-          business: authData.user.user_metadata.business,
-          username: username,
+          business_name: authData.user.user_metadata.business,
+          domain: domain,
           accepts_cats: false,
           accepts_dogs: false,
         })

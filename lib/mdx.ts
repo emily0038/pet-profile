@@ -92,7 +92,7 @@ export function getPostBySlug(slug: string): BlogPost | null {
       heroImage: data.heroImage,
       content,
     }
-  } catch (error) {
+  } catch {
     return null
   }
 }

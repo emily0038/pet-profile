@@ -44,7 +44,7 @@ export default function TermsPage() {
             <section>
               <h2 className="text-3xl font-bold text-black mb-4 font-slab">Welcome to Pets Friendz!</h2>
               <p>
-                These Terms of Service ("Terms") govern your access to and use of Pets Friendz ("we," "our," or "us"), including our website, services, and platform. By accessing or using Pets Friendz, you agree to be bound by these Terms and our Privacy Policy.
+                These Terms of Service (&ldquo;Terms&rdquo;) govern your access to and use of Pets Friendz (&ldquo;we,&rdquo; &ldquo;our,&rdquo; or &ldquo;us&rdquo;), including our website, services, and platform. By accessing or using Pets Friendz, you agree to be bound by these Terms and our Privacy Policy.
               </p>
               <p className="mt-4">
                 <strong>If you do not agree to these Terms, do not use our services.</strong>
@@ -73,7 +73,7 @@ export default function TermsPage() {
               <h2 className="text-3xl font-bold text-black mb-4 font-slab">2. Description of Service</h2>
 
               <h3 className="text-xl font-bold text-black mb-2 mt-6">2.1 What We Provide</h3>
-              <p>Pets Friendz is an online platform that allows pet sitters and pet care providers ("Sitters") to:</p>
+              <p>Pets Friendz is an online platform that allows pet sitters and pet care providers (&ldquo;Sitters&rdquo;) to:</p>
               <ul className="list-disc pl-6 space-y-2 mt-4">
                 <li>Create professional profile pages showcasing their services</li>
                 <li>Share their profile via custom URLs and QR codes</li>
@@ -136,7 +136,7 @@ export default function TermsPage() {
 
               <h3 className="text-xl font-bold text-black mb-2 mt-6">4.3 Account Termination</h3>
               <p>
-                <strong>You may terminate your account at any time</strong> by emailing <a href="mailto:admin@petsfriendz.com">admin@petsfriendz.com</a> with "Delete My Account" in the subject line. Upon termination:
+                <strong>You may terminate your account at any time</strong> by emailing <a href="mailto:admin@petsfriendz.com">admin@petsfriendz.com</a> with &ldquo;Delete My Account&rdquo; in the subject line. Upon termination:
               </p>
               <ul className="list-disc pl-6 space-y-2 mt-4">
                 <li>Your account and profile will be deleted within 30 days</li>
@@ -162,7 +162,7 @@ export default function TermsPage() {
               <ul className="list-disc pl-6 space-y-2 mt-4">
                 <li>Profile photos and images</li>
                 <li>Business descriptions and service information</li>
-                <li>Text, pricing, and other profile details ("Your Content")</li>
+                <li>Text, pricing, and other profile details (&ldquo;Your Content&rdquo;)</li>
               </ul>
               <p className="mt-4">
                 <strong>By uploading Your Content, you grant Pets Friendz a worldwide, non-exclusive, royalty-free license to:</strong>
@@ -299,9 +299,9 @@ export default function TermsPage() {
             <section>
               <h2 className="text-3xl font-bold text-black mb-4 font-slab">8. Disclaimers and Limitation of Liability</h2>
 
-              <h3 className="text-xl font-bold text-black mb-2 mt-6">8.1 Service "As-Is"</h3>
+              <h3 className="text-xl font-bold text-black mb-2 mt-6">8.1 Service &ldquo;As-Is&rdquo;</h3>
               <p>
-                <strong>PETSFRIENDZ IS PROVIDED "AS IS" AND "AS AVAILABLE" WITHOUT WARRANTIES OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO:</strong>
+                <strong>PETSFRIENDZ IS PROVIDED &ldquo;AS IS&rdquo; AND &ldquo;AS AVAILABLE&rdquo; WITHOUT WARRANTIES OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO:</strong>
               </p>
               <ul className="list-disc pl-6 space-y-2 mt-4">
                 <li>Warranties of merchantability or fitness for a particular purpose</li>

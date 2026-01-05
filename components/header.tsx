@@ -13,16 +13,16 @@ export default async function Header({ title, isViewMode = false }: HeaderProps)
   const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
 
-  // Get username for logged-in users
-  let username = null;
+  // Get domain for logged-in users
+  let domain = null;
   if (user) {
     const { data: profile } = await supabase
       .from('profiles')
-      .select('username')
+      .select('domain')
       .eq('user_id', user.id)
       .single();
 
-    username = profile?.username;
+    domain = profile?.domain;
   }
 
   return (
@@ -45,8 +45,8 @@ export default async function Header({ title, isViewMode = false }: HeaderProps)
         </Link>
       )}
       <h1 className="text-white text-2xl text-center font-bold whitespace-nowrap overflow-hidden text-ellipsis max-w-[50%]">{title}</h1>
-      {user && username ? (
-        <HeaderDropdown username={username} isViewMode={isViewMode} />
+      {user && domain ? (
+        <HeaderDropdown domain={domain} isViewMode={isViewMode} />
       ) : (
         <div className="w-12"></div>
       )}

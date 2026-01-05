@@ -6,11 +6,11 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const baseUrl = 'https://petsfriendz.com'
   const supabase = await createClient()
 
-  // Fetch all usernames from profiles
+  // Fetch all domains from profiles
   const { data: profiles } = await supabase
     .from('profiles')
-    .select('username, updated_at')
-    .not('username', 'is', null)
+    .select('domain, updated_at')
+    .not('domain', 'is', null)
 
   // Fetch all blog posts
   const blogPosts = getAllPosts()
@@ -81,7 +81,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   // Create dynamic profile pages
   const profilePages: MetadataRoute.Sitemap = profiles?.map((profile) => ({
-    url: `${baseUrl}/${profile.username}`,
+    url: `${baseUrl}/${profile.domain}`,
     lastModified: profile.updated_at ? new Date(profile.updated_at) : new Date(),
     changeFrequency: 'weekly',
     priority: 0.8,

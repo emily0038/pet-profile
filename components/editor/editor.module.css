@@ -1,0 +1,488 @@
+/* ========================================
+   EDITOR CSS MODULE
+   Common styles for TemplateEditor sections
+   ======================================== */
+
+/* ========================================
+   CARDS & CONTAINERS
+   ======================================== */
+
+/* Edit mode card - used when editing any section item */
+.editCard {
+  padding: 20px;
+  border: 2px solid var(--editor-primary, #9185FF);
+  border-radius: 12px;
+  background: white;
+}
+
+/* Display card - used for showing saved items */
+.displayCard {
+  padding: 16px 20px;
+  border: 1px solid #E5E7EB;
+  border-radius: 12px;
+  background: white;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: flex;
+  align-items: start;
+  gap: 16px;
+}
+
+.displayCard:hover {
+  border-color: var(--editor-primary, #9185FF);
+}
+
+.displayCard.disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+/* Empty/placeholder card - greyed out style */
+.emptyCard {
+  padding: 16px 20px;
+  border: 1px solid #E5E7EB;
+  border-radius: 12px;
+  background: #F9FAFB;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: flex;
+  align-items: start;
+  gap: 16px;
+}
+
+.emptyCard:hover {
+  border-color: var(--editor-primary, #9185FF);
+}
+
+.emptyCard.disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+/* List container for multiple items */
+.itemList {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* ========================================
+   BUTTONS
+   ======================================== */
+
+/* Primary action button (Save, Add, etc.) */
+.primaryButton {
+  flex: 1;
+  padding: 10px 24px;
+  background: var(--editor-primary, #9185FF);
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.primaryButton:hover {
+  background: var(--editor-primary-hover, #5B4FC6);
+}
+
+.primaryButton:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Secondary button (Cancel, etc.) */
+.secondaryButton {
+  flex: 1;
+  padding: 10px 24px;
+  background: white;
+  color: #374151;
+  border: 1px solid #E5E7EB;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.secondaryButton:hover {
+  background: #F9FAFB;
+}
+
+/* Delete button */
+.deleteButton {
+  padding: 10px 20px;
+  background: white;
+  color: #EF4444;
+  border: 1px solid #FEE2E2;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.deleteButton:hover {
+  background: #FEF2F2;
+}
+
+/* Edit button (inline, transparent) */
+.editButton {
+  padding: 6px 16px;
+  background: transparent;
+  color: var(--editor-primary, #9185FF);
+  border: none;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.editButton:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Add button (large, full width) */
+.addButton {
+  width: 100%;
+  padding: 16px 24px;
+  background: white;
+  color: var(--editor-primary, #9185FF);
+  border: 1px solid #E5E7EB;
+  border-radius: 8px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.addButton:hover {
+  border-color: var(--editor-primary, #9185FF);
+  box-shadow: 0 4px 12px rgba(145, 133, 255, 0.2);
+  transform: translateY(-2px);
+}
+
+.addButton:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.addButton.hasMargin {
+  margin-top: 16px;
+}
+
+/* Button group container */
+.buttonGroup {
+  display: flex;
+  gap: 12px;
+  margin-top: 16px;
+}
+
+/* ========================================
+   FORM ELEMENTS
+   ======================================== */
+
+/* Input field */
+.input {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #D1D5DB;
+  border-radius: 6px;
+  font-size: 15px;
+  font-family: inherit;
+}
+
+.input:focus {
+  outline: none;
+  border-color: var(--editor-primary, #9185FF);
+}
+
+.input::placeholder {
+  color: #9CA3AF;
+}
+
+/* Textarea */
+.textarea {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #D1D5DB;
+  border-radius: 6px;
+  font-size: 15px;
+  font-family: inherit;
+  min-height: 100px;
+  resize: vertical;
+}
+
+.textarea:focus {
+  outline: none;
+  border-color: var(--editor-primary, #9185FF);
+}
+
+.textarea::placeholder {
+  color: #9CA3AF;
+}
+
+/* Form field container */
+.field {
+  margin-bottom: 16px;
+}
+
+/* Label */
+.label {
+  display: block;
+  font-size: 15px;
+  font-weight: 600;
+  color: #000000;
+  margin-bottom: 8px;
+}
+
+.label .required {
+  color: #EF4444;
+}
+
+/* Helper text */
+.helperText {
+  font-size: 13px;
+  color: #6B7280;
+  margin-top: 6px;
+}
+
+/* ========================================
+   ICON/EMOJI CONTAINERS
+   ======================================== */
+
+/* Emoji icon box */
+.emojiBox {
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #F9FAFB;
+  border-radius: 8px;
+  font-size: 24px;
+  flex-shrink: 0;
+}
+
+.emojiBox.empty {
+  background: #E5E7EB;
+}
+
+/* Header with emoji and title */
+.emojiHeader {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.emojiHeader .title {
+  font-size: 16px;
+  font-weight: 600;
+  color: #000000;
+}
+
+/* ========================================
+   CONTENT/TEXT DISPLAY
+   ======================================== */
+
+/* Content area inside cards */
+.cardContent {
+  flex: 1;
+  min-width: 0;
+}
+
+/* Title in display cards */
+.cardTitle {
+  font-size: 16px;
+  font-weight: 600;
+  color: #000000;
+  margin-bottom: 8px;
+}
+
+.cardTitle.empty {
+  color: #9CA3AF;
+  margin-bottom: 0;
+}
+
+/* Preview text (truncated) */
+.previewText {
+  font-size: 14px;
+  color: #6B7280;
+  line-height: 1.5;
+  margin: 0;
+  white-space: pre-wrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+
+/* Placeholder text */
+.placeholderText {
+  font-size: 13px;
+  color: #9CA3AF;
+  margin: 0;
+  font-style: italic;
+}
+
+/* Section description/instructions */
+.sectionDescription {
+  font-size: 13px;
+  color: #374151;
+  margin-bottom: 20px;
+}
+
+/* ========================================
+   PHOTO UPLOAD
+   ======================================== */
+
+/* Photo upload button */
+.photoUploadButton {
+  width: 150px;
+  height: 150px;
+  border: 2px dashed #D1D5DB;
+  border-radius: 8px;
+  background: #F9FAFB;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s;
+  gap: 8px;
+}
+
+.photoUploadButton:hover {
+  border-color: var(--editor-primary, #9185FF);
+  background: #F3F4F6;
+}
+
+.photoUploadButton .icon {
+  font-size: 32px;
+  color: #9CA3AF;
+}
+
+.photoUploadButton .text {
+  font-size: 13px;
+  color: #6B7280;
+  text-align: center;
+}
+
+/* Photo preview */
+.photoPreview {
+  width: 150px;
+  height: 150px;
+  border-radius: 8px;
+  overflow: hidden;
+  position: relative;
+}
+
+.photoPreview img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Remove photo button */
+.removePhotoButton {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.6);
+  color: white;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  font-weight: bold;
+  transition: background 0.2s;
+}
+
+.removePhotoButton:hover {
+  background: rgba(239, 68, 68, 0.9);
+}
+
+/* ========================================
+   CHECKBOXES
+   ======================================== */
+
+.checkboxField {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.checkbox {
+  width: 18px;
+  height: 18px;
+  cursor: pointer;
+}
+
+.checkboxLabel {
+  font-size: 14px;
+  color: #374151;
+  cursor: pointer;
+}
+
+/* ========================================
+   UTILITY CLASSES
+   ======================================== */
+
+.mt-2 {
+  margin-top: 8px;
+}
+
+.mt-4 {
+  margin-top: 16px;
+}
+
+.mb-2 {
+  margin-bottom: 8px;
+}
+
+.mb-4 {
+  margin-bottom: 16px;
+}
+
+.gap-2 {
+  gap: 8px;
+}
+
+.gap-3 {
+  gap: 12px;
+}
+
+.gap-4 {
+  gap: 16px;
+}
+
+.flex {
+  display: flex;
+}
+
+.flexColumn {
+  display: flex;
+  flex-direction: column;
+}
+
+.alignCenter {
+  align-items: center;
+}
+
+.justifyBetween {
+  justify-content: space-between;
+}

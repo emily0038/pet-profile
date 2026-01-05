@@ -41,7 +41,7 @@ export default function ContactPage() {
 
           <div className="prose prose-lg max-w-none font-flex text-gray-700 space-y-8">
             <p className="text-xl">
-              We'd love to hear from you! Whether you have questions, feedback, or need support, we're here to help.
+              We&apos;d love to hear from you! Whether you have questions, feedback, or need support, we&apos;re here to help.
             </p>
 
             <div className="grid md:grid-cols-2 gap-8 mt-12">

@@ -44,7 +44,7 @@ export default function PrivacyPage() {
             <section>
               <h2 className="text-3xl font-bold text-black mb-4 font-slab">Introduction</h2>
               <p>
-                Welcome to Petsfriendz ("we," "our," or "us"). We respect your privacy and are committed to protecting your personal information. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you use our website and services.
+                Welcome to Petsfriendz (&ldquo;we,&rdquo; &ldquo;our,&rdquo; or &ldquo;us&rdquo;). We respect your privacy and are committed to protecting your personal information. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you use our website and services.
               </p>
               <p className="mt-4">
                 <strong>Contact Information:</strong><br />
@@ -177,7 +177,7 @@ export default function PrivacyPage() {
               <h3 className="text-xl font-bold text-black mb-2 mt-6">4.2 Delete Your Account</h3>
               <p>You have the right to delete your account and all associated data. To request account deletion:</p>
               <ol className="list-decimal pl-6 space-y-2 mt-4">
-                <li>Email <a href="mailto:admin@petsfriendz.com">admin@petsfriendz.com</a> with "Delete My Account" in the subject line</li>
+                <li>Email <a href="mailto:admin@petsfriendz.com">admin@petsfriendz.com</a> with &ldquo;Delete My Account&rdquo; in the subject line</li>
                 <li>Include your account email address</li>
                 <li>We will process your request within 30 days and confirm deletion via email</li>
               </ol>
@@ -191,14 +191,14 @@ export default function PrivacyPage() {
 
               <h3 className="text-xl font-bold text-black mb-2 mt-6">4.3 Export Your Data</h3>
               <p>
-                You have the right to receive a copy of your personal data. To request a data export, email <a href="mailto:admin@petsfriendz.com">admin@petsfriendz.com</a> with "Export My Data" in the subject line. We will provide your data in a portable format within 30 days.
+                You have the right to receive a copy of your personal data. To request a data export, email <a href="mailto:admin@petsfriendz.com">admin@petsfriendz.com</a> with &ldquo;Export My Data&rdquo; in the subject line. We will provide your data in a portable format within 30 days.
               </p>
 
               <h3 className="text-xl font-bold text-black mb-2 mt-6">4.4 Opt Out of Marketing</h3>
               <p>You can opt out of promotional emails at any time by:</p>
               <ul className="list-disc pl-6 space-y-2 mt-4">
-                <li>Clicking the "unsubscribe" link at the bottom of any marketing email</li>
-                <li>Emailing <a href="mailto:admin@petsfriendz.com">admin@petsfriendz.com</a> with "Unsubscribe" in the subject line</li>
+                <li>Clicking the &ldquo;unsubscribe&rdquo; link at the bottom of any marketing email</li>
+                <li>Emailing <a href="mailto:admin@petsfriendz.com">admin@petsfriendz.com</a> with &ldquo;Unsubscribe&rdquo; in the subject line</li>
               </ul>
               <p className="mt-4">
                 <strong>Note:</strong> You will still receive important account-related emails (e.g., booking notifications, security alerts).
@@ -209,7 +209,7 @@ export default function PrivacyPage() {
               <ul className="list-disc pl-6 space-y-2 mt-4">
                 <li>Right to know what personal data we collect and how we use it</li>
                 <li>Right to request deletion of your personal data</li>
-                <li>Right to opt out of the "sale" of personal data (note: we do not sell your data)</li>
+                <li>Right to opt out of the &ldquo;sale&rdquo; of personal data (note: we do not sell your data)</li>
                 <li>Right to non-discrimination for exercising your privacy rights</li>
               </ul>
               <p className="mt-4">
@@ -273,7 +273,7 @@ export default function PrivacyPage() {
               <h2 className="text-3xl font-bold text-black mb-4 font-slab">10. Changes to This Privacy Policy</h2>
               <p>We may update this Privacy Policy from time to time to reflect changes in our practices or legal requirements. When we make changes, we will:</p>
               <ul className="list-disc pl-6 space-y-2 mt-4">
-                <li>Update the "Last Updated" date at the top of this policy</li>
+                <li>Update the &ldquo;Last Updated&rdquo; date at the top of this policy</li>
                 <li>Notify you via email if the changes are significant</li>
                 <li>Post a notice on our website</li>
               </ul>

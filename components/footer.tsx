@@ -21,7 +21,7 @@ export default function Footer() {
       if (result.success) {
         setEmail('')
       }
-    } catch (error) {
+    } catch {
       setMessage('Something went wrong. Please try again.')
     } finally {
       setIsSubmitting(false)

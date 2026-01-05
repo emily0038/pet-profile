@@ -158,7 +158,7 @@ export default function HomePage() {
                 <span className="text-2xl group-open:rotate-180 transition-transform">›</span>
               </summary>
               <p className="mt-4 text-gray-700 font-flex">
-                When a client submits a request through your profile, you'll receive an email notification with all the details. You can then respond directly to the client.
+                When a client submits a request through your profile, you&apos;ll receive an email notification with all the details. You can then respond directly to the client.
               </p>
             </details>
 
@@ -168,7 +168,7 @@ export default function HomePage() {
                 <span className="text-2xl group-open:rotate-180 transition-transform">›</span>
               </summary>
               <p className="mt-4 text-gray-700 font-flex">
-                We're currently in beta and working hard to perfect the platform. Join our waitlist to be the first to know when we launch!
+                We&apos;re currently in beta and working hard to perfect the platform. Join our waitlist to be the first to know when we launch!
               </p>
             </details>
           </div>
