@@ -54,34 +54,30 @@ export default function AboutPage() {
                 height={400}
                 className="object-cover w-full h-auto"
               />
-              <p className="text-sm text-gray-500 text-center py-2 px-4 bg-gray-50">Me and my dog Hazel</p>
+              <p className="text-sm text-gray-500 text-center py-2 px-4 bg-gray-50">Emily and her dog Hazel</p>
             </div>
 
             <p>
-              Hi, I&apos;m Emily! I&apos;m an animal lover and pet care provider, and I&apos;m trying to solve the marketing challenge for pet sitters by removing the barriers to building a client base on their own.
+              Hi, I&apos;m Emily! I&apos;m an animal lover and pet care provider, and I&apos;m trying to solve the marketing problem for pet sitters by removing the barriers to building and growing their own business.
+
             </p>
             <p>
               When I first got my mini goldendoodle, I found it surprisingly difficult to find experienced, responsible caregivers to trust her with when I went away.
             </p>
             <p>
-              I ended up reluctantly joining a marketplace app and found a top-rated sitter in my area. And although we loved her, it felt weird knowing that 30% of the cost was going to a middleman company that played no part in the care.
+              I got my start in professional dog care in 2024, when I joined Rover as a boarding and daycare provider. At first, it was a great experience. Getting listed on the marketplace helped me connect with clients, and the app made it easy to manage communications and bookings in one place.
             </p>
             <p>
-              As I continued to seek out individualized care for my pup, it felt like every self-employed sitter either found their clients solely through word-of-mouth, or by joining an app. There was no in-between.
+              But a year (and a few months of unemployment) later, I decided it was time to stop paying steep platform fees and start building my own client list. As I began to build out my personal brand, I quickly realized that I was no longer working as a pet sitter; I was doing the job of an entire marketing and sales team.
             </p>
             <p>
-              That’s why I built Pets Friendz Pages– to empower trustworthy independent care providers and small businesses to take control of their own marketing. By putting sitters in charge of their own growth, this tool enables them to:
-            </p>
-            <ul className="list-disc pl-6 space-y-2">
-              <li>Build a brand that highlights their unique offerings and differentiators</li>
-              <li>Set prices that reflect their work and expenses– without the middleman fees</li>
-              <li>Manage their own policies without thinking about the impact on the algorithm</li>
-            </ul>
-            <p>
-              For many care providers, building a professional website is the first hurdle in getting your brand in front of potential clients. But it’s not the last.
+              If it weren&apos;t for my web dev hobby and background in marketing, I&apos;d be stuck before I even started, or shelling out thousands for a professional service. And while pet care requires a diverse set of skills, software development isn&apos;t typically in the job description.
             </p>
             <p>
-              <a href="mailto:emily@petsfriendz.com">Let me know</a> what other features you&apos;d like to see added to the platform. I’m always looking for new ways to help pet care professionals grow their business!
+              That&apos;s why I created Pets Friendz Pages: To empower trustworthy independent care providers and small businesses to build an online presence that reflects their level of service. I focused on making the process as quick and easy as possible, so sitters could spend less time working on marketing and more time with the pets in their care.
+            </p>
+            <p>
+              I&apos;m always looking for feedback! If you have any thoughts or suggestions, feel free to reach out to <a href="mailto:emily@petsfriendz.com">emily@petsfriendz.com</a>.
             </p>
             <h2 className="text-3xl font-bold text-black mt-12 mb-4 font-slab">Join Us</h2>
             <p>
