@@ -252,8 +252,8 @@ export default function ProFooter({ profile, sections, serviceAreas }: ProFooter
             {profile.phone_number_alt && (
               <li style={{ marginBottom: '0.75rem', opacity: 0.9 }}>📞 {formatPhoneForDisplay(profile.phone_number_alt)}</li>
             )}
-            {profile.email && (
-              <li style={{ marginBottom: '0.75rem', opacity: 0.9 }}>✉️ {profile.email}</li>
+            {profile.email_alt && (
+              <li style={{ marginBottom: '0.75rem', opacity: 0.9 }}>✉️ {profile.email_alt}</li>
             )}
             {serviceAreaDisplay && (
               <li style={{ marginBottom: '0.75rem', opacity: 0.9 }}>📍 {serviceAreaDisplay}</li>
