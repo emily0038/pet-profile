@@ -14,6 +14,7 @@ export interface BlogPost {
   excerpt: string
   heroImage: string
   content: string
+  draft?: boolean
 }
 
 export interface TocItem {
@@ -69,8 +70,10 @@ export function getAllPosts(): BlogPost[] {
         excerpt: data.excerpt,
         heroImage: data.heroImage,
         content,
+        draft: data.draft || false,
       }
     })
+    .filter((post) => !post.draft) // Filter out draft posts
 
   return allPostsData.sort((a, b) => (a.date < b.date ? 1 : -1))
 }
@@ -91,6 +94,7 @@ export function getPostBySlug(slug: string): BlogPost | null {
       excerpt: data.excerpt,
       heroImage: data.heroImage,
       content,
+      draft: data.draft || false,
     }
   } catch {
     return null

@@ -151,7 +151,7 @@ export default function ProContact({ profile, serviceAreas }: ProContactProps) {
             )}
 
             {/* Email */}
-            {profile.email && (
+            {profile.email_alt && (
               <div
                 style={{
                   display: 'flex',
@@ -184,10 +184,10 @@ export default function ProContact({ profile, serviceAreas }: ProContactProps) {
                   <h4 style={{ color: 'var(--primary)', marginBottom: '0.5rem' }}>Email</h4>
                   <p style={{ color: 'var(--text-light)' }}>
                     <a
-                      href={`mailto:${profile.email}`}
+                      href={`mailto:${profile.email_alt}`}
                       style={{ color: 'var(--primary)', textDecoration: 'none', fontWeight: 600 }}
                     >
-                      {profile.email}
+                      {profile.email_alt}
                     </a>
                   </p>
                 </div>

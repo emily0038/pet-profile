@@ -15,6 +15,7 @@ const placeholderData: TemplateData = {
     id: 'preview',
     user_id: 'preview',
     email: 'hello@pawfectcare.com',
+    email_alt: 'hello@pawfectcare.com',
     domain: 'preview',
     first_name: 'Sarah',
     last_name: 'Johnson',

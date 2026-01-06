@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import TemplatePreviewModal from './TemplatePreviewModal';
+import AppHeader from '@/components/appHeader';
 
 interface Template {
   id: string;
@@ -66,11 +67,7 @@ export default function TemplateSelector({ onSelectTemplate }: TemplateSelectorP
     <>
       <div style={{ minHeight: '100vh', background: 'white' }}>
         {/* Header */}
-        <div style={{ borderBottom: '1px solid #E5E7EB', padding: '20px 32px' }}>
-          <div style={{ fontFamily: 'Roboto Slab, serif', fontSize: '24px', fontWeight: 700, color: '#000000' }}>
-            Pets Friendz
-          </div>
-        </div>
+        <AppHeader />
 
         {/* Content */}
         <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '80px 32px' }}>

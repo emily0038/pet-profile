@@ -4,6 +4,7 @@ export interface Profile {
   id: string;
   user_id: string;
   email: string;
+  email_alt: string;
   domain: string;
   first_name: string;
   last_name: string;

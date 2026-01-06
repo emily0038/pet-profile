@@ -49,8 +49,11 @@ readTime: "5 min read"
 category: "Guide"
 excerpt: "A short description of your post"
 heroImage: "/path-to-image.jpg"
+draft: false
 ---
 ```
+
+**Note:** Set `draft: true` to hide a post from the blog listing and prevent it from being published. Draft posts won't appear on the blog page or in the sitemap, but you can still work on them in your codebase.
 
 3. Write your content using Markdown and JSX:
 

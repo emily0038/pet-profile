@@ -17,6 +17,7 @@ import ServiceAreasSection from './sections/ServiceAreasSection';
 import ContactSection from './sections/ContactSection';
 import SaveStatusIndicator from './SaveStatusIndicator';
 import { SaveStatus } from '@/hooks/useSaveStatus';
+import AppHeader from '@/components/appHeader';
 
 interface EditorSection {
   id: string;
@@ -385,7 +386,10 @@ export default function TemplateEditor({ config, onBack, onPreview, previewButto
       background: '#F9FAFB',
       fontFamily: config.fonts.body,
     }}>
-      {/* Sticky Header */}
+      {/* App Header */}
+      <AppHeader />
+
+      {/* Sticky Toolbar */}
       <div style={{
         position: 'sticky',
         top: 0,

@@ -14,6 +14,7 @@ const placeholderData: TemplateData = {
     id: 'preview',
     user_id: 'preview',
     email: 'contact@elitepetcare.com',
+    email_alt: 'contact@elitepetcare.com',
     domain: 'preview',
     first_name: 'Michael',
     last_name: 'Anderson',
