@@ -2,6 +2,17 @@ import Image from "next/image";
 import Link from "next/link";
 import Footer from "@/components/footer";
 import PublicHeader from "@/components/publicHeader";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Pets Friendz - The easiest way to grow your pet sitting business",
+  description: "Launch a professional pet care website in seconds to take your business to the next level. Build your profile, share your page, and get requests directly in your inbox.",
+  openGraph: {
+    title: "Pets Friendz - The easiest way to grow your pet sitting business",
+    description: "Launch a professional pet care website in seconds to take your business to the next level. Build your profile, share your page, and get requests directly in your inbox.",
+    type: "website",
+  },
+};
 
 export default function HomePage() {
   return (
@@ -14,7 +25,7 @@ export default function HomePage() {
           The easiest way to grow<br />your pet sitting business
         </h1>
         <p className="text-xl text-gray-700 mb-10 max-w-[700px] mx-auto font-flex">
-          Launch a professional pet care website in <b>seconds</b> to take your business to the next level
+          Launch a professional pet care website in <b>minutes</b> to take your business to the next level
         </p>
         <Link
           href="/waitlist"
@@ -108,7 +119,7 @@ export default function HomePage() {
                   3
                 </div>
                 <h3 className="text-2xl font-bold mb-3 text-black leading-snug font-slab">
-                  Publish your website and share
+                  Publish your website
                 </h3>
                 <p className="text-base text-gray-700 leading-relaxed font-flex">
                   Go live and start receiving booking requests in your inbox.

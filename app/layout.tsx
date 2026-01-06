@@ -23,8 +23,9 @@ const robotoFlex = Roboto_Flex({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL(process.env.NEXT_PUBLIC_BASE_URL || 'https://www.petsfriendz.com'),
   title: "Pets Friendz Pages",
-  description: "Find your new pet sitter",
+  description: "Build your pet sitting website in minutes with a clean, professional template",
   icons: {
     icon: "/logo.svg",
   },

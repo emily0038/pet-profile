@@ -101,6 +101,163 @@ Your important message here with **markdown** support!
 ]} />
 ```
 
+### CTABox Component
+
+Use the `CTABox` component to create call-to-action sections with text and an optional image.
+
+**Basic Usage (No Image):**
+```mdx
+<CTABox
+  heading="Ready to grow your business?"
+  body="Join our waitlist to create your professional profile in minutes."
+  buttonText="Join the Waitlist"
+  buttonUrl="/waitlist"
+/>
+```
+
+**With Image (Right Side):**
+```mdx
+<CTABox
+  heading="Ready to build your website but not sure where to start?"
+  body="Choose one of our free templates and build a custom page with Pets Friendz in minutes."
+  buttonText="Browse Templates"
+  buttonUrl="/editor"
+  imageSrc="/template-selector.png"
+  imageAlt="Template selection interface"
+  imageWidth={300}
+  imageHeight={200}
+/>
+```
+
+**With Image on Left:**
+```mdx
+<CTABox
+  heading="Your heading here"
+  body="Your message here."
+  buttonText="Click Here"
+  buttonUrl="/page"
+  imageSrc="/your-image.png"
+  imageAlt="Image description"
+  imagePosition="left"
+/>
+```
+
+**Custom Text Color:**
+```mdx
+<CTABox
+  heading="Custom styled CTA"
+  body="This has a custom text color!"
+  buttonText="Learn More"
+  buttonUrl="/about"
+  textColor="#8B0000"
+/>
+```
+
+**With JSX Body:**
+```mdx
+<CTABox
+  heading="Advanced Example"
+  body={
+    <>
+      <p>You can use <strong>any JSX</strong> in the body!</p>
+      <ul>
+        <li>Bullet points</li>
+        <li>Links</li>
+        <li>Anything you need</li>
+      </ul>
+    </>
+  }
+  buttonText="Get Started"
+  buttonUrl="/signup"
+/>
+```
+
+**Props:**
+- `heading` (required): Main heading text
+- `body` (required): Body text or JSX content
+- `buttonText` (optional): CTA button text
+- `buttonUrl` (optional): Button destination URL
+- `imageSrc` (optional): Path to image
+- `imageAlt` (optional): Image alt text
+- `imageWidth` (optional): Image width in pixels (default: 300)
+- `imageHeight` (optional): Image height in pixels (default: 200)
+- `textColor` (optional): Text color hex (default: '#000000')
+- `imagePosition` (optional): 'left' or 'right' (default: 'right')
+
+**Fixed Styling:**
+- Background color is always light purple (#E4E1FF)
+- Button is always styled with white text on purple (#9185FF) background
+
+**Features:**
+- Responsive 2-column grid (stacks on mobile)
+- Rounded corners with padding
+- Customizable colors and layout
+- Optional image and button
+- Supports JSX in body content
+
+### BlogImage Component
+
+Use the `BlogImage` component to add images to your blog posts with floating and caption support.
+
+**Basic Usage (Centered):**
+```mdx
+<BlogImage
+  src="/blog/my-image.jpg"
+  alt="Description of image"
+  width={600}
+  height={400}
+/>
+```
+
+**Float Right (Text wraps on left):**
+```mdx
+<BlogImage
+  src="/blog/my-image.jpg"
+  alt="Description of image"
+  width={400}
+  height={300}
+  float="right"
+/>
+```
+
+**Float Left (Text wraps on right):**
+```mdx
+<BlogImage
+  src="/blog/my-image.jpg"
+  alt="Description of image"
+  width={400}
+  height={300}
+  float="left"
+/>
+```
+
+**With Custom Caption:**
+```mdx
+<BlogImage
+  src="/blog/my-image.jpg"
+  alt="Description of image"
+  width={500}
+  height={350}
+  float="right"
+  caption="This is a custom caption that appears below the image"
+/>
+```
+
+**Props:**
+- `src` (required): Path to image (usually in `/public/blog/`)
+- `alt` (required): Alt text for accessibility
+- `width` (optional): Image width in pixels (default: 400)
+- `height` (optional): Image height in pixels (default: 300)
+- `float` (optional): 'left', 'right', or 'none' (default: 'none')
+- `caption` (optional): Custom caption text (if omitted, uses alt text)
+
+**Image Features:**
+- Automatically responsive (max-width: 100%)
+- Rounded corners
+- Subtle shadow
+- Optimized with Next.js Image component
+- Caption displayed in italic gray text below image
+
 ## How It Works
 
 1. **Blog Listing** (`/blog`):
@@ -119,9 +276,31 @@ All MDX content is styled through:
 - `/app/globals.css` - Global prose styling
 - Inline styles in the blog post page
 
+## Image Organization
+
+**Recommended Structure:**
+```
+public/
+└── blog/
+    ├── best-app-for-pet-sitters.png     (hero images)
+    ├── rover-screenshot.jpg              (inline images)
+    ├── wag-app-interface.png
+    └── ...
+```
+
+**Hero Images:**
+- Specified in frontmatter: `heroImage: "/blog/image-name.jpg"`
+- Displayed at top of blog post
+- Should be high quality (min 1200px wide)
+
+**Inline Images:**
+- Used with `<BlogImage>` component
+- Store in `/public/blog/` directory
+- Reference with `/blog/image-name.jpg`
+
 ## Next Steps
 
-- Replace `/logo.svg` with actual blog post hero images
+- Add blog post images to `/public/blog/`
 - Add more blog posts in `/content/blog/`
 - Customize styling in `mdx-components.tsx`
 - Optionally add MDX plugins (like syntax highlighting) in `next.config.ts`

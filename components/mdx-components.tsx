@@ -1,5 +1,7 @@
 import Callout from './Callout'
 import BlogFAQ from './BlogFAQ'
+import CTABox from './CTABox'
+import Image from 'next/image'
 
 // Helper function to generate slug from heading text
 function generateSlug(text: string): string {
@@ -9,9 +11,51 @@ function generateSlug(text: string): string {
     .replace(/(^-|-$)/g, '')
 }
 
+// BlogImage component for floated images in MDX
+const BlogImage = ({
+  src,
+  alt,
+  width = 400,
+  height = 300,
+  float = 'none',
+  caption
+}: {
+  src: string
+  alt: string
+  width?: number
+  height?: number
+  float?: 'left' | 'right' | 'none'
+  caption?: string
+}) => {
+  const floatClass = {
+    left: 'float-left mr-6 mb-4',
+    right: 'float-right ml-6 mb-4',
+    none: 'mx-auto my-8'
+  }[float]
+
+  return (
+    <figure className={`${floatClass} max-w-full`} style={{ maxWidth: `${width}px` }}>
+      <Image
+        src={src}
+        alt={alt}
+        width={width}
+        height={height}
+        className="rounded-lg w-full h-auto shadow-sm"
+      />
+      {(caption || alt) && (
+        <figcaption className="text-sm text-gray-500 text-center mt-2 italic">
+          {caption || alt}
+        </figcaption>
+      )}
+    </figure>
+  )
+}
+
 export const mdxComponents = {
   Callout,
   BlogFAQ,
+  CTABox,
+  BlogImage,
   a: (props: React.AnchorHTMLAttributes<HTMLAnchorElement>) => (
     <a
       {...props}

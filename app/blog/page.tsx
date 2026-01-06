@@ -3,6 +3,17 @@ import Image from 'next/image'
 import Footer from "@/components/footer";
 import PublicHeader from "@/components/publicHeader";
 import { getAllPosts } from '@/lib/mdx'
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Pets Friendz Blog - Tips, guides, and resources for pet sitters",
+  description: "Expert advice for pet sitters looking to grow their business. Learn about pet sitting apps, marketing strategies, and building your online presence.",
+  openGraph: {
+    title: "Pets Friendz Blog - Tips, guides, and resources for pet sitters",
+    description: "Expert advice for pet sitters looking to grow their business. Learn about pet sitting apps, marketing strategies, and building your online presence.",
+    type: "website",
+  },
+};
 
 export default function BlogPage() {
   const blogPosts = getAllPosts()

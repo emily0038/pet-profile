@@ -4,15 +4,49 @@ import { notFound } from 'next/navigation'
 import { MDXRemote } from 'next-mdx-remote/rsc'
 import { getPostBySlug, getAllPosts, extractTableOfContents } from '@/lib/mdx'
 import { mdxComponents } from '@/components/mdx-components'
+import PublicHeader from '@/components/publicHeader'
+import Footer from '@/components/footer'
+import type { Metadata } from 'next'
 
 interface BlogPostProps {
-  params: {
+  params: Promise<{
     slug: string
+  }>
+}
+
+// Generate metadata for each blog post
+export async function generateMetadata({ params }: BlogPostProps): Promise<Metadata> {
+  const { slug } = await params
+  const post = getPostBySlug(slug)
+
+  if (!post) {
+    return {
+      title: 'Post Not Found',
+    }
+  }
+
+  return {
+    title: `${post.title} - Pets Friendz Blog`,
+    description: post.excerpt,
+    openGraph: {
+      title: post.title,
+      description: post.excerpt,
+      type: 'article',
+      publishedTime: post.date,
+      authors: [post.author],
+      images: [
+        {
+          url: post.heroImage,
+          alt: post.title,
+        },
+      ],
+    },
   }
 }
 
-export default function BlogPost({ params }: BlogPostProps) {
-  const post = getPostBySlug(params.slug)
+export default async function BlogPost({ params }: BlogPostProps) {
+  const { slug } = await params
+  const post = getPostBySlug(slug)
 
   if (!post) {
     notFound()
@@ -22,34 +56,7 @@ export default function BlogPost({ params }: BlogPostProps) {
 
   return (
     <div className="min-h-screen bg-white">
-      {/* Header */}
-      <header className="flex items-center justify-between px-8 py-5 border-b border-gray-200">
-        <Link href="/" className="flex items-center gap-2">
-          <Image
-            src="/logo.svg"
-            alt="Pets Friendz Logo"
-            width={50}
-            height={50}
-          />
-          <span className="hidden sm:block text-2xl text-black font-bold font-slab">Pets Friendz</span>
-        </Link>
-
-        <div className="flex items-center gap-5">
-          <Link href="/blog" className="text-lg text-black hover:text-gray-600 transition-colors">
-            Blog
-          </Link>
-          <Link href="/login" className="text-lg text-black hover:text-gray-600 transition-colors">
-            Login
-          </Link>
-          <Link
-            href="/waitlist"
-            className="bg-black text-white px-6 py-2.5 rounded text-base flex items-center gap-2 hover:bg-gray-800 transition-colors"
-          >
-            Build your page
-            <span className="text-lg">→</span>
-          </Link>
-        </div>
-      </header>
+      <PublicHeader />
 
       {/* Blog Post Content - Two Column Layout */}
       <div className="max-w-7xl mx-auto px-8 py-16">
@@ -155,6 +162,7 @@ export default function BlogPost({ params }: BlogPostProps) {
           </article>
         </div>
       </div>
+      <Footer />
     </div>
   )
 }

@@ -2,6 +2,17 @@ import Link from 'next/link'
 import Image from 'next/image'
 import Footer from '@/components/footer'
 import PublicHeader from '@/components/publicHeader'
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "About Pets Friendz - Our Story and Mission",
+  description: "Learn about how Pets Friendz was created to help pet sitters grow their businesses and connect with pet owners who need trusted care for their furry friends.",
+  openGraph: {
+    title: "About Pets Friendz - Our Story and Mission",
+    description: "Learn about how Pets Friendz was created to help pet sitters grow their businesses and connect with pet owners who need trusted care for their furry friends.",
+    type: "website",
+  },
+};
 
 export default function AboutPage() {
   return (

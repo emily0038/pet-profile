@@ -2,6 +2,17 @@ import Image from 'next/image'
 import WaitlistForm from '@/components/waitlistForm'
 import Footer from "@/components/footer";
 import PublicHeader from "@/components/publicHeader";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Join the Waitlist - Pets Friendz",
+  description: "We're putting the finishing touches on our page builder. Join the waitlist to be notified when we launch in February 2026!",
+  openGraph: {
+    title: "Join the Waitlist - Pets Friendz",
+    description: "We're putting the finishing touches on our page builder. Join the waitlist to be notified when we launch in February 2026!",
+    type: "website",
+  },
+};
 
 export default function WaitlistPage() {
   return (
