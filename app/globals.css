@@ -49,36 +49,6 @@
   }
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-
-  @layer base {
-    h2, p {
-      color: #ffffff;
-    }
-
-    /* Override dark mode for blog posts and content pages to ensure readability */
-    article h1, article h2, article h3, article p,
-    .prose h1, .prose h2, .prose h3, .prose h4, .prose p, .prose li {
-      color: #374151 !important;
-    }
-
-    /* Style hyperlinks in prose */
-    .prose a {
-      color: #9185FF;
-      text-decoration: underline;
-      font-weight: 500;
-    }
-
-    .prose a:hover {
-      color: #5B4FC6;
-    }
-  }
-}
-
 body {
   background: var(--background);
   color: var(--foreground);
