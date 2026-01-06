@@ -28,7 +28,7 @@ export default function BubblyOwner({ profile }: BubblyOwnerProps) {
         <h2
           style={{
             fontFamily: "'Fredoka', sans-serif",
-            fontSize: '42px',
+            fontSize: 'clamp(28px, 6vw, 42px)',
             fontWeight: 700,
             marginBottom: '16px',
             color: 'var(--bubbly-text-dark)',
@@ -38,7 +38,7 @@ export default function BubblyOwner({ profile }: BubblyOwnerProps) {
         </h2>
         <p
           style={{
-            fontSize: '18px',
+            fontSize: 'clamp(16px, 4vw, 18px)',
             color: '#666',
             marginBottom: '60px',
           }}
@@ -60,6 +60,8 @@ export default function BubblyOwner({ profile }: BubblyOwnerProps) {
           <div
             className="bubbly-owner-image"
             style={{
+              width: '100%',
+              maxWidth: '400px',
               aspectRatio: '1',
               borderRadius: '32px',
               background: 'linear-gradient(135deg, var(--bubbly-primary) 0%, var(--bubbly-secondary) 100%)',
@@ -90,7 +92,7 @@ export default function BubblyOwner({ profile }: BubblyOwnerProps) {
             <h3
               style={{
                 fontFamily: "'Fredoka', sans-serif",
-                fontSize: '32px',
+                fontSize: 'clamp(24px, 5vw, 32px)',
                 fontWeight: 700,
                 marginBottom: '12px',
                 color: 'var(--bubbly-text-dark)',
@@ -101,7 +103,7 @@ export default function BubblyOwner({ profile }: BubblyOwnerProps) {
             {profile.personal_tagline && (
               <p
                 style={{
-                  fontSize: '16px',
+                  fontSize: 'clamp(14px, 3vw, 16px)',
                   color: 'var(--bubbly-primary)',
                   fontWeight: 600,
                   marginBottom: '24px',
@@ -112,7 +114,7 @@ export default function BubblyOwner({ profile }: BubblyOwnerProps) {
             )}
             <div
               style={{
-                fontSize: '17px',
+                fontSize: 'clamp(15px, 4vw, 17px)',
                 color: '#555',
                 lineHeight: 1.8,
               }}

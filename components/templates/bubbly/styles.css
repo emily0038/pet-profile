@@ -133,18 +133,45 @@
 /* Mobile Responsiveness */
 @media (max-width: 768px) {
   /* Navigation */
+  .bubbly-nav-container {
+    padding: 16px 20px;
+  }
+
+  .bubbly-logo {
+    font-size: 22px;
+  }
+
+  .bubbly-logo-icon {
+    width: 32px;
+    height: 32px;
+  }
+
   .bubbly-nav-links {
     position: fixed;
-    top: 80px;
+    top: 64px;
     left: -100%;
     width: 100%;
-    height: calc(100vh - 80px);
+    height: calc(100vh - 64px);
     background: var(--bubbly-bg-white);
     flex-direction: column;
     align-items: center;
-    justify-content: center;
+    justify-content: flex-start;
+    padding-top: 40px;
+    gap: 24px;
     transition: left 0.3s;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  }
+
+  .bubbly-nav-links li {
+    width: 100%;
+    text-align: center;
+  }
+
+  .bubbly-nav-links a {
+    font-size: 18px;
+    padding: 12px 0;
+    display: block;
+    width: 100%;
   }
 
   .bubbly-nav-links.active {
@@ -156,21 +183,206 @@
   }
 
   /* Hero - stack images below content */
-  .bubbly-hero-container {
-    grid-template-columns: 1fr !important;
+  .bubbly-hero {
+    padding: 60px 20px !important;
   }
 
-  /* About - hide the image */
-  .bubbly-about-image {
-    display: none !important;
+  .bubbly-hero-container {
+    grid-template-columns: 1fr !important;
+    gap: 40px !important;
+  }
+
+  .bubbly-hero-content h1 {
+    font-size: clamp(24px, 6vw, 48px) !important;
+    margin-bottom: 24px !important;
+  }
+
+  .bubbly-hero-images {
+    flex-direction: column !important;
+    align-items: center !important;
+    gap: 20px !important;
+  }
+
+  .bubbly-hero-images > div:first-child {
+    width: 100% !important;
+    max-width: 400px !important;
+    height: auto !important;
+    aspect-ratio: 4/5 !important;
+  }
+
+  .bubbly-hero-images > div:last-child {
+    width: 100% !important;
+    max-width: 100% !important;
+    flex-direction: row !important;
+    gap: 12px !important;
+    justify-content: center !important;
+  }
+
+  .bubbly-hero-images > div:last-child > div {
+    width: calc(50% - 6px) !important;
+    max-width: 140px !important;
+    height: auto !important;
+    aspect-ratio: 1 !important;
+  }
+
+  /* About */
+  .bubbly-about {
+    padding: 60px 20px !important;
   }
 
   .bubbly-about-container {
     grid-template-columns: 1fr !important;
+    gap: 40px !important;
   }
 
-  /* Owner - stack vertically */
+  .bubbly-about h2 {
+    font-size: clamp(24px, 5vw, 36px) !important;
+    text-align: center;
+  }
+
+  .bubbly-about-image {
+    display: none !important;
+  }
+
+  /* Owner */
+  .bubbly-owner {
+    padding: 60px 20px !important;
+  }
+
   .bubbly-owner-container {
     grid-template-columns: 1fr !important;
+    gap: 40px !important;
+    text-align: center !important;
+  }
+
+  .bubbly-owner-image {
+    width: 100% !important;
+    max-width: 300px !important;
+    margin: 0 auto;
+  }
+
+  .bubbly-owner-content {
+    text-align: center !important;
+  }
+
+  .bubbly-owner h2 {
+    font-size: clamp(24px, 5vw, 36px) !important;
+  }
+
+  /* Services */
+  .bubbly-services {
+    padding: 60px 20px !important;
+  }
+
+  .bubbly-services h2 {
+    font-size: clamp(24px, 5vw, 36px) !important;
+  }
+
+  /* Reviews */
+  .bubbly-reviews {
+    padding: 60px 20px !important;
+  }
+
+  .bubbly-reviews h2 {
+    font-size: clamp(24px, 5vw, 36px) !important;
+  }
+
+  /* Contact */
+  .bubbly-contact {
+    padding: 60px 20px !important;
+  }
+
+  .bubbly-contact h2 {
+    font-size: clamp(24px, 5vw, 36px) !important;
+  }
+
+  /* Gallery */
+  .bubbly-gallery {
+    padding: 60px 20px !important;
+  }
+
+  /* FAQs */
+  .bubbly-faqs {
+    padding: 60px 20px !important;
+  }
+
+  .bubbly-faqs h2 {
+    font-size: clamp(24px, 5vw, 36px) !important;
+  }
+
+  /* Policies */
+  .bubbly-policies {
+    padding: 60px 20px !important;
+  }
+
+  .bubbly-policies h2 {
+    font-size: clamp(24px, 5vw, 36px) !important;
+  }
+
+  /* Footer */
+  .bubbly-footer {
+    padding: 60px 20px !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .bubbly-nav-container {
+    padding: 12px 16px;
+  }
+
+  .bubbly-logo {
+    font-size: 18px;
+    gap: 12px;
+  }
+
+  .bubbly-hero {
+    padding: 40px 16px !important;
+  }
+
+  .bubbly-hero-content a {
+    padding: 14px 32px !important;
+    font-size: 16px !important;
+    width: 100%;
+    text-align: center;
+  }
+
+  .bubbly-about,
+  .bubbly-owner,
+  .bubbly-services,
+  .bubbly-reviews,
+  .bubbly-contact {
+    padding: 40px 16px !important;
+  }
+
+  /* Ensure text doesn't overflow */
+  .bubbly-template * {
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+  }
+
+  /* Better button sizing */
+  .bubbly-hero-content a,
+  button {
+    min-height: 44px; /* Better touch target */
+  }
+
+  /* Further reduce font sizes on very small screens */
+  .bubbly-template h1 {
+    font-size: clamp(20px, 5vw, 28px) !important;
+  }
+
+  .bubbly-template h2 {
+    font-size: clamp(20px, 4.5vw, 28px) !important;
+  }
+
+  .bubbly-template h3 {
+    font-size: clamp(18px, 4vw, 24px) !important;
+  }
+
+  .bubbly-template p,
+  .bubbly-template li,
+  .bubbly-template div,
+  .bubbly-template span {
+    font-size: clamp(14px, 3.5vw, 16px) !important;
   }
 }

@@ -30,7 +30,7 @@ export default function BubblyReviews({ reviews }: BubblyReviewsProps) {
         <h2
           style={{
             fontFamily: "'Fredoka', sans-serif",
-            fontSize: '42px',
+            fontSize: 'clamp(28px, 6vw, 42px)',
             fontWeight: 700,
             marginBottom: '16px',
             color: 'var(--bubbly-text-dark)',
@@ -49,9 +49,10 @@ export default function BubblyReviews({ reviews }: BubblyReviewsProps) {
         </p>
 
         <div
+          className="reviews-grid"
           style={{
             display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
             gap: '32px',
           }}
         >
@@ -108,9 +109,10 @@ export default function BubblyReviews({ reviews }: BubblyReviewsProps) {
         </div>
 
         <style jsx>{`
-          @media (max-width: 968px) {
-            div[style*="grid-template-columns"] {
+          @media (max-width: 768px) {
+            .reviews-grid {
               grid-template-columns: 1fr !important;
+              gap: 24px !important;
             }
           }
         `}</style>

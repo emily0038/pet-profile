@@ -111,6 +111,7 @@ export default function BubblyHero({ profile, heroPhotos }: BubblyHeroProps) {
                 alt={heroPhotos[0].pet_details || 'Pet photo'}
                 fill
                 style={{ objectFit: 'cover' }}
+                sizes="(max-width: 768px) 100vw, 320px"
               />
             ) : (
               <div
@@ -151,6 +152,7 @@ export default function BubblyHero({ profile, heroPhotos }: BubblyHeroProps) {
                   alt={heroPhotos[1].pet_details || 'Pet photo'}
                   fill
                   style={{ objectFit: 'cover' }}
+                  sizes="(max-width: 768px) 100vw, 180px"
                 />
               ) : (
                 <div
@@ -189,6 +191,7 @@ export default function BubblyHero({ profile, heroPhotos }: BubblyHeroProps) {
                   alt={heroPhotos[2].pet_details || 'Pet photo'}
                   fill
                   style={{ objectFit: 'cover' }}
+                  sizes="(max-width: 768px) 100vw, 180px"
                 />
               ) : (
                 <div

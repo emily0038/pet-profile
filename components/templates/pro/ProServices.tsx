@@ -1,3 +1,5 @@
+'use client';
+
 import Image from 'next/image';
 import { Service, ServiceArea } from '@/lib/templates/types';
 
@@ -20,10 +22,10 @@ export default function ProServices({ services, serviceAreas, profileServiceArea
           <p>Offerings designed to meet your pet&apos;s unique needs</p>
         </div>
       <div
-        className="section-container"
+        className="section-container services-grid"
         style={{
           display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
+          gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
           gap: '2rem',
         }}
       >
@@ -138,7 +140,7 @@ export default function ProServices({ services, serviceAreas, profileServiceArea
             <p style={{color: 'white'}}>{profileServiceArea || 'Areas we proudly serve'}</p>
           </div>
           <div className="section-container">
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '2rem' }}>
+            <div className="service-areas-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '2rem' }}>
               {serviceAreas.map((area) => (
                 <div
                   key={area.id}
@@ -158,6 +160,19 @@ export default function ProServices({ services, serviceAreas, profileServiceArea
           </div>
         </section>
       )}
+      
+      <style jsx>{`
+        @media (max-width: 968px) {
+          .services-grid {
+            grid-template-columns: 1fr !important;
+            gap: 1.5rem !important;
+          }
+          
+          .service-areas-grid {
+            grid-template-columns: 1fr !important;
+          }
+        }
+      `}</style>
     </>
   );
 }

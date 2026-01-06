@@ -91,7 +91,7 @@ export default function ProContact({ profile, serviceAreas }: ProContactProps) {
         <p>Ready to give your pet the care they deserve? Let&apos;s talk!</p>
       </div>
       <div
-        className="section-container"
+        className="section-container contact-container"
         style={{
           maxWidth: '1200px',
           display: 'grid',
@@ -279,7 +279,7 @@ export default function ProContact({ profile, serviceAreas }: ProContactProps) {
               </div>
 
               {/* First Name and Last Name */}
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem', marginBottom: '1.5rem' }}>
+              <div className="name-fields-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem', marginBottom: '1.5rem' }}>
                 <div>
                   <label style={{ display: 'block', marginBottom: '0.5rem', color: 'var(--primary)', fontWeight: 600 }}>
                     First name*
@@ -487,6 +487,23 @@ export default function ProContact({ profile, serviceAreas }: ProContactProps) {
           )}
         </div>
       )}
+      
+      <style jsx>{`
+        @media (max-width: 968px) {
+          .contact-container {
+            grid-template-columns: 1fr !important;
+            gap: 2rem !important;
+          }
+          
+          .name-fields-grid {
+            grid-template-columns: 1fr !important;
+          }
+          
+          #contact-form {
+            padding: 1.5rem !important;
+          }
+        }
+      `}</style>
     </section>
   );
 }

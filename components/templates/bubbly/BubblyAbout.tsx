@@ -36,7 +36,7 @@ export default function BubblyAbout({ profile, aboutPhotos }: BubblyAboutProps) 
           <h2
             style={{
               fontFamily: "'Fredoka', sans-serif",
-              fontSize: '42px',
+              fontSize: 'clamp(28px, 6vw, 42px)',
               fontWeight: 700,
               marginBottom: '24px',
               color: 'var(--bubbly-text-dark)',
@@ -46,7 +46,7 @@ export default function BubblyAbout({ profile, aboutPhotos }: BubblyAboutProps) 
           </h2>
           <div
             style={{
-              fontSize: '18px',
+              fontSize: 'clamp(16px, 4vw, 18px)',
               color: '#555',
               lineHeight: 1.8,
             }}

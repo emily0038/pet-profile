@@ -1,3 +1,5 @@
+'use client';
+
 import Image from 'next/image';
 import { GalleryPhoto } from '@/lib/templates/types';
 
@@ -35,9 +37,26 @@ export default function ProAbout({
       {(aboutBusiness || photos.length > 0) && (
         <section id="about" className="section section-bg-cream">
           <div className="section-container">
-            <div style={{ display: 'grid', gridTemplateColumns: photos.length > 0 ? '1fr 1fr' : '1fr', gap: '4rem', alignItems: 'center' }}>
+            <div className="about-content-grid" style={{ display: 'grid', gridTemplateColumns: photos.length > 0 ? '1fr 1fr' : '1fr', gap: '4rem', alignItems: 'center' }}>
+              {/* Text section - will appear on top in mobile */}
+              <div className="about-text-section">
+                <h2 style={{ fontSize: 'clamp(1.75rem, 5vw, 3rem)', color: 'var(--primary)', marginBottom: '1.5rem' }}>
+                  Why Choose {businessName}?
+                </h2>
+                {aboutBusiness && (
+                  <div style={{ color: 'var(--text-light)', fontSize: '1.1rem', whiteSpace: 'pre-line' }}>
+                    {aboutBusiness.split('\n\n').map((paragraph, index) => (
+                      <p key={index} style={{ marginBottom: '1.5rem' }}>
+                        {paragraph}
+                      </p>
+                    ))}
+                  </div>
+                )}
+              </div>
+
+              {/* Photos section - will appear below text in mobile */}
               {photos.length > 0 && (
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.5rem' }}>
+                <div className="about-photos-grid">
                   {photos.map((photo) => (
                     <div
                       key={photo.id}
@@ -61,21 +80,6 @@ export default function ProAbout({
                   ))}
                 </div>
               )}
-
-              <div>
-                <h2 style={{ fontSize: 'clamp(2rem, 4vw, 3rem)', color: 'var(--primary)', marginBottom: '1.5rem' }}>
-                  Why Choose {businessName}?
-                </h2>
-                {aboutBusiness && (
-                  <div style={{ color: 'var(--text-light)', fontSize: '1.1rem', whiteSpace: 'pre-line' }}>
-                    {aboutBusiness.split('\n\n').map((paragraph, index) => (
-                      <p key={index} style={{ marginBottom: '1.5rem' }}>
-                        {paragraph}
-                      </p>
-                    ))}
-                  </div>
-                )}
-              </div>
             </div>
           </div>
         </section>
@@ -85,7 +89,7 @@ export default function ProAbout({
       {hasOwnerSection && (
         <section id="owner" className="section section-bg-white">
           <div className="section-container">
-            <div style={{ display: 'grid', gridTemplateColumns: profilePhotoUrl ? '350px 1fr' : '1fr', gap: '4rem', alignItems: 'start', maxWidth: '1200px', margin: '0 auto' }}>
+            <div className="owner-content-grid" style={{ display: 'grid', gridTemplateColumns: profilePhotoUrl ? '350px 1fr' : '1fr', gap: '4rem', alignItems: 'start', maxWidth: '1200px', margin: '0 auto' }}>
               {profilePhotoUrl && (
                 <div style={{ position: 'relative' }}>
                   <div
@@ -110,7 +114,7 @@ export default function ProAbout({
               )}
 
               <div>
-                <h2 style={{ fontSize: 'clamp(2rem, 4vw, 3rem)', color: 'var(--primary)', marginBottom: '0.5rem' }}>
+                <h2 style={{ fontSize: 'clamp(1.75rem, 5vw, 3rem)', color: 'var(--primary)', marginBottom: '0.5rem' }}>
                   {ownerName ? `Meet ${ownerName}` : 'Meet the Owner'}
                 </h2>
                 {ownerTitle && (
@@ -140,6 +144,46 @@ export default function ProAbout({
           </div>
         </section>
       )}
+      
+      <style jsx>{`
+        /* Default desktop styles */
+        .about-photos-grid {
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          gap: 1.5rem;
+        }
+
+        @media (max-width: 968px) {
+          .about-content-grid {
+            grid-template-columns: 1fr !important;
+            gap: 2rem !important;
+            display: flex !important;
+            flex-direction: column !important;
+          }
+          
+          /* Text section appears first (on top) */
+          .about-text-section {
+            order: 1;
+            width: 100%;
+          }
+          
+          /* Hide photos section on mobile */
+          .about-photos-grid {
+            display: none !important;
+          }
+          
+          .owner-content-grid {
+            grid-template-columns: 1fr !important;
+            gap: 2rem !important;
+            text-align: center;
+          }
+          
+          .owner-content-grid > div:first-child {
+            max-width: 300px;
+            margin: 0 auto;
+          }
+        }
+      `}</style>
     </>
   );
 }
