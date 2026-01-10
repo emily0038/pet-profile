@@ -6,6 +6,7 @@ import TemplateEditor from '@/components/editor/TemplateEditor';
 import { sleekTemplateConfig } from '@/lib/templates/editorConfig';
 import { createClient } from '@/utils/supabase/client';
 import { updateTemplateId } from '@/app/actions/editor';
+import { getProfilePath } from '@/utils/url';
 
 export default function SleekEditorPage() {
   const router = useRouter();
@@ -23,13 +24,13 @@ export default function SleekEditorPage() {
 
       const { data: profile } = await supabase
         .from('profiles')
-        .select('template_id, username')
+        .select('template_id, domain')
         .eq('user_id', user.id)
         .single();
 
       if (profile) {
-        setCurrentTemplateId(profile.template_id || 'classic');
-        setUsername(profile.username);
+        setCurrentTemplateId(profile.template_id || null);
+        setUsername(profile.domain);
       }
     }
 
@@ -50,7 +51,7 @@ export default function SleekEditorPage() {
         const result = await updateTemplateId(editorTemplate);
         setCurrentTemplateId(editorTemplate);
         // Navigate to the published page
-        router.push(`/${result.username}`);
+        router.push(getProfilePath(result.username));
       } catch (error) {
         console.error('Failed to publish template:', error);
         alert('Failed to publish template. Please try again.');
@@ -59,7 +60,7 @@ export default function SleekEditorPage() {
       }
     } else {
       // Just navigate to the published page
-      router.push(`/${username}`);
+      router.push(getProfilePath(username));
     }
   };
 

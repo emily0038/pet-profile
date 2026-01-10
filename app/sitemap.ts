@@ -1,16 +1,18 @@
 import { MetadataRoute } from 'next'
 import { createClient } from '@/utils/supabase/server'
 import { getAllPosts } from '@/lib/mdx'
+import { getProfileUrl, getBaseUrl } from '@/utils/url'
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const baseUrl = 'https://petsfriendz.com'
+  const baseUrl = getBaseUrl()
   const supabase = await createClient()
 
-  // Fetch all domains from profiles
+  // Fetch all domains from profiles (only published ones)
   const { data: profiles } = await supabase
     .from('profiles')
     .select('domain, updated_at')
     .not('domain', 'is', null)
+    .not('template_id', 'is', null)
 
   // Fetch all blog posts
   const blogPosts = getAllPosts()
@@ -81,7 +83,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   // Create dynamic profile pages
   const profilePages: MetadataRoute.Sitemap = profiles?.map((profile) => ({
-    url: `${baseUrl}/${profile.domain}`,
+    url: getProfileUrl(profile.domain),
     lastModified: profile.updated_at ? new Date(profile.updated_at) : new Date(),
     changeFrequency: 'weekly',
     priority: 0.8,

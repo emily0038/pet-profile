@@ -6,6 +6,7 @@ import TemplateEditor from '@/components/editor/TemplateEditor';
 import { bubblyTemplateConfig } from '@/lib/templates/editorConfig';
 import { createClient } from '@/utils/supabase/client';
 import { updateTemplateId } from '@/app/actions/editor';
+import { getProfilePath } from '@/utils/url';
 
 export default function BubblyEditorPage() {
   const router = useRouter();
@@ -50,7 +51,7 @@ export default function BubblyEditorPage() {
         const result = await updateTemplateId(editorTemplate);
         setCurrentTemplateId(editorTemplate);
         // Navigate to the published page
-        router.push(`/${result.username}`);
+        router.push(getProfilePath(result.username));
       } catch (error) {
         console.error('Failed to publish template:', error);
         alert('Failed to publish template. Please try again.');
@@ -59,7 +60,7 @@ export default function BubblyEditorPage() {
       }
     } else {
       // Just navigate to the published page
-      router.push(`/${username}`);
+      router.push(getProfilePath(username));
     }
   };
 

@@ -1,11 +1,53 @@
 import { notFound } from 'next/navigation'
+import { Metadata } from 'next'
 import { createClient } from '@/utils/supabase/server'
 import { getTemplateComponent } from '@/lib/templates/registry'
 import { TemplateData } from '@/lib/templates/types'
+import { getProfileUrl } from '@/utils/url'
 
 interface PageProps {
     params: {
         username: string;
+    }
+}
+
+export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+    const supabase = await createClient()
+    const domain = params.username
+
+    const { data: profile } = await supabase
+        .from('profiles')
+        .select('business_name, tagline, logo_url, domain')
+        .eq('domain', domain)
+        .single()
+
+    if (!profile) {
+        return {
+            title: 'Profile Not Found',
+        }
+    }
+
+    const canonicalUrl = getProfileUrl(profile.domain)
+
+    return {
+        title: profile.business_name || 'Pet Care Services',
+        description: profile.tagline || 'Professional pet care services',
+        alternates: {
+            canonical: canonicalUrl,
+        },
+        openGraph: {
+            title: profile.business_name || 'Pet Care Services',
+            description: profile.tagline || 'Professional pet care services',
+            url: canonicalUrl,
+            images: profile.logo_url ? [profile.logo_url] : [],
+            type: 'website',
+        },
+        twitter: {
+            card: 'summary_large_image',
+            title: profile.business_name || 'Pet Care Services',
+            description: profile.tagline || 'Professional pet care services',
+            images: profile.logo_url ? [profile.logo_url] : [],
+        },
     }
 }
 
