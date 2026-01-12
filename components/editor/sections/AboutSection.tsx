@@ -302,36 +302,14 @@ export default function AboutSection({ config, onStatusChange, onSaveStatusChang
         <button
           onClick={saveAboutChanges}
           disabled={!hasAboutChanges || aboutSaveStatus.status === 'saving'}
-          style={{
-            padding: '10px 24px',
-            background: hasAboutChanges && aboutSaveStatus.status !== 'saving' ? config.colors.primary : '#D1D5DB',
-            color: 'white',
-            border: 'none',
-            borderRadius: '6px',
-            fontSize: '15px',
-            fontWeight: 600,
-            cursor: hasAboutChanges && aboutSaveStatus.status !== 'saving' ? 'pointer' : 'not-allowed',
-            transition: 'all 0.2s',
-            opacity: hasAboutChanges && aboutSaveStatus.status !== 'saving' ? 1 : 0.6,
-          }}
+          className="btn-save"
         >
           {aboutSaveStatus.status === 'saving' ? 'Saving...' : 'Save Changes'}
         </button>
         <button
           onClick={cancelAboutChanges}
           disabled={!hasAboutChanges}
-          style={{
-            padding: '10px 24px',
-            background: 'white',
-            color: '#374151',
-            border: '1px solid #D1D5DB',
-            borderRadius: '6px',
-            fontSize: '15px',
-            fontWeight: 600,
-            cursor: hasAboutChanges ? 'pointer' : 'not-allowed',
-            transition: 'all 0.2s',
-            opacity: hasAboutChanges ? 1 : 0.6,
-          }}
+          className="btn-cancel"
         >
           Cancel
         </button>

@@ -259,36 +259,14 @@ export default function HeaderSection({ config, onStatusChange, onSaveStatusChan
         <button
           onClick={saveHeaderChanges}
           disabled={!hasHeaderChanges || headerSaveStatus.status === 'saving'}
-          style={{
-            padding: '10px 24px',
-            background: hasHeaderChanges && headerSaveStatus.status !== 'saving' ? config.colors.primary : '#D1D5DB',
-            color: 'white',
-            border: 'none',
-            borderRadius: '6px',
-            fontSize: '15px',
-            fontWeight: 600,
-            cursor: hasHeaderChanges && headerSaveStatus.status !== 'saving' ? 'pointer' : 'not-allowed',
-            transition: 'all 0.2s',
-            opacity: hasHeaderChanges && headerSaveStatus.status !== 'saving' ? 1 : 0.6,
-          }}
+          className="btn-save"
         >
           {headerSaveStatus.status === 'saving' ? 'Saving...' : 'Save Changes'}
         </button>
         <button
           onClick={cancelHeaderChanges}
           disabled={!hasHeaderChanges}
-          style={{
-            padding: '10px 24px',
-            background: 'white',
-            color: '#374151',
-            border: '1px solid #D1D5DB',
-            borderRadius: '6px',
-            fontSize: '15px',
-            fontWeight: 600,
-            cursor: hasHeaderChanges ? 'pointer' : 'not-allowed',
-            transition: 'all 0.2s',
-            opacity: hasHeaderChanges ? 1 : 0.6,
-          }}
+          className="btn-cancel"
         >
           Cancel
         </button>

@@ -252,37 +252,15 @@ export default function ContactSection({
         <div style={{ display: 'flex', gap: '12px', marginTop: '24px' }}>
           <button
             onClick={cancelContactChanges}
-            style={{
-              flex: 1,
-              padding: '10px 24px',
-              background: 'white',
-              color: '#374151',
-              border: '1px solid #E5E7EB',
-              borderRadius: '6px',
-              fontSize: '14px',
-              fontWeight: 500,
-              cursor: 'pointer',
-              transition: 'all 0.2s',
-            }}
+            className="btn-cancel"
+            style={{ flex: 1 }}
           >
             Cancel
           </button>
           <button
             onClick={saveContactChanges}
-            style={{
-              flex: 1,
-              padding: '10px 24px',
-              background: config.colors.primary,
-              color: 'white',
-              border: 'none',
-              borderRadius: '6px',
-              fontSize: '14px',
-              fontWeight: 500,
-              cursor: 'pointer',
-              transition: 'all 0.2s',
-            }}
-            onMouseEnter={(e) => e.currentTarget.style.background = config.colors.hover}
-            onMouseLeave={(e) => e.currentTarget.style.background = config.colors.primary}
+            className="btn-save"
+            style={{ flex: 1 }}
           >
             Save
           </button>

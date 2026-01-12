@@ -124,17 +124,56 @@ export async function middleware(request: NextRequest) {
   // EXISTING AUTH LOGIC
   // ============================================
 
-  // Protected routes
-  if (pathname.startsWith('/editor')) {
+  // Protected routes that require authentication AND complete profile
+  const protectedPaths = ['/editor', '/settings']
+  const isProtectedPath = protectedPaths.some(path => pathname.startsWith(path))
+
+  if (isProtectedPath) {
     if (!user) {
       // Redirect to login if not authenticated
       return NextResponse.redirect(new URL('/login', request.url))
+    }
+
+    // Check if profile is complete (has required fields)
+    const { data: profile } = await supabase
+      .from('profiles')
+      .select('business_name, phone_number, domain')
+      .eq('user_id', user.id)
+      .single()
+
+    const isProfileComplete = profile &&
+      profile.business_name &&
+      profile.phone_number &&
+      profile.domain
+
+    // Redirect to complete-profile if profile is incomplete
+    // But allow access to complete-profile page itself
+    if (!isProfileComplete && pathname !== '/auth/complete-profile') {
+      return NextResponse.redirect(new URL('/auth/complete-profile', request.url))
     }
   }
 
   // Redirect authenticated users away from login/signup
   if (pathname === '/login' || pathname === '/signup') {
     if (user) {
+      return NextResponse.redirect(new URL('/editor', request.url))
+    }
+  }
+
+  // Redirect authenticated users with complete profiles away from complete-profile
+  if (pathname === '/auth/complete-profile' && user) {
+    const { data: profile } = await supabase
+      .from('profiles')
+      .select('business_name, phone_number, domain')
+      .eq('user_id', user.id)
+      .single()
+
+    const isProfileComplete = profile &&
+      profile.business_name &&
+      profile.phone_number &&
+      profile.domain
+
+    if (isProfileComplete) {
       return NextResponse.redirect(new URL('/editor', request.url))
     }
   }

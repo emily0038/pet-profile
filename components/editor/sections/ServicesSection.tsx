@@ -454,13 +454,12 @@ export default function ServicesSection({
 
       {/* Action buttons */}
       <div className={styles.buttonGroup} style={{ marginTop: '32px' }}>
-        <button onClick={handleCancelService} className={styles.secondaryButton}>
+        <button onClick={handleCancelService} className="btn-cancel">
           Cancel
         </button>
         <button
           onClick={handleSaveService}
-          className={styles.primaryButton}
-          style={{ background: config.colors.primary }}
+          className="btn-save"
         >
           Save
         </button>

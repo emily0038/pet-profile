@@ -432,7 +432,7 @@ export default function TemplateEditor({ config, onBack, onPreview, previewButto
               border: 'none',
               borderRadius: '6px',
               fontSize: '15px',
-              fontWeight: 500,
+              fontWeight: 700,
               cursor: isPublishButtonDisabled() ? 'not-allowed' : 'pointer',
               transition: 'background 0.2s',
               opacity: isPublishButtonDisabled() ? 0.6 : 1,

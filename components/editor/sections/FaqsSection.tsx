@@ -196,13 +196,13 @@ export default function FaqsSection({
                   )}
                   <button
                     onClick={handleCancelFaq}
-                    className={styles.secondaryButton}
+                    className="btn-cancel"
                   >
                     Cancel
                   </button>
                   <button
                     onClick={handleSaveFaq}
-                    className={styles.primaryButton}
+                    className="btn-save"
                   >
                     Save
                   </button>
@@ -266,13 +266,13 @@ export default function FaqsSection({
           <div className={styles.buttonGroup}>
             <button
               onClick={handleCancelFaq}
-              className={styles.secondaryButton}
+              className="btn-cancel"
             >
               Cancel
             </button>
             <button
               onClick={handleSaveFaq}
-              className={styles.primaryButton}
+              className="btn-save"
             >
               Save
             </button>

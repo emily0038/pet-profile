@@ -353,37 +353,15 @@ export default function ServiceAreasSection({
         }}>
           <button
             onClick={cancelServiceAreasChanges}
-            style={{
-              flex: 1,
-              padding: '10px 24px',
-              background: 'white',
-              color: '#000',
-              border: '1px solid #D1D5DB',
-              borderRadius: '6px',
-              fontSize: '14px',
-              fontWeight: 500,
-              cursor: 'pointer',
-              transition: 'all 0.2s',
-            }}
+            className="btn-cancel"
+            style={{ flex: 1 }}
           >
             Cancel
           </button>
           <button
             onClick={saveServiceAreasChanges}
-            style={{
-              flex: 1,
-              padding: '10px 24px',
-              background: config.colors.primary,
-              color: 'white',
-              border: 'none',
-              borderRadius: '6px',
-              fontSize: '14px',
-              fontWeight: 500,
-              cursor: 'pointer',
-              transition: 'all 0.2s',
-            }}
-            onMouseEnter={(e) => e.currentTarget.style.background = config.colors.hover}
-            onMouseLeave={(e) => e.currentTarget.style.background = config.colors.primary}
+            className="btn-save"
+            style={{ flex: 1 }}
           >
             Save
           </button>

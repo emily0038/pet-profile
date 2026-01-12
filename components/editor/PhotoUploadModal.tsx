@@ -29,9 +29,10 @@ export default function PhotoUploadModal({
   const handleFileSelect = (file: File) => {
     setError(null);
 
-    // Validate file type
-    if (!file.type.startsWith('image/')) {
-      setError('Please select an image file');
+    // Validate file type - only accept specific image formats
+    const acceptedTypes = ['image/png', 'image/jpeg', 'image/jpg', 'image/gif', 'image/webp'];
+    if (!acceptedTypes.includes(file.type)) {
+      setError('Please select a PNG, JPG, GIF, or WebP image');
       return;
     }
 
@@ -171,7 +172,7 @@ export default function PhotoUploadModal({
             <input
               ref={fileInputRef}
               type="file"
-              accept="image/*"
+              accept="image/png,image/jpeg,image/jpg,image/gif,image/webp"
               onChange={handleFileInputChange}
               style={{ display: 'none' }}
             />
@@ -185,16 +186,17 @@ export default function PhotoUploadModal({
                 overflow: 'hidden',
                 marginBottom: '16px',
                 border: '1px solid #E5E7EB',
+                position: 'relative',
               }}
             >
               <Image
                 src={preview}
                 alt="Preview"
+                fill
                 style={{
-                  width: '100%',
-                  height: '100%',
                   objectFit: 'cover',
                 }}
+                unoptimized
               />
             </div>
             <button

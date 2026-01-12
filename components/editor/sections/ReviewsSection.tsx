@@ -339,13 +339,13 @@ export default function ReviewsSection({
                   )}
                   <button
                     onClick={handleCancelReview}
-                    className={styles.secondaryButton}
+                    className="btn-cancel"
                   >
                     Cancel
                   </button>
                   <button
                     onClick={handleSaveReview}
-                    className={styles.primaryButton}
+                    className="btn-save"
                   >
                     Save
                   </button>
@@ -434,13 +434,13 @@ export default function ReviewsSection({
           <div style={{ display: 'flex', gap: '12px' }}>
             <button
               onClick={handleCancelReview}
-              className={styles.secondaryButton}
+              className="btn-cancel"
             >
               Cancel
             </button>
             <button
               onClick={handleSaveReview}
-              className={styles.primaryButton}
+              className="btn-save"
             >
               Save
             </button>

@@ -1,6 +1,20 @@
 // Template-specific editor configuration
 // Each template can define what fields/features it supports
 
+// Shared policy templates used across all templates
+export const DEFAULT_POLICY_TEMPLATES: Array<{
+  id: string;
+  emoji: string;
+  title: string;
+}> = [
+  { id: 'meetgreet', emoji: '🤝', title: 'Meet & Greet' },
+  { id: 'payment', emoji: '💳', title: 'Payment' },
+  { id: 'health', emoji: '🏥', title: 'Health & Safety' },
+  { id: 'bookings', emoji: '📅', title: 'Bookings & Cancellations' },
+  { id: 'weather', emoji: '🌧️', title: 'Inclement Weather' },
+  { id: 'access', emoji: '🔑', title: 'Home Access & Security' },
+];
+
 export interface TemplateEditorConfig {
   id: string;
   name: string;
@@ -199,14 +213,7 @@ export const proTemplateConfig: TemplateEditorConfig = {
   policies: {
     enabled: true,
     isRequired: false,
-    templates: [
-      { id: 'meetgreet', emoji: '🤝', title: 'Meet & Greet' },
-      { id: 'payment', emoji: '💳', title: 'Payment' },
-      { id: 'health', emoji: '🏥', title: 'Health & Safety' },
-      { id: 'bookings', emoji: '📅', title: 'Bookings & Cancellations' },
-      { id: 'weather', emoji: '🌧️', title: 'Inclement Weather' },
-      { id: 'access', emoji: '🔑', title: 'Home Access & Security' },
-    ],
+    templates: DEFAULT_POLICY_TEMPLATES,
   },
 };
 
@@ -297,11 +304,7 @@ export const bubblyTemplateConfig: TemplateEditorConfig = {
   policies: {
     enabled: true,
     isRequired: false,
-    templates: [
-      { id: 'payment', emoji: '💳', title: 'Payment' },
-      { id: 'cancellation', emoji: '❌', title: 'Cancellation' },
-      { id: 'emergency', emoji: '🚨', title: 'Emergency Contact' },
-    ],
+    templates: DEFAULT_POLICY_TEMPLATES,
   },
 };
 
@@ -389,7 +392,7 @@ export const sleekTemplateConfig: TemplateEditorConfig = {
   policies: {
     enabled: false, // No policies section in Sleek
     isRequired: false,
-    templates: [],
+    templates: DEFAULT_POLICY_TEMPLATES,
   },
 };
 

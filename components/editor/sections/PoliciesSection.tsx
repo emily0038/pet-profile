@@ -174,13 +174,13 @@ export default function PoliciesSection({
                 <div className={styles.buttonGroup}>
                   <button
                     onClick={handleCancelPolicy}
-                    className={styles.secondaryButton}
+                    className="btn-cancel"
                   >
                     Cancel
                   </button>
                   <button
                     onClick={handleSavePolicy}
-                    className={styles.primaryButton}
+                    className="btn-save"
                   >
                     Save
                   </button>

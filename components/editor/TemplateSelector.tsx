@@ -1,6 +1,8 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { createClient } from '@/utils/supabase/client';
+import { getProfilePath } from '@/utils/url';
 import TemplatePreviewModal from './TemplatePreviewModal';
 import AppHeader from '@/components/appHeader';
 
@@ -52,9 +54,38 @@ interface TemplateSelectorProps {
 
 export default function TemplateSelector({ onSelectTemplate }: TemplateSelectorProps) {
   const [previewTemplate, setPreviewTemplate] = useState<Template | null>(null);
+  const [currentTemplateId, setCurrentTemplateId] = useState<string | null>(null);
+  const [userDomain, setUserDomain] = useState<string | null>(null);
+
+  // Load user's current template
+  useEffect(() => {
+    async function loadCurrentTemplate() {
+      const supabase = createClient();
+      const { data: { user } } = await supabase.auth.getUser();
+
+      if (user) {
+        const { data: profile } = await supabase
+          .from('profiles')
+          .select('template_id, domain')
+          .eq('user_id', user.id)
+          .single();
+
+        if (profile) {
+          setCurrentTemplateId(profile.template_id);
+          setUserDomain(profile.domain);
+        }
+      }
+    }
+
+    loadCurrentTemplate();
+  }, []);
 
   const handlePreview = (template: Template) => {
-    if (template.previewUrl) {
+    // If this is the current template and user has a domain, go to their live page
+    if (template.id === currentTemplateId && userDomain) {
+      const profilePath = getProfilePath(userDomain);
+      window.open(profilePath, '_blank');
+    } else if (template.previewUrl) {
       setPreviewTemplate(template);
     }
   };
@@ -88,27 +119,34 @@ export default function TemplateSelector({ onSelectTemplate }: TemplateSelectorP
             gap: '40px',
             marginBottom: '48px'
           }}>
-            {templates.map((template) => (
+            {templates.map((template) => {
+              const isCurrentTemplate = template.id === currentTemplateId;
+              return (
               <div
                 key={template.id}
                 style={{
-                  border: '2px solid #E5E7EB',
+                  border: isCurrentTemplate ? '3px solid #9185FF' : '2px solid #E5E7EB',
                   borderRadius: '8px',
                   overflow: 'hidden',
                   transition: 'all 0.3s',
                   background: 'white',
                   opacity: template.isComingSoon ? 0.6 : 1,
                   pointerEvents: template.isComingSoon ? 'none' : 'auto',
+                  position: 'relative',
                 }}
                 onMouseEnter={(e) => {
                   if (!template.isComingSoon) {
-                    e.currentTarget.style.borderColor = '#9185FF';
+                    if (!isCurrentTemplate) {
+                      e.currentTarget.style.borderColor = '#9185FF';
+                    }
                     e.currentTarget.style.boxShadow = '0 8px 32px rgba(145, 133, 255, 0.15)';
                   }
                 }}
                 onMouseLeave={(e) => {
                   if (!template.isComingSoon) {
-                    e.currentTarget.style.borderColor = '#E5E7EB';
+                    if (!isCurrentTemplate) {
+                      e.currentTarget.style.borderColor = '#E5E7EB';
+                    }
                     e.currentTarget.style.boxShadow = 'none';
                   }
                 }}
@@ -170,6 +208,24 @@ export default function TemplateSelector({ onSelectTemplate }: TemplateSelectorP
                   )}
                 </div>
 
+                {/* My Template Badge */}
+                {isCurrentTemplate && (
+                  <div style={{
+                    position: 'absolute',
+                    top: '16px',
+                    right: '16px',
+                    background: '#9185FF',
+                    color: 'white',
+                    padding: '6px 12px',
+                    borderRadius: '6px',
+                    fontSize: '13px',
+                    fontWeight: 600,
+                    zIndex: 10,
+                  }}>
+                    My Template
+                  </div>
+                )}
+
                 {/* Template Info */}
                 <div style={{ padding: '24px' }}>
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'start', marginBottom: '12px' }}>
@@ -184,13 +240,13 @@ export default function TemplateSelector({ onSelectTemplate }: TemplateSelectorP
                   <div style={{ display: 'flex', gap: '12px' }}>
                     <button
                       onClick={() => handlePreview(template)}
-                      disabled={template.isComingSoon || !template.previewUrl}
+                      disabled={template.isComingSoon || (!template.previewUrl && !isCurrentTemplate)}
                       style={{
                         padding: '12px 24px',
                         borderRadius: '6px',
                         fontSize: '15px',
                         fontWeight: 500,
-                        cursor: template.isComingSoon || !template.previewUrl ? 'not-allowed' : 'pointer',
+                        cursor: (template.isComingSoon || (!template.previewUrl && !isCurrentTemplate)) ? 'not-allowed' : 'pointer',
                         transition: 'all 0.2s',
                         display: 'flex',
                         alignItems: 'center',
@@ -202,19 +258,19 @@ export default function TemplateSelector({ onSelectTemplate }: TemplateSelectorP
                         border: '2px solid #E5E7EB',
                       }}
                       onMouseEnter={(e) => {
-                        if (!template.isComingSoon && template.previewUrl) {
+                        if (!template.isComingSoon && (template.previewUrl || isCurrentTemplate)) {
                           e.currentTarget.style.borderColor = '#9185FF';
                           e.currentTarget.style.color = '#9185FF';
                         }
                       }}
                       onMouseLeave={(e) => {
-                        if (!template.isComingSoon && template.previewUrl) {
+                        if (!template.isComingSoon && (template.previewUrl || isCurrentTemplate)) {
                           e.currentTarget.style.borderColor = '#E5E7EB';
                           e.currentTarget.style.color = '#000000';
                         }
                       }}
                     >
-                      Preview
+                      {isCurrentTemplate ? 'View Page' : 'Preview'}
                     </button>
                     <button
                       onClick={() => handleSelect(template.id)}
@@ -248,13 +304,14 @@ export default function TemplateSelector({ onSelectTemplate }: TemplateSelectorP
                         }
                       }}
                     >
-                      <span>{template.isComingSoon ? 'Coming Soon' : 'Select Template'}</span>
+                      <span>{template.isComingSoon ? 'Coming Soon' : (isCurrentTemplate ? 'Edit Page' : 'Select Template')}</span>
                       {!template.isComingSoon && <span>→</span>}
                     </button>
                   </div>
                 </div>
               </div>
-            ))}
+            );
+            })}
           </div>
         </div>
       </div>

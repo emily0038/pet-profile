@@ -303,36 +303,14 @@ export default function PersonalSection({ config, onSaveStatusChange }: Personal
         <button
           onClick={savePersonalChanges}
           disabled={!hasPersonalChanges || personalSaveStatus.status === 'saving'}
-          style={{
-            padding: '10px 24px',
-            background: hasPersonalChanges && personalSaveStatus.status !== 'saving' ? config.colors.primary : '#D1D5DB',
-            color: 'white',
-            border: 'none',
-            borderRadius: '6px',
-            fontSize: '15px',
-            fontWeight: 600,
-            cursor: hasPersonalChanges && personalSaveStatus.status !== 'saving' ? 'pointer' : 'not-allowed',
-            transition: 'all 0.2s',
-            opacity: hasPersonalChanges && personalSaveStatus.status !== 'saving' ? 1 : 0.6,
-          }}
+          className="btn-save"
         >
           {personalSaveStatus.status === 'saving' ? 'Saving...' : 'Save Changes'}
         </button>
         <button
           onClick={cancelPersonalChanges}
           disabled={!hasPersonalChanges}
-          style={{
-            padding: '10px 24px',
-            background: 'white',
-            color: '#374151',
-            border: '1px solid #D1D5DB',
-            borderRadius: '6px',
-            fontSize: '15px',
-            fontWeight: 600,
-            cursor: hasPersonalChanges ? 'pointer' : 'not-allowed',
-            transition: 'all 0.2s',
-            opacity: hasPersonalChanges ? 1 : 0.6,
-          }}
+          className="btn-cancel"
         >
           Cancel
         </button>
