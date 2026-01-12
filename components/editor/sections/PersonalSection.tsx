@@ -267,7 +267,7 @@ export default function PersonalSection({ config, onSaveStatusChange }: Personal
           <textarea
             value={personalBio}
             onChange={(e) => setPersonalBio(e.target.value)}
-            maxLength={config.personal.bioMaxLength || 500}
+            maxLength={config.personal.bioMaxLength || 1000}
             placeholder="Tell clients about yourself, your experience with animals, certifications, etc."
             style={{
               width: '100%',

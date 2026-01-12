@@ -166,7 +166,7 @@ export const proTemplateConfig: TemplateEditorConfig = {
     showTagline: true,
     taglineMaxLength: 80,
     showBio: true,
-    bioMaxLength: 500,
+    bioMaxLength: 1000,
   },
 
   services: {
@@ -260,7 +260,7 @@ export const bubblyTemplateConfig: TemplateEditorConfig = {
     showTagline: true,
     taglineMaxLength: 100,
     showBio: true,
-    bioMaxLength: 400,
+    bioMaxLength: 1000,
   },
 
   services: {
