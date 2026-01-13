@@ -90,8 +90,24 @@ export async function middleware(request: NextRequest) {
     // Log for debugging
     console.log('Custom domain request - Hostname:', hostname, 'Pathname:', pathname)
 
-    // Look up the custom domain in our database
-    const { data: customDomainData, error: lookupError } = await supabase
+    // Create a service role client to bypass RLS for custom domain lookup
+    const supabaseAdmin = createServerClient(
+      process.env.NEXT_PUBLIC_SUPABASE_URL!,
+      process.env.SUPABASE_SERVICE_ROLE_KEY!,
+      {
+        cookies: {
+          getAll() {
+            return request.cookies.getAll()
+          },
+          setAll(cookiesToSet) {
+            cookiesToSet.forEach(({ name, value }) => request.cookies.set(name, value))
+          },
+        },
+      }
+    )
+
+    // Look up the custom domain in our database using admin client
+    const { data: customDomainData, error: lookupError } = await supabaseAdmin
       .from('custom_domains')
       .select('user_id')
       .eq('domain', hostname)
