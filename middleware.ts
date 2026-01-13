@@ -106,7 +106,8 @@ export async function middleware(request: NextRequest) {
       if (profile?.domain) {
         // Rewrite custom domain -> /[username]
         const rewriteUrl = request.nextUrl.clone()
-        rewriteUrl.pathname = `/${profile.domain}${pathname}`
+        // If pathname is root, just use /{username}, otherwise append the path
+        rewriteUrl.pathname = pathname === '/' ? `/${profile.domain}` : `/${profile.domain}${pathname}`
 
         return NextResponse.rewrite(rewriteUrl, { request: supabaseResponse })
       }
