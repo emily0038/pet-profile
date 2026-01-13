@@ -68,6 +68,55 @@ export async function middleware(request: NextRequest) {
   } = await supabase.auth.getUser()
 
   // ============================================
+  // CUSTOM DOMAIN ROUTING LOGIC
+  // ============================================
+
+  const rootDomain = process.env.NEXT_PUBLIC_ROOT_DOMAIN || 'petsfriendz.com'
+  const isCustomDomain = !hostname.includes(rootDomain) &&
+                         !hostname.includes('localhost') &&
+                         !hostname.includes('vercel.app')
+
+  if (isCustomDomain) {
+    // Don't process if it's hitting a special route (API, _next, etc.)
+    if (
+      pathname.startsWith('/api') ||
+      pathname.startsWith('/_next') ||
+      pathname.startsWith('/static') ||
+      pathname.match(/\.(ico|png|jpg|jpeg|svg|gif|webp)$/)
+    ) {
+      return supabaseResponse
+    }
+
+    // Look up the custom domain in our database
+    const { data: customDomainData } = await supabase
+      .from('custom_domains')
+      .select('user_id')
+      .eq('domain', hostname)
+      .eq('status', 'active')
+      .maybeSingle()
+
+    if (customDomainData) {
+      // Get the profile domain for this user
+      const { data: profile } = await supabase
+        .from('profiles')
+        .select('domain')
+        .eq('user_id', customDomainData.user_id)
+        .single()
+
+      if (profile?.domain) {
+        // Rewrite custom domain -> /[username]
+        const rewriteUrl = request.nextUrl.clone()
+        rewriteUrl.pathname = `/${profile.domain}${pathname}`
+
+        return NextResponse.rewrite(rewriteUrl, { request: supabaseResponse })
+      }
+    }
+
+    // Custom domain not found or not active - return 404
+    return new NextResponse('Domain not found', { status: 404 })
+  }
+
+  // ============================================
   // SUBDOMAIN ROUTING LOGIC
   // ============================================
 

@@ -275,7 +275,7 @@ export default function HeroSection({ config, onStatusChange, onSaveStatusChange
                     textAlign: 'center',
                   }}>
                     <div style={{ fontSize: '12px', color: '#374151', fontWeight: 500 }}>
-                      Upload image {index + 1}
+                      Upload image
                     </div>
                   </div>
                 </>

@@ -279,7 +279,7 @@ export const bubblyTemplateConfig: TemplateEditorConfig = {
 
   reviews: {
     isRequired: false,
-    showPetPhoto: false, // No pet photos in Bubbly template
+    showPetPhoto: true,
     showPetNameBreed: true,
     petNameBreedRequired: true,
     reviewMaxLength: 200,

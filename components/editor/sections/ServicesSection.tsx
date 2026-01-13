@@ -469,7 +469,7 @@ export default function ServicesSection({
 
   return (
     <>
-      <div className={styles.sectionDescription}>
+      <div>
         List the services you provide with pricing options
       </div>
 
