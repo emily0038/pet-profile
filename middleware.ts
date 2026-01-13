@@ -87,13 +87,18 @@ export async function middleware(request: NextRequest) {
       return supabaseResponse
     }
 
+    // Log for debugging
+    console.log('Custom domain request - Hostname:', hostname, 'Pathname:', pathname)
+
     // Look up the custom domain in our database
-    const { data: customDomainData } = await supabase
+    const { data: customDomainData, error: lookupError } = await supabase
       .from('custom_domains')
       .select('user_id')
       .eq('domain', hostname)
       .eq('status', 'active')
       .maybeSingle()
+
+    console.log('Custom domain lookup result:', { customDomainData, lookupError })
 
     if (customDomainData) {
       // Get the profile domain for this user
