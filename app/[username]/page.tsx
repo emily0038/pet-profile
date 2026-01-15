@@ -32,6 +32,10 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     return {
         title: profile.business_name || 'Pet Care Services',
         description: profile.tagline || 'Professional pet care services',
+        icons: profile.logo_url ? {
+            icon: profile.logo_url,
+            apple: profile.logo_url,
+        } : undefined,
         alternates: {
             canonical: canonicalUrl,
         },
