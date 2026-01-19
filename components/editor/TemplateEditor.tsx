@@ -107,7 +107,7 @@ export default function TemplateEditor({ config, onBack, onPreview, previewButto
         subtitle: 'Logo & Business Name',
         status: null,
         isExpanded: false,
-        isRequired: config.header.isRequired,
+        isRequired: true, // Header is always required
       },
       {
         id: 'hero',
@@ -115,7 +115,7 @@ export default function TemplateEditor({ config, onBack, onPreview, previewButto
         subtitle: 'Tagline & Photos',
         status: null,
         isExpanded: false,
-        isRequired: config.hero.isRequired,
+        isRequired: true, // Hero is always required
       },
       {
         id: 'about',
@@ -123,7 +123,7 @@ export default function TemplateEditor({ config, onBack, onPreview, previewButto
         subtitle: 'Description & Photos of Your Business',
         status: null,
         isExpanded: false,
-        isRequired: config.about.isRequired,
+        isRequired: true, // About is always required
       },
     ];
 
@@ -132,9 +132,9 @@ export default function TemplateEditor({ config, onBack, onPreview, previewButto
         id: 'personal',
         title: 'Personal Details',
         subtitle: 'Meet the Owner',
-        status: config.personal.isRequired ? null : 'optional',
+        status: 'optional', // Personal is never required
         isExpanded: false,
-        isRequired: config.personal.isRequired,
+        isRequired: false, // Personal is never required
       });
     }
 
@@ -142,9 +142,9 @@ export default function TemplateEditor({ config, onBack, onPreview, previewButto
       id: 'services',
       title: 'Services',
       subtitle: 'Service Offerings & Prices',
-      status: config.services.isRequired ? null : 'optional',
+      status: 'optional', // Services is never required
       isExpanded: false,
-      isRequired: config.services.isRequired,
+      isRequired: false, // Services is never required
     });
 
     if (config.serviceAreas.enabled) {
@@ -152,9 +152,9 @@ export default function TemplateEditor({ config, onBack, onPreview, previewButto
         id: 'service-areas',
         title: 'Service Areas',
         subtitle: 'Where You Provide Services',
-        status: config.serviceAreas.isRequired ? null : 'optional',
+        status: 'optional', // Service Areas is never required
         isExpanded: false,
-        isRequired: config.serviceAreas.isRequired,
+        isRequired: false, // Service Areas is never required
       });
     }
 
@@ -162,9 +162,9 @@ export default function TemplateEditor({ config, onBack, onPreview, previewButto
       id: 'reviews',
       title: 'Reviews',
       subtitle: 'Testimonials from Current & Previous Clients',
-      status: config.reviews.isRequired ? null : 'optional',
+      status: 'optional', // Reviews is never required
       isExpanded: false,
-      isRequired: config.reviews.isRequired,
+      isRequired: false, // Reviews is never required
     });
 
     sections.push({
@@ -181,9 +181,9 @@ export default function TemplateEditor({ config, onBack, onPreview, previewButto
         id: 'faqs',
         title: 'FAQs',
         subtitle: 'Answering Common Questions',
-        status: config.faqs.isRequired ? null : 'optional',
+        status: 'optional',
         isExpanded: false,
-        isRequired: config.faqs.isRequired,
+        isRequired: false,
       });
     }
 
@@ -192,9 +192,9 @@ export default function TemplateEditor({ config, onBack, onPreview, previewButto
         id: 'policies',
         title: 'Policies',
         subtitle: 'Business Rules & Protocols',
-        status: config.policies.isRequired ? null : 'optional',
+        status: 'optional',
         isExpanded: false,
-        isRequired: config.policies.isRequired,
+        isRequired: false,
       });
     }
 

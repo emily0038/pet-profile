@@ -30,69 +30,51 @@ export interface TemplateEditorConfig {
     body: string;
   };
 
-  // Header section
-  header: {
-    isRequired: boolean;
-    showLogo: boolean;
-    logoRequired?: boolean;
-    businessNameMaxLength: number;
-  };
+  // Header section (kept for future extensibility)
+  // Constants: always required, logo always shown but optional, businessNameMaxLength = 50
+  header: object;
 
-  // Hero section
+  // Hero section (always required, taglineMaxLength = 100)
   hero: {
-    isRequired: boolean;
-    taglineMaxLength: number;
     featuredImageCount: number;
     featuredImageRequired: boolean;
   };
 
-  // About section
+  // About section (always required, pitchMaxWords = 300)
   about: {
-    isRequired: boolean;
-    pitchMaxWords: number;
     dayToDayImageCount: number;
     dayToDayImageRequired: boolean;
   };
 
-  // Personal section
+  // Personal section (never required, taglineMaxLength = 100, bioMaxWords = 300)
   personal: {
     enabled: boolean;
-    isRequired: boolean;
     showProfilePhoto: boolean;
     showTagline: boolean;
-    taglineMaxLength?: number;
     showBio: boolean;
-    bioMaxLength?: number;
   };
 
-  // Services section
+  // Services section (never required, showCategoryImage = categoryImageRequired)
   services: {
-    isRequired: boolean;
-    showCategoryImage: boolean;
-    categoryImageRequired?: boolean;
+    categoryImageRequired: boolean;
     showDescription: boolean;
     showPricing: boolean;
     showAddOnOption: boolean;
   };
 
-  // Service Areas section
+  // Service Areas section (never required, descriptionMaxLength = 200)
   serviceAreas: {
     enabled: boolean;
-    isRequired: boolean;
     showDescription: boolean;
-    descriptionMaxLength?: number;
   };
 
-  // Reviews section
+  // Reviews section (never required, reviewMaxLength = 500, ownerNameRequired = showOwnerName)
   reviews: {
-    isRequired: boolean;
     showPetPhoto: boolean;
     petPhotoRequired?: boolean;
     showPetNameBreed: boolean;
     petNameBreedRequired?: boolean;
-    reviewMaxLength: number;
     showOwnerName: boolean;
-    ownerNameRequired?: boolean;
   };
 
   // Contact section
@@ -104,17 +86,14 @@ export interface TemplateEditorConfig {
     emailRequired: boolean;
   };
 
-  // FAQs section
+  // FAQs section (never required, allowReorder = true)
   faqs: {
     enabled: boolean;
-    isRequired: boolean;
-    allowReorder: boolean;
   };
 
-  // Policies section
+  // Policies section (never required)
   policies: {
     enabled: boolean;
-    isRequired: boolean;
     templates: Array<{
       id: string;
       emoji: string;
@@ -138,40 +117,26 @@ export const proTemplateConfig: TemplateEditorConfig = {
     body: "'Roboto Flex', sans-serif",
   },
 
-  header: {
-    isRequired: true,
-    showLogo: true,
-    logoRequired: false,
-    businessNameMaxLength: 50,
-  },
+  header: {},
 
   hero: {
-    isRequired: true,
-    taglineMaxLength: 100,
     featuredImageCount: 2,
     featuredImageRequired: true,
   },
 
   about: {
-    isRequired: true,
-    pitchMaxWords: 300,
     dayToDayImageCount: 4,
     dayToDayImageRequired: true,
   },
 
   personal: {
     enabled: true,
-    isRequired: false,
     showProfilePhoto: true,
     showTagline: true,
-    taglineMaxLength: 80,
     showBio: true,
-    bioMaxLength: 1000,
   },
 
   services: {
-    isRequired: false,
-    showCategoryImage: true,
     categoryImageRequired: false,
     showDescription: true,
     showPricing: true,
@@ -180,20 +145,15 @@ export const proTemplateConfig: TemplateEditorConfig = {
 
   serviceAreas: {
     enabled: true,
-    isRequired: false,
     showDescription: true,
-    descriptionMaxLength: 200,
   },
 
   reviews: {
-    isRequired: false,
     showPetPhoto: true,
     petPhotoRequired: false,
     showPetNameBreed: true,
     petNameBreedRequired: false,
-    reviewMaxLength: 250,
     showOwnerName: true,
-    ownerNameRequired: false,
   },
 
   contact: {
@@ -206,13 +166,10 @@ export const proTemplateConfig: TemplateEditorConfig = {
 
   faqs: {
     enabled: true,
-    isRequired: false,
-    allowReorder: true,
   },
 
   policies: {
     enabled: true,
-    isRequired: false,
     templates: DEFAULT_POLICY_TEMPLATES,
   },
 };
@@ -232,40 +189,27 @@ export const bubblyTemplateConfig: TemplateEditorConfig = {
     body: "'Roboto Flex', sans-serif",
   },
 
-  header: {
-    isRequired: true,
-    showLogo: true,
-    logoRequired: false,
-    businessNameMaxLength: 50,
-  },
+  header: {},
 
   hero: {
-    isRequired: true,
-    taglineMaxLength: 120,
     featuredImageCount: 3,
     featuredImageRequired: true,
   },
 
   about: {
-    isRequired: true,
-    pitchMaxWords: 250,
     dayToDayImageCount: 6,
     dayToDayImageRequired: true,
   },
 
   personal: {
     enabled: true,
-    isRequired: false,
     showProfilePhoto: true,
     showTagline: true,
-    taglineMaxLength: 100,
     showBio: true,
-    bioMaxLength: 1000,
   },
 
   services: {
-    isRequired: false,
-    showCategoryImage: false, // Bubbly doesn't show service images
+    categoryImageRequired: false, // Bubbly doesn't show service images
     showDescription: true,
     showPricing: true,
     showAddOnOption: false, // No add-on option
@@ -273,18 +217,14 @@ export const bubblyTemplateConfig: TemplateEditorConfig = {
 
   serviceAreas: {
     enabled: true,
-    isRequired: false,
     showDescription: false, // Just names, no descriptions
   },
 
   reviews: {
-    isRequired: false,
     showPetPhoto: true,
     showPetNameBreed: true,
     petNameBreedRequired: true,
-    reviewMaxLength: 200,
     showOwnerName: true,
-    ownerNameRequired: true,
   },
 
   contact: {
@@ -297,13 +237,10 @@ export const bubblyTemplateConfig: TemplateEditorConfig = {
 
   faqs: {
     enabled: true,
-    isRequired: false,
-    allowReorder: false, // Fixed order
   },
 
   policies: {
     enabled: true,
-    isRequired: false,
     templates: DEFAULT_POLICY_TEMPLATES,
   },
 };
@@ -323,37 +260,26 @@ export const sleekTemplateConfig: TemplateEditorConfig = {
     body: "'Inter', sans-serif",
   },
 
-  header: {
-    isRequired: true,
-    showLogo: false, // Sleek uses text-only branding
-    businessNameMaxLength: 40,
-  },
+  header: {},
 
   hero: {
-    isRequired: true,
-    taglineMaxLength: 80,
     featuredImageCount: 1, // Single hero image
     featuredImageRequired: true,
   },
 
   about: {
-    isRequired: true,
-    pitchMaxWords: 200,
     dayToDayImageCount: 3,
     dayToDayImageRequired: false,
   },
 
   personal: {
     enabled: false, // No personal section in Sleek
-    isRequired: false,
     showProfilePhoto: false,
     showTagline: false,
     showBio: false,
   },
 
   services: {
-    isRequired: false,
-    showCategoryImage: true,
     categoryImageRequired: true, // Required in Sleek
     showDescription: false, // Minimal text
     showPricing: true,
@@ -362,16 +288,13 @@ export const sleekTemplateConfig: TemplateEditorConfig = {
 
   serviceAreas: {
     enabled: false, // No service areas in Sleek
-    isRequired: false,
     showDescription: false,
   },
 
   reviews: {
-    isRequired: false,
     showPetPhoto: true,
     petPhotoRequired: true,
     showPetNameBreed: false, // Just photos and reviews
-    reviewMaxLength: 150,
     showOwnerName: false, // Anonymous reviews
   },
 
@@ -385,13 +308,83 @@ export const sleekTemplateConfig: TemplateEditorConfig = {
 
   faqs: {
     enabled: false, // No FAQs in Sleek template
-    isRequired: false,
-    allowReorder: false,
   },
 
   policies: {
     enabled: false, // No policies section in Sleek
+    templates: DEFAULT_POLICY_TEMPLATES,
+  },
+};
+
+// Basic Template Configuration
+export const basicTemplateConfig: TemplateEditorConfig = {
+  id: 'basic',
+  name: 'Basic',
+
+  // Will need to change colors
+  colors: {
+    primary: '#161617',
+    hover: '#5B4FC6',
+    accent: '#2d5f4f',
+  },
+  fonts: {
+    heading: "'Roboto Slab', serif",
+    body: "'Roboto Flex', sans-serif",
+  },
+
+  header: {},
+
+  hero: {
+    featuredImageCount: 1,
+    featuredImageRequired: true,
+  },
+
+  about: {
+    dayToDayImageCount: 1,
+    dayToDayImageRequired: true,
+  },
+
+  personal: {
+    enabled: false,
+    showProfilePhoto: false,
+    showTagline: false,
+    showBio: false,
+  },
+
+  services: {
+    categoryImageRequired: false,
+    showDescription: true,
+    showPricing: true,
+    showAddOnOption: true,
+  },
+
+  serviceAreas: {
+    enabled: true,
+    showDescription: true,
+  },
+
+  reviews: {
+    showPetPhoto: true,
+    petPhotoRequired: false,
+    showPetNameBreed: true,
+    petNameBreedRequired: false,
+    showOwnerName: true,
+  },
+
+  contact: {
     isRequired: false,
+    showPhone: true,
+    phoneRequired: false,
+    showEmail: true,
+    emailRequired: false,
+  },
+
+  faqs: {
+    enabled: false,
+  },
+
+  policies: {
+    enabled: false,
     templates: DEFAULT_POLICY_TEMPLATES,
   },
 };
@@ -400,6 +393,7 @@ export const sleekTemplateConfig: TemplateEditorConfig = {
 export const templateConfigs: Record<string, TemplateEditorConfig> = {
   pro: proTemplateConfig,
   bubbly: bubblyTemplateConfig,
+  basic: basicTemplateConfig,
   sleek: sleekTemplateConfig,
 };
 

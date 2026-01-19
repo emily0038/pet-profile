@@ -175,7 +175,7 @@ export default function ServiceAreasSection({
           <textarea
             value={serviceAreaDescription}
             onChange={(e) => setServiceAreaDescription(e.target.value)}
-            maxLength={config.serviceAreas.descriptionMaxLength || 200}
+            maxLength={200}
             placeholder="Describe the general area you serve..."
             style={{
               width: '100%',
@@ -195,7 +195,7 @@ export default function ServiceAreasSection({
             color: '#6B7280',
             marginTop: '6px',
           }}>
-            {serviceAreaDescription.length}/{config.serviceAreas.descriptionMaxLength || 200} characters
+            {serviceAreaDescription.length}/200 characters
           </div>
         </div>
       )}

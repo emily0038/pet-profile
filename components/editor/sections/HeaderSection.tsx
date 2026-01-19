@@ -130,17 +130,16 @@ export default function HeaderSection({ config, onStatusChange, onSaveStatusChan
 
   return (
     <>
-      {config.header.showLogo && (
-        <div style={{ marginBottom: '24px' }}>
-          <label style={{
-            display: 'block',
-            fontSize: '15px',
-            fontWeight: 600,
-            color: '#000000',
-            marginBottom: '8px',
-          }}>
-            Logo {config.header.logoRequired && <span style={{ color: '#EF4444' }}>*</span>}
-          </label>
+      <div style={{ marginBottom: '24px' }}>
+        <label style={{
+          display: 'block',
+          fontSize: '15px',
+          fontWeight: 600,
+          color: '#000000',
+          marginBottom: '8px',
+        }}>
+          Logo
+        </label>
           <div style={{
             display: 'grid',
             gridTemplateColumns: '200px',
@@ -208,8 +207,7 @@ export default function HeaderSection({ config, onStatusChange, onSaveStatusChan
           <div style={{ fontSize: '13px', color: '#374151', marginTop: '6px' }}>
             PNG, SVG, or JPG. Max 2MB. Recommended 500x500px
           </div>
-        </div>
-      )}
+      </div>
 
       <div style={{ marginBottom: '24px' }}>
         <label style={{
@@ -225,7 +223,7 @@ export default function HeaderSection({ config, onStatusChange, onSaveStatusChan
           type="text"
           value={businessNameField}
           onChange={(e) => setBusinessNameField(e.target.value)}
-          maxLength={config.header.businessNameMaxLength}
+          maxLength={50}
           placeholder="Emily's Pet Sitting"
           style={{
             width: '100%',
@@ -244,7 +242,7 @@ export default function HeaderSection({ config, onStatusChange, onSaveStatusChan
           color: '#6B7280',
           marginTop: '6px',
         }}>
-          {businessNameField.length}/{config.header.businessNameMaxLength} characters
+          {businessNameField.length}/50 characters
         </div>
       </div>
 

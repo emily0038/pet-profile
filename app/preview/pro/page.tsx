@@ -40,6 +40,7 @@ const placeholderData: TemplateData = {
     twitter_link: '',
     google_business_link: '',
     template_id: 'pro',
+    google_measurement_id: '',
     created_at: new Date().toISOString(),
     updated_at: new Date().toISOString(),
   },

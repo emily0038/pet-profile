@@ -127,3 +127,45 @@ export async function updatePassword(prevState: { error?: string; success?: bool
 
   return { success: true }
 }
+
+export async function updateGoogleAnalytics(prevState: { error?: string; success?: boolean } | null, formData: FormData) {
+  const supabase = await createClient()
+
+  const measurementId = (formData.get('google_measurement_id') as string)?.trim() || ''
+
+  // Get current user
+  const { data: { user } } = await supabase.auth.getUser()
+  if (!user) {
+    return { error: 'You must be logged in to update your settings' }
+  }
+
+  // Validate measurement ID format if provided (should be G-XXXXXXXXXX)
+  if (measurementId && !/^G-[A-Z0-9]+$/i.test(measurementId)) {
+    return { error: 'Invalid measurement ID format. It should look like G-XXXXXXXXXX' }
+  }
+
+  // Get profile to revalidate the correct path
+  const { data: profile } = await supabase
+    .from('profiles')
+    .select('domain')
+    .eq('user_id', user.id)
+    .single()
+
+  // Update profile table
+  const { error } = await supabase
+    .from('profiles')
+    .update({
+      google_measurement_id: measurementId || null,
+    })
+    .eq('user_id', user.id)
+
+  if (error) {
+    return { error: error.message }
+  }
+
+  revalidatePath('/settings')
+  if (profile?.domain) {
+    revalidatePath(`/${profile.domain}`)
+  }
+  return { success: true }
+}

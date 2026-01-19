@@ -248,17 +248,17 @@ export default function ReviewsSection({
           color: '#000000',
           marginBottom: '8px',
         }}>
-          Review (max {config.reviews.reviewMaxLength} characters)
+          Review (max 500 characters)
         </label>
         <textarea
           value={editingReview?.review || ''}
           onChange={(e) => {
-            if (e.target.value.length <= config.reviews.reviewMaxLength) {
+            if (e.target.value.length <= 500) {
               setEditingReview({ ...editingReview!, review: e.target.value });
             }
           }}
           placeholder="The review from the client..."
-          maxLength={config.reviews.reviewMaxLength}
+          maxLength={500}
           style={{
             width: '100%',
             padding: '12px',
@@ -275,7 +275,7 @@ export default function ReviewsSection({
           color: '#6B7280',
           marginTop: '6px',
         }}>
-          {editingReview?.review.length || 0}/{config.reviews.reviewMaxLength}
+          {editingReview?.review.length || 0}/500
         </div>
       </div>
 
@@ -288,7 +288,7 @@ export default function ReviewsSection({
             color: '#000000',
             marginBottom: '8px',
           }}>
-            Owner / reviewer name {config.reviews.ownerNameRequired && <span style={{ color: '#EF4444' }}>*</span>}
+            Owner / reviewer name {config.reviews.showOwnerName && <span style={{ color: '#EF4444' }}>*</span>}
           </label>
           <input
             type="text"

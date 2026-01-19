@@ -157,7 +157,46 @@ export async function middleware(request: NextRequest) {
         return supabaseResponse
       }
 
-      // Rewrite subdomain.domain.com -> domain.com/[username]
+      // Check if this profile has an active custom domain - if so, redirect to it
+      // The subdomain IS the profile's domain field
+      const supabaseAdmin = createServerClient(
+        process.env.NEXT_PUBLIC_SUPABASE_URL!,
+        process.env.SUPABASE_SERVICE_ROLE_KEY!,
+        {
+          cookies: {
+            getAll() {
+              return request.cookies.getAll()
+            },
+            setAll(cookiesToSet) {
+              cookiesToSet.forEach(({ name, value }) => request.cookies.set(name, value))
+            },
+          },
+        }
+      )
+
+      // Look up profile by domain to get user_id, then check for custom domain
+      const { data: profile } = await supabaseAdmin
+        .from('profiles')
+        .select('user_id')
+        .eq('domain', subdomain)
+        .single()
+
+      if (profile?.user_id) {
+        const { data: customDomain } = await supabaseAdmin
+          .from('custom_domains')
+          .select('domain')
+          .eq('user_id', profile.user_id)
+          .eq('status', 'active')
+          .maybeSingle()
+
+        if (customDomain?.domain) {
+          // Redirect to custom domain with same path
+          const redirectUrl = `https://${customDomain.domain}${pathname === '/' ? '' : pathname}`
+          return NextResponse.redirect(redirectUrl, { status: 301 })
+        }
+      }
+
+      // No custom domain - rewrite subdomain.domain.com -> domain.com/[username]
       // This allows the existing [username] route to handle the request
       const rewriteUrl = request.nextUrl.clone()
       rewriteUrl.pathname = `/${subdomain}${pathname}`

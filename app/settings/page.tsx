@@ -1,6 +1,6 @@
 'use client'
 
-import { updatePersonalInfo, updateBusinessInfo, updatePassword } from '@/app/actions/settings'
+import { updatePersonalInfo, updateBusinessInfo, updatePassword, updateGoogleAnalytics } from '@/app/actions/settings'
 import { useState, useEffect } from 'react'
 import { createClient } from '@/utils/supabase/client'
 import AppHeader from '@/components/appHeader'
@@ -87,6 +87,7 @@ export default function SettingsPage() {
     businessName: '',
     phoneNumber: '',
     domain: '',
+    googleMeasurementId: '',
   })
 
   const [originalData, setOriginalData] = useState(userData)
@@ -95,21 +96,25 @@ export default function SettingsPage() {
   const [personalForm, setPersonalForm] = useState({ firstName: '', lastName: '', email: '' })
   const [businessForm, setBusinessForm] = useState({ businessName: '', phoneNumber: '' })
   const [passwordForm, setPasswordForm] = useState({ currentPassword: '', newPassword: '', confirmPassword: '' })
+  const [analyticsForm, setAnalyticsForm] = useState({ googleMeasurementId: '' })
 
   // Error states
   const [personalErrors, setPersonalErrors] = useState<Record<string, string>>({})
   const [businessErrors, setBusinessErrors] = useState<Record<string, string>>({})
   const [passwordErrors, setPasswordErrors] = useState<Record<string, string>>({})
+  const [analyticsErrors, setAnalyticsErrors] = useState<Record<string, string>>({})
 
   // Success states
   const [personalSuccess, setPersonalSuccess] = useState(false)
   const [businessSuccess, setBusinessSuccess] = useState(false)
   const [passwordSuccess, setPasswordSuccess] = useState(false)
+  const [analyticsSuccess, setAnalyticsSuccess] = useState(false)
 
   // Saving states
   const [savingPersonal, setSavingPersonal] = useState(false)
   const [savingBusiness, setSavingBusiness] = useState(false)
   const [savingPassword, setSavingPassword] = useState(false)
+  const [savingAnalytics, setSavingAnalytics] = useState(false)
 
   // Confirmation modal states
   const [personalModalOpen, setPersonalModalOpen] = useState(false)
@@ -125,7 +130,7 @@ export default function SettingsPage() {
       if (user) {
         const { data: profile, error } = await supabase
           .from('profiles')
-          .select('first_name, last_name, email, business_name, phone_number, domain')
+          .select('first_name, last_name, email, business_name, phone_number, domain, google_measurement_id')
           .eq('user_id', user.id)
           .single()
 
@@ -140,12 +145,14 @@ export default function SettingsPage() {
             businessName: profile.business_name || '',
             phoneNumber: profile.phone_number || '',
             domain: profile.domain || '',
+            googleMeasurementId: profile.google_measurement_id || '',
           }
           console.log('Setting form data:', data)
           setUserData(data)
           setOriginalData(data)
           setPersonalForm({ firstName: data.firstName, lastName: data.lastName, email: data.email })
           setBusinessForm({ businessName: data.businessName, phoneNumber: data.phoneNumber })
+          setAnalyticsForm({ googleMeasurementId: data.googleMeasurementId })
         }
       }
     }
@@ -169,6 +176,8 @@ export default function SettingsPage() {
   const hasPasswordChanges = passwordForm.currentPassword !== '' &&
     passwordForm.newPassword !== '' &&
     passwordForm.confirmPassword !== ''
+
+  const hasAnalyticsChanges = analyticsForm.googleMeasurementId !== originalData.googleMeasurementId
 
   // Validation functions
   const validatePersonalInfo = () => {
@@ -304,6 +313,33 @@ export default function SettingsPage() {
     setPasswordForm({ currentPassword: '', newPassword: '', confirmPassword: '' })
     setPasswordErrors({})
     setPasswordSuccess(false)
+  }
+
+  const handleSaveAnalytics = async () => {
+    setSavingAnalytics(true)
+    setAnalyticsSuccess(false)
+    setAnalyticsErrors({})
+
+    const formData = new FormData()
+    formData.append('google_measurement_id', analyticsForm.googleMeasurementId)
+
+    const result = await updateGoogleAnalytics(null, formData)
+
+    if (result?.error) {
+      setAnalyticsErrors({ general: result.error })
+    } else {
+      setAnalyticsSuccess(true)
+      setOriginalData({ ...originalData, googleMeasurementId: analyticsForm.googleMeasurementId })
+      setTimeout(() => setAnalyticsSuccess(false), 3000)
+    }
+
+    setSavingAnalytics(false)
+  }
+
+  const cancelAnalyticsChanges = () => {
+    setAnalyticsForm({ googleMeasurementId: originalData.googleMeasurementId })
+    setAnalyticsErrors({})
+    setAnalyticsSuccess(false)
   }
 
   return (
@@ -600,6 +636,61 @@ export default function SettingsPage() {
                 <button
                   onClick={cancelPasswordChanges}
                   disabled={!hasPasswordChanges}
+                  className="btn-cancel"
+                >
+                  Cancel
+                </button>
+              </div>
+            </div>
+          </div>
+
+          {/* Google Analytics */}
+          <div className="bg-white rounded-xl shadow-sm mb-6 overflow-hidden">
+            <div className="px-6 py-5 border-b border-[#e2e8f0]">
+              <h2 className="text-[#1e293b] text-lg font-semibold mb-1">Google Analytics</h2>
+              <p className="text-[#64748b] text-sm">Track visitors to your profile page</p>
+            </div>
+            <div className="p-6">
+              <div className="mb-5">
+                <label htmlFor="googleMeasurementId" className="block text-[#475569] text-sm font-medium mb-2">
+                  Measurement ID
+                </label>
+                <input
+                  type="text"
+                  id="googleMeasurementId"
+                  value={analyticsForm.googleMeasurementId}
+                  onChange={(e) => setAnalyticsForm({ ...analyticsForm, googleMeasurementId: e.target.value })}
+                  placeholder="G-XXXXXXXXXX"
+                  className="w-full bg-white border border-[#cbd5e1] rounded-lg px-[14px] py-[10px] text-[#0f172a] text-[15px] transition-all focus:outline-none focus:border-[#8b5cf6] focus:shadow-[0_0_0_3px_rgba(139,92,246,0.1)] placeholder:text-[#94a3b8]"
+                />
+                <div className="text-[#64748b] text-[13px] mt-[6px]">
+                  Find this in your Google Analytics account under Admin &gt; Data Streams &gt; Web
+                </div>
+              </div>
+
+              {analyticsErrors.general && (
+                <div className="text-[#ef4444] text-sm p-3 rounded-lg mb-5 bg-[#fef2f2] border border-[#fecaca]">
+                  {analyticsErrors.general}
+                </div>
+              )}
+
+              {analyticsSuccess && (
+                <div className="text-[#15803d] text-sm p-3 rounded-lg mb-5 bg-[#dcfce7] border border-[#86efac]">
+                  Google Analytics settings updated successfully
+                </div>
+              )}
+
+              <div style={{ display: 'flex', gap: '12px', marginTop: '24px', paddingTop: '24px', borderTop: '1px solid #E5E7EB' }}>
+                <button
+                  onClick={handleSaveAnalytics}
+                  disabled={!hasAnalyticsChanges || savingAnalytics}
+                  className="btn-save"
+                >
+                  {savingAnalytics ? 'Saving...' : 'Save Changes'}
+                </button>
+                <button
+                  onClick={cancelAnalyticsChanges}
+                  disabled={!hasAnalyticsChanges}
                   className="btn-cancel"
                 >
                   Cancel

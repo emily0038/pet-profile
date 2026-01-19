@@ -41,6 +41,9 @@ export interface Profile {
   // Template
   template_id: string;
 
+  // Analytics
+  google_measurement_id: string;
+
   created_at: string;
   updated_at: string;
 }

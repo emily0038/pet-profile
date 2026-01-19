@@ -200,7 +200,7 @@ export default function AboutSection({ config, onStatusChange, onSaveStatusChang
           color: '#6B7280',
           marginTop: '6px',
         }}>
-          {businessPitch.split(' ').filter((w: string) => w).length}/{config.about.pitchMaxWords} words
+          {businessPitch.split(' ').filter((w: string) => w).length}/300 words
         </div>
       </div>
 

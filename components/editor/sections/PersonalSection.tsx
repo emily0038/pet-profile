@@ -230,7 +230,7 @@ export default function PersonalSection({ config, onSaveStatusChange }: Personal
             type="text"
             value={personalTagline}
             onChange={(e) => setPersonalTagline(e.target.value)}
-            maxLength={config.personal.taglineMaxLength || 80}
+            maxLength={100}
             placeholder="e.g., Certified Pet Sitter since 2015"
             style={{
               width: '100%',
@@ -248,7 +248,7 @@ export default function PersonalSection({ config, onSaveStatusChange }: Personal
             color: '#6B7280',
             marginTop: '6px',
           }}>
-            {personalTagline.length}/{config.personal.taglineMaxLength || 80} characters
+            {personalTagline.length}/100 characters
           </div>
         </div>
       )}
@@ -267,7 +267,6 @@ export default function PersonalSection({ config, onSaveStatusChange }: Personal
           <textarea
             value={personalBio}
             onChange={(e) => setPersonalBio(e.target.value)}
-            maxLength={config.personal.bioMaxLength || 1000}
             placeholder="Tell clients about yourself, your experience with animals, certifications, etc."
             style={{
               width: '100%',
@@ -287,7 +286,7 @@ export default function PersonalSection({ config, onSaveStatusChange }: Personal
             color: '#6B7280',
             marginTop: '6px',
           }}>
-            {personalBio.length}/{config.personal.bioMaxLength || 500} characters
+            {personalBio.split(' ').filter((w: string) => w).length}/300 words
           </div>
         </div>
       )}

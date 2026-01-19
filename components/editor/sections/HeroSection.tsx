@@ -179,7 +179,7 @@ export default function HeroSection({ config, onStatusChange, onSaveStatusChange
           type="text"
           value={tagline}
           onChange={(e) => setTagline(e.target.value)}
-          maxLength={config.hero.taglineMaxLength}
+          maxLength={100}
           placeholder="Professional, loving care for your furry family members"
           style={{
             width: '100%',
@@ -197,7 +197,7 @@ export default function HeroSection({ config, onStatusChange, onSaveStatusChange
           color: '#6B7280',
           marginTop: '6px',
         }}>
-          {tagline.length}/{config.hero.taglineMaxLength} characters
+          {tagline.length}/100 characters
         </div>
       </div>
 

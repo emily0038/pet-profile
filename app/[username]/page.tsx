@@ -4,6 +4,7 @@ import { createClient } from '@/utils/supabase/server'
 import { getTemplateComponent } from '@/lib/templates/registry'
 import { TemplateData } from '@/lib/templates/types'
 import { getProfileUrl } from '@/utils/url'
+import GoogleAnalytics from '@/components/GoogleAnalytics'
 
 interface PageProps {
     params: {
@@ -156,5 +157,10 @@ export default async function PublicProfilePage({ params }: PageProps) {
         reviews: reviews || [],
     };
 
-    return <TemplateComponent data={templateData} />;
+    return (
+        <>
+            <GoogleAnalytics measurementId={profile.google_measurement_id} />
+            <TemplateComponent data={templateData} />
+        </>
+    );
 }
