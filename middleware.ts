@@ -7,7 +7,7 @@ import { NextResponse, type NextRequest } from 'next/server'
  */
 function getSubdomain(hostname: string): string | null {
   // Reserved subdomains that should not be treated as profile subdomains
-  const RESERVED_SUBDOMAINS = ['www', 'api', 'app', 'admin', 'blog']
+  const RESERVED_SUBDOMAINS = ['www', 'api', 'app', 'admin', 'blog', 'settings']
 
   // Get root domain from environment
   const rootDomain = process.env.NEXT_PUBLIC_ROOT_DOMAIN || 'petsfriendz.com'
@@ -215,7 +215,7 @@ export async function middleware(request: NextRequest) {
       // Reserved paths that should NOT be redirected
       const RESERVED_PATHS = [
         'editor', 'login', 'signup', 'blog', 'about', 'contact',
-        'privacy', 'terms', 'waitlist', 'get-involved', 'api'
+        'privacy', 'terms', 'waitlist', 'get-involved', 'api', 'settings'
       ]
 
       if (!RESERVED_PATHS.includes(username)) {

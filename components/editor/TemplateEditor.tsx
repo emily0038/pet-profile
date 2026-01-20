@@ -395,7 +395,7 @@ export default function TemplateEditor({ config, onBack, onPreview, previewButto
         top: 0,
         background: 'white',
         borderBottom: '1px solid #E5E7EB',
-        zIndex: 100,
+        zIndex: 40,
         padding: '16px 32px',
       }}>
         <div style={{
