@@ -31,6 +31,13 @@ const templates: Template[] = [
     previewUrl: '/preview/bubbly',
   },
   {
+    id: 'basic',
+    name: 'Basic',
+    description: 'Minimalist design with elegant typography. A clean, sophisticated look that lets your services speak for themselves.',
+    previewGradient: 'linear-gradient(135deg, #2d3436 0%, #1a1a1a 100%)',
+    previewUrl: '/preview/basic',
+  },
+  {
     id: 'sleek',
     name: 'Sleek',
     description: '',

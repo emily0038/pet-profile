@@ -1,6 +1,7 @@
 import { TemplateConfig, TemplateData, Profile } from './types';
 import ProTemplate from '@/components/templates/pro/ProTemplate';
 import BubblyTemplate from '@/components/templates/bubbly/BubblyTemplate';
+import BasicTemplate from '@/components/templates/basic/BasicTemplate';
 
 // Template registry - central configuration for all templates
 export const TEMPLATES: Record<string, TemplateConfig> = {
@@ -77,12 +78,39 @@ export const TEMPLATES: Record<string, TemplateConfig> = {
       reviews: true,
     },
   },
+
+  'basic': {
+    id: 'basic',
+    name: 'Basic',
+    description: 'Clean, minimalist template with elegant typography',
+    thumbnail: '/templates/basic-preview.png',
+    requiredFields: ['business_name', 'display_name'],
+    optionalFields: [
+      'tagline',
+      'about_business',
+      'service_area',
+      'booking_link',
+      'instagram_link',
+      'facebook_link',
+      'tiktok_link',
+      'twitter_link',
+    ],
+    supportsFeatures: {
+      faqs: false,
+      policies: false,
+      serviceAreas: true,
+      teamMembers: false,
+      gallery: true,
+      reviews: true,
+    },
+  },
 };
 
 // Component mapping - maps template IDs to their React components
 export const TEMPLATE_COMPONENTS: Record<string, React.ComponentType<{ data: TemplateData }>> = {
   'pro': ProTemplate,
   'bubbly': BubblyTemplate,
+  'basic': BasicTemplate,
   // 'classic': ClassicTemplate, // Will implement later
 };
 
