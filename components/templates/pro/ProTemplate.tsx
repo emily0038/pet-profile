@@ -68,7 +68,7 @@ export default function ProTemplate({ data }: ProTemplateProps) {
       <ProReviews reviews={reviews} />
 
       {/* Contact Section */}
-      <ProContact profile={profile} serviceAreas={serviceAreas} />
+      <ProContact profile={profile} serviceAreas={serviceAreas} services={services} />
 
       {/* FAQs Section */}
       <ProFAQs faqs={faqs} />

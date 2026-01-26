@@ -2,7 +2,9 @@ import type { Metadata } from "next";
 import { Roboto, Roboto_Slab, Roboto_Flex } from "next/font/google";
 import Script from "next/script";
 import CookieBanner from "@/components/cookieBanner";
-import "./globals.css";
+import "../globals.css";
+
+const PETS_FRIENDZ_GA_ID = 'G-MHEDX43G79';
 
 const roboto = Roboto({
   variable: "--font-roboto",
@@ -31,7 +33,7 @@ export const metadata: Metadata = {
   },
 };
 
-export default function RootLayout({
+export default function MainLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
@@ -41,14 +43,14 @@ export default function RootLayout({
       <head>
         <Script
           strategy="afterInteractive"
-          src="https://www.googletagmanager.com/gtag/js?id=G-MHEDX43G79"
+          src={`https://www.googletagmanager.com/gtag/js?id=${PETS_FRIENDZ_GA_ID}`}
         />
-        <Script id="google-analytics" strategy="afterInteractive">
+        <Script id="pets-friendz-analytics" strategy="afterInteractive">
           {`
             window.dataLayer = window.dataLayer || [];
             function gtag(){dataLayer.push(arguments);}
             gtag('js', new Date());
-            gtag('config', 'G-MHEDX43G79');
+            gtag('config', '${PETS_FRIENDZ_GA_ID}');
           `}
         </Script>
       </head>

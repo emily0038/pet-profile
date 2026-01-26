@@ -61,7 +61,7 @@ export default function BubblyTemplate({ data }: BubblyTemplateProps) {
       <BubblyServices services={services} />
       <BubblyReviews reviews={reviews} />
       <BubblyGallery reviews={reviews} />
-      <BubblyContact profile={profile} serviceAreas={serviceAreas} />
+      <BubblyContact profile={profile} serviceAreas={serviceAreas} services={services} />
       {faqs && faqs.length > 0 && <BubblyFAQs faqs={faqs} />}
       {policies && policies.length > 0 && <BubblyPolicies policies={policies} />}
       <BubblyFooter profile={profile} serviceAreas={serviceAreas} />

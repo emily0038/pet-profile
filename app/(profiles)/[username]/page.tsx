@@ -1,4 +1,5 @@
 import { notFound } from 'next/navigation'
+import { headers } from 'next/headers'
 import { Metadata } from 'next'
 import { createClient } from '@/utils/supabase/server'
 import { getTemplateComponent } from '@/lib/templates/registry'
@@ -157,9 +158,16 @@ export default async function PublicProfilePage({ params }: PageProps) {
         reviews: reviews || [],
     };
 
+    // Check if this is a custom domain (not a petsfriendz.com subdomain)
+    // Only load user's custom GA on custom domains
+    const headersList = await headers();
+    const host = headersList.get("host") || "";
+    const rootDomain = process.env.NEXT_PUBLIC_ROOT_DOMAIN || "petsfriendz.com";
+    const isCustomDomain = !host.endsWith(rootDomain);
+
     return (
         <>
-            <GoogleAnalytics measurementId={profile.google_measurement_id} />
+            {isCustomDomain && <GoogleAnalytics measurementId={profile.google_measurement_id} />}
             <TemplateComponent data={templateData} />
         </>
     );

@@ -1,17 +1,19 @@
 'use client';
 
 import { useState } from 'react';
-import { Profile, ServiceArea } from '@/lib/templates/types';
+import { Profile, ServiceArea, Service } from '@/lib/templates/types';
 
 interface ProContactProps {
   profile: Profile;
   serviceAreas: ServiceArea[];
+  services: Service[];
 }
 
-export default function ProContact({ profile, serviceAreas }: ProContactProps) {
+export default function ProContact({ profile, serviceAreas, services }: ProContactProps) {
   const [phoneNumber, setPhoneNumber] = useState('');
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
+  const [serviceType, setServiceType] = useState('');
   const [message, setMessage] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
@@ -63,6 +65,7 @@ export default function ProContact({ profile, serviceAreas }: ProContactProps) {
         lastName,
         phoneNumber,
         message,
+        serviceType: serviceType || undefined,
       });
 
       // Show success message
@@ -74,6 +77,7 @@ export default function ProContact({ profile, serviceAreas }: ProContactProps) {
         setPhoneNumber('');
         setFirstName('');
         setLastName('');
+        setServiceType('');
         setMessage('');
       }, 3000);
     } catch (error) {
@@ -257,6 +261,34 @@ export default function ProContact({ profile, serviceAreas }: ProContactProps) {
             </div>
           ) : (
             <form onSubmit={handleSubmit}>
+            {/* Service Type Dropdown */}
+              {services.length > 0 && (
+                <div style={{ marginBottom: '1.5rem' }}>
+                  <label style={{ display: 'block', marginBottom: '0.5rem', color: 'var(--primary)', fontWeight: 600 }}>
+                    What service are you interested in?
+                  </label>
+                  <select
+                    value={serviceType}
+                    onChange={(e) => setServiceType(e.target.value)}
+                    style={{
+                      width: '100%',
+                      padding: '0.75rem',
+                      border: '1px solid rgba(45, 95, 79, 0.2)',
+                      borderRadius: '10px',
+                      fontSize: '1rem',
+                      backgroundColor: 'white',
+                      cursor: 'pointer',
+                    }}
+                  >
+                    <option value="">Select a service...</option>
+                    {services.map((service) => (
+                      <option key={service.id} value={service.type}>
+                        {service.type}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+              )}
               {/* Phone Number */}
               <div style={{ marginBottom: '1.5rem' }}>
                 <label style={{ display: 'block', marginBottom: '0.5rem', color: 'var(--primary)', fontWeight: 600 }}>

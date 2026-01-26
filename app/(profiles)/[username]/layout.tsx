@@ -2,7 +2,7 @@ import { headers } from "next/headers";
 import { Roboto, Roboto_Slab, Roboto_Flex } from "next/font/google";
 import Script from "next/script";
 import CookieBanner from "@/components/cookieBanner";
-import "../globals.css";
+import "../../globals.css";
 
 const PETS_FRIENDZ_GA_ID = 'G-MHEDX43G79';
 
