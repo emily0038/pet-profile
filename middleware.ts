@@ -87,6 +87,11 @@ export async function middleware(request: NextRequest) {
       return supabaseResponse
     }
 
+    // Skip rewrite for server actions (they have Next-Action header)
+    if (request.headers.get('Next-Action')) {
+      return supabaseResponse
+    }
+
     // Log for debugging
     console.log('Custom domain request - Hostname:', hostname, 'Pathname:', pathname)
 
@@ -154,6 +159,11 @@ export async function middleware(request: NextRequest) {
         pathname.startsWith('/static') ||
         pathname.match(/\.(ico|png|jpg|jpeg|svg|gif|webp)$/)
       ) {
+        return supabaseResponse
+      }
+
+      // Skip rewrite for server actions (they have Next-Action header)
+      if (request.headers.get('Next-Action')) {
         return supabaseResponse
       }
 
