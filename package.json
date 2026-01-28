@@ -20,7 +20,7 @@
     "@tailwindcss/vite": "^4.1.14",
     "@types/mdx": "^2.0.13",
     "gray-matter": "^4.0.3",
-    "next": "15.5.7",
+    "next": "15.5.9",
     "next-mdx-remote": "^5.0.0",
     "prettier": "^3.6.2",
     "qrcode": "^1.5.4",
