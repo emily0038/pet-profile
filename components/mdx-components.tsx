@@ -1,6 +1,7 @@
 import Callout from './Callout'
 import BlogFAQ from './BlogFAQ'
 import CTABox from './CTABox'
+import NewsletterBox from './NewsletterBox'
 import Image from 'next/image'
 
 // Helper function to generate slug from heading text
@@ -55,10 +56,13 @@ export const mdxComponents = {
   Callout,
   BlogFAQ,
   CTABox,
+  NewsletterBox,
   BlogImage,
   a: (props: React.AnchorHTMLAttributes<HTMLAnchorElement>) => (
     <a
       {...props}
+      target="_blank"
+      rel="noopener noreferrer"
       className="text-[#9185FF] hover:text-[#5B4FC6] underline font-medium"
     />
   ),
