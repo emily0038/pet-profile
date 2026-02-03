@@ -149,7 +149,7 @@ export default async function BlogPost({ params }: BlogPostProps) {
                   Ready to grow your pet sitting business?
                 </h3>
                 <p className="text-gray-600 mb-6 font-flex">
-                  Join our waitlist to create your professional profile in minutes.
+                  Join our waitlist to get early access to our builder - your secret to creating a website in minutes.
                 </p>
                 <Link
                   href="/waitlist"
