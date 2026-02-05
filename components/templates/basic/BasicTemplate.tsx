@@ -10,12 +10,26 @@ import BasicContact from './BasicContact';
 import BasicFooter from './BasicFooter';
 import './styles.css';
 
+const BASIC_THEMES: Record<string, { primary: string; accent: string; gradient: string }> = {
+  ocean:  { primary: '#247878', accent: '#E5F5F5', gradient: '#1d6060' },
+  sunny:  { primary: '#D4843F', accent: '#FDF3EB', gradient: '#b06e34' },
+  forest: { primary: '#478557', accent: '#EEF5F0', gradient: '#3a6d47' },
+  coral:  { primary: '#C9694F', accent: '#FDF0ED', gradient: '#a85740' },
+};
+
 interface BasicTemplateProps {
   data: TemplateData;
 }
 
 export default function BasicTemplate({ data }: BasicTemplateProps) {
   const { profile, services, galleryPhotos, serviceAreas, reviews } = data;
+
+  const theme = profile.theme ? BASIC_THEMES[profile.theme] : null;
+  const themeStyle = theme ? {
+    '--basic-primary': theme.primary,
+    '--basic-accent': theme.accent,
+    '--basic-gradient': theme.gradient,
+  } as React.CSSProperties : undefined;
 
   // Categorize photos
   const featuredPhotos = galleryPhotos.filter((p) => p.category === 'hero');
@@ -35,7 +49,7 @@ export default function BasicTemplate({ data }: BasicTemplateProps) {
   sections.push('contact');
 
   return (
-    <div className="basic-template">
+    <div className={`basic-template${theme ? ' basic-template--themed' : ''}`} style={themeStyle}>
       <BasicNav
         businessName={profile.business_name || profile.display_name}
         logoUrl={profile.logo_url}

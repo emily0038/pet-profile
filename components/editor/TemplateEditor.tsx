@@ -18,6 +18,15 @@ import ContactSection from './sections/ContactSection';
 import SaveStatusIndicator from './SaveStatusIndicator';
 import { SaveStatus } from '@/hooks/useSaveStatus';
 import AppHeader from '@/components/appHeader';
+import { updateTheme } from '@/app/actions/editor';
+
+const THEME_OPTIONS = [
+  { id: '', label: 'Default', primary: '#1a1a1a', accent: '#fafafa' },
+  { id: 'ocean', label: 'Ocean', primary: '#247878', accent: '#E5F5F5' },
+  { id: 'sunny', label: 'Sunny', primary: '#D4843F', accent: '#FDF3EB' },
+  { id: 'forest', label: 'Forest', primary: '#478557', accent: '#EEF5F0' },
+  { id: 'coral', label: 'Coral', primary: '#C9694F', accent: '#FDF0ED' },
+];
 
 interface EditorSection {
   id: string;
@@ -55,6 +64,7 @@ export default function TemplateEditor({ config, onBack, onPreview, previewButto
 
   // Gallery photos state - declared early so it can be used in useEffects
   const [galleryPhotos, setGalleryPhotos] = useState<GalleryPhoto[]>([]);
+  const [selectedTheme, setSelectedTheme] = useState<string>('');
 
   // Load profile data on mount
   useEffect(() => {
@@ -85,6 +95,7 @@ export default function TemplateEditor({ config, onBack, onPreview, previewButto
 
       setProfileData(profile);
       setGalleryPhotos(galleryPhotos || []);
+      setSelectedTheme(profile?.theme || '');
       setLoading(false);
     }
 
@@ -427,7 +438,7 @@ export default function TemplateEditor({ config, onBack, onPreview, previewButto
             disabled={isPublishButtonDisabled()}
             style={{
               padding: '10px 20px',
-              background: isPublishButtonDisabled() ? '#D1D5DB' : config.colors.primary,
+              background: isPublishButtonDisabled() ? '#D1D5DB' : '#9185FF',
               color: 'white',
               border: 'none',
               borderRadius: '6px',
@@ -439,12 +450,12 @@ export default function TemplateEditor({ config, onBack, onPreview, previewButto
             }}
             onMouseEnter={(e) => {
               if (!isPublishButtonDisabled()) {
-                e.currentTarget.style.background = config.colors.hover;
+                e.currentTarget.style.background = '#7B6FE0';
               }
             }}
             onMouseLeave={(e) => {
               if (!isPublishButtonDisabled()) {
-                e.currentTarget.style.background = config.colors.primary;
+                e.currentTarget.style.background = '#9185FF';
               }
             }}
           >
@@ -459,6 +470,78 @@ export default function TemplateEditor({ config, onBack, onPreview, previewButto
         margin: '0 auto',
         padding: '32px',
       }}>
+        {config.id === 'basic' && (
+          <div style={{
+            background: 'white',
+            borderRadius: '8px',
+            marginBottom: '16px',
+            overflow: 'hidden',
+            border: '1px solid #E5E7EB',
+            padding: '24px',
+          }}>
+            <div style={{
+              fontSize: '18px',
+              fontWeight: 600,
+              color: '#000000',
+              marginBottom: '4px',
+            }}>
+              Theme
+            </div>
+            <div style={{
+              fontSize: '14px',
+              color: '#6B7280',
+              marginBottom: '16px',
+            }}>
+              Choose a color theme for your website
+            </div>
+            <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap' }}>
+              {THEME_OPTIONS.map((theme) => (
+                <button
+                  key={theme.id}
+                  onClick={async () => {
+                    setSelectedTheme(theme.id);
+                    await updateTheme(theme.id);
+                  }}
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '8px',
+                    padding: '10px 16px',
+                    borderRadius: '8px',
+                    border: selectedTheme === theme.id ? '2px solid #9185FF' : '1px solid #E5E7EB',
+                    background: selectedTheme === theme.id ? '#F5F3FF' : 'white',
+                    cursor: 'pointer',
+                    transition: 'all 0.2s',
+                  }}
+                >
+                  <div style={{
+                    width: '20px',
+                    height: '20px',
+                    borderRadius: '50%',
+                    background: theme.primary,
+                    flexShrink: 0,
+                  }} />
+                  <div style={{
+                    width: '20px',
+                    height: '20px',
+                    borderRadius: '50%',
+                    background: theme.accent,
+                    border: '1px solid #E5E7EB',
+                    flexShrink: 0,
+                  }} />
+                  <span style={{
+                    fontSize: '14px',
+                    fontWeight: 500,
+                    color: '#374151',
+                  }}>
+                    {theme.label}
+                  </span>
+                </button>
+              ))}
+            </div>
+          </div>
+        )}
+
         {sections.map((section) => (
           <div key={section.id} style={{
             background: 'white',

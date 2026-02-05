@@ -40,6 +40,7 @@ export interface Profile {
 
   // Template
   template_id: string;
+  theme: string;
 
   // Analytics
   google_measurement_id: string;

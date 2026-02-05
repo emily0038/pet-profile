@@ -36,7 +36,7 @@
 .basic-btn {
   display: inline-block;
   padding: 16px 45px;
-  background: #1a1a1a;
+  background: var(--basic-primary, #1a1a1a);
   color: white;
   text-decoration: none;
   font-size: 12px;
@@ -48,7 +48,7 @@
 }
 
 .basic-btn:hover {
-  background: #2d3436;
+  background: var(--basic-gradient, #2d3436);
 }
 
 /* ============================================
@@ -127,7 +127,7 @@
 }
 
 .basic-hero__content {
-  background: linear-gradient(135deg, #2d3436 0%, #1a1a1a 100%);
+  background: linear-gradient(135deg, var(--basic-gradient, #2d3436) 0%, var(--basic-primary, #1a1a1a) 100%);
   color: white;
   display: flex;
   flex-direction: column;
@@ -250,7 +250,7 @@
 }
 
 .basic-service-card {
-  background: #fafafa;
+  background: var(--basic-accent, #fafafa);
   padding: 45px 35px;
   text-align: center;
   border: 1px solid #f0f0f0;
@@ -290,7 +290,7 @@
    ============================================ */
 .basic-gallery {
   padding: 100px 60px;
-  background: #fafafa;
+  background: var(--basic-accent, #fafafa);
 }
 
 .basic-gallery__title {
@@ -337,7 +337,7 @@
    ============================================ */
 .basic-area {
   padding: 100px 60px;
-  background: #fafafa;
+  background: var(--basic-accent, #fafafa);
 }
 
 .basic-area__content {
@@ -402,7 +402,7 @@
 }
 
 .basic-review-card {
-  background: #fafafa;
+  background: var(--basic-accent, #fafafa);
   padding: 40px 35px;
   border: 1px solid #f0f0f0;
 }
@@ -461,7 +461,7 @@
    ============================================ */
 .basic-faq {
   padding: 100px 60px;
-  background: #fafafa;
+  background: var(--basic-accent, #fafafa);
 }
 
 .basic-faq__wrapper {
@@ -539,7 +539,7 @@
    ============================================ */
 .basic-contact {
   padding: 100px 60px;
-  background: #fafafa;
+  background: var(--basic-accent, #fafafa);
 }
 
 .basic-contact__container {
@@ -590,11 +590,11 @@
 .basic-social-links a {
   width: 44px;
   height: 44px;
-  border: 1.5px solid #1a1a1a;
+  border: 1.5px solid var(--basic-primary, #1a1a1a);
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #1a1a1a;
+  color: var(--basic-primary, #1a1a1a);
   text-decoration: none;
   font-size: 11px;
   font-weight: 500;
@@ -602,7 +602,7 @@
 }
 
 .basic-social-links a:hover {
-  background: #1a1a1a;
+  background: var(--basic-primary, #1a1a1a);
   color: white;
 }
 
@@ -610,7 +610,7 @@
    Footer
    ============================================ */
 .basic-footer {
-  background: #1a1a1a;
+  background: var(--basic-primary, #1a1a1a);
   color: rgba(255, 255, 255, 0.8);
   text-align: center;
   padding: 40px 20px;
@@ -650,7 +650,7 @@
 }
 
 .basic-modal__header {
-  background: #1a1a1a;
+  background: var(--basic-primary, #1a1a1a);
   color: white;
   padding: 40px 50px;
   position: relative;
@@ -754,10 +754,12 @@
   .basic-hero__content {
     padding: 60px 40px;
     min-height: 60vh;
+    order: 1;
   }
 
   .basic-hero__image {
     min-height: 50vh;
+    order: -1;
   }
 
   .basic-hero__title {
@@ -851,4 +853,22 @@
   .basic-gallery__grid {
     grid-template-columns: 1fr;
   }
+}
+
+/* ============================================
+   Themed overrides (non-default themes)
+   ============================================ */
+.basic-template--themed .basic-hero__tagline,
+.basic-template--themed .basic-hero__location {
+  color: white;
+}
+
+.basic-template--themed .basic-modal__header h2,
+.basic-template--themed .basic-modal__header p {
+  color: white;
+}
+
+.basic-template--themed .basic-footer,
+.basic-template--themed .basic-footer p {
+  color: white;
 }

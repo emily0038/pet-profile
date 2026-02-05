@@ -950,3 +950,42 @@ export async function updateTemplateId(templateId: string) {
 
   return { success: true, username: profile.domain }
 }
+
+/**
+ * Update profile theme
+ */
+export async function updateTheme(theme: string) {
+  const supabase = await createClient()
+  const { data: { user } } = await supabase.auth.getUser()
+
+  if (!user) {
+    throw new Error('Not authenticated')
+  }
+
+  const { data: profile, error: profileError } = await supabase
+    .from('profiles')
+    .select('id, domain')
+    .eq('user_id', user.id)
+    .single()
+
+  if (profileError || !profile) {
+    throw new Error('Profile not found')
+  }
+
+  const { error: updateError } = await supabase
+    .from('profiles')
+    .update({
+      theme: theme || null,
+      updated_at: new Date().toISOString()
+    })
+    .eq('id', profile.id)
+
+  if (updateError) {
+    throw new Error('Failed to update theme: ' + updateError.message)
+  }
+
+  revalidatePath(`/${profile.domain}`)
+  revalidatePath('/editor')
+
+  return { success: true }
+}
