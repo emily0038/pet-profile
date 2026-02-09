@@ -106,7 +106,7 @@ export default function HomePage() {
               <div className="bg-white p-4 border-b border-gray-200">
                 <div className="rounded shadow-sm overflow-hidden">
                   <Image
-                    src="/bubbly-example.png"
+                    src="/pro-example.png"
                     alt="Published website"
                     width={400}
                     height={300}
