@@ -389,12 +389,85 @@ export const basicTemplateConfig: TemplateEditorConfig = {
   },
 };
 
+// Friendly Template Configuration
+export const friendlyTemplateConfig: TemplateEditorConfig = {
+  id: 'friendly',
+  name: 'Friendly',
+
+  colors: {
+    primary: '#FF6B6B',
+    hover: '#E55A5A',
+    accent: '#FFF8F0',
+  },
+  fonts: {
+    heading: "'Fraunces', serif",
+    body: "'Inter', sans-serif",
+  },
+
+  header: {},
+
+  hero: {
+    featuredImageCount: 3,
+    featuredImageRequired: true,
+  },
+
+  about: {
+    dayToDayImageCount: 1,
+    dayToDayImageRequired: true,
+  },
+
+  personal: {
+    enabled: true,
+    showProfilePhoto: true,
+    showTagline: true,
+    showBio: true,
+  },
+
+  services: {
+    categoryImageRequired: true,
+    showDescription: true,
+    showPricing: true,
+    showAddOnOption: false,
+  },
+
+  serviceAreas: {
+    enabled: false,
+    showDescription: false,
+  },
+
+  reviews: {
+    showPetPhoto: true,
+    petPhotoRequired: true,
+    showPetNameBreed: true,
+    petNameBreedRequired: false,
+    showOwnerName: true,
+  },
+
+  contact: {
+    isRequired: false,
+    showPhone: true,
+    phoneRequired: false,
+    showEmail: true,
+    emailRequired: true,
+  },
+
+  faqs: {
+    enabled: true,
+  },
+
+  policies: {
+    enabled: true,
+    templates: DEFAULT_POLICY_TEMPLATES,
+  },
+};
+
 // Template Registry
 export const templateConfigs: Record<string, TemplateEditorConfig> = {
   pro: proTemplateConfig,
   bubbly: bubblyTemplateConfig,
   basic: basicTemplateConfig,
   sleek: sleekTemplateConfig,
+  friendly: friendlyTemplateConfig,
 };
 
 // Helper function to get config by template ID

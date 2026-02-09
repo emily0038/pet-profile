@@ -51,7 +51,6 @@ export default function CompleteProfilePage() {
     available: boolean | null
     message: string
   }>({ checking: false, available: null, message: '' })
-
   const handleCheckDomain = async () => {
     if (!domainValue || domainValue.length < 3) {
       setDomainStatus({
@@ -262,6 +261,7 @@ export default function CompleteProfilePage() {
           </form>
         </div>
       </div>
+
     </div>
   )
 }

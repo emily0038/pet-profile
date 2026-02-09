@@ -231,7 +231,7 @@ export default function HeaderSection({ config, onStatusChange, onSaveStatusChan
             border: '1px solid #D1D5DB',
             borderRadius: '6px',
             fontSize: '15px',
-            fontFamily: config.fonts.body,
+            fontFamily: "'Roboto Flex', sans-serif",
             transition: 'border-color 0.2s',
           }}
           onFocus={(e) => e.currentTarget.style.borderColor = config.colors.primary}

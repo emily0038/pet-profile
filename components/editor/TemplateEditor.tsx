@@ -395,7 +395,7 @@ export default function TemplateEditor({ config, onBack, onPreview, previewButto
     <div style={{
       minHeight: '100vh',
       background: '#F9FAFB',
-      fontFamily: config.fonts.body,
+      fontFamily: "'Roboto Flex', sans-serif",
     }}>
       {/* App Header */}
       <AppHeader />
@@ -586,7 +586,7 @@ export default function TemplateEditor({ config, onBack, onPreview, previewButto
                 </div>
                 <div style={{ textAlign: 'left' }}>
                   <div style={{
-                    fontFamily: config.fonts.heading,
+                    fontFamily: "'Roboto Slab', serif",
                     fontSize: '18px',
                     fontWeight: 600,
                     color: '#000000',

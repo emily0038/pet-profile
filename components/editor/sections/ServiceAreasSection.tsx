@@ -183,7 +183,7 @@ export default function ServiceAreasSection({
               border: '1px solid #D1D5DB',
               borderRadius: '6px',
               fontSize: '15px',
-              fontFamily: config.fonts.body,
+              fontFamily: "'Roboto Flex', sans-serif",
               minHeight: '100px',
               resize: 'vertical',
             }}
@@ -247,7 +247,7 @@ export default function ServiceAreasSection({
                     border: '1px solid #D1D5DB',
                     borderRadius: '6px',
                     fontSize: '15px',
-                    fontFamily: config.fonts.body,
+                    fontFamily: "'Roboto Flex', sans-serif",
                   }}
                 />
               </div>
@@ -276,7 +276,7 @@ export default function ServiceAreasSection({
                     border: '1px solid #D1D5DB',
                     borderRadius: '6px',
                     fontSize: '15px',
-                    fontFamily: config.fonts.body,
+                    fontFamily: "'Roboto Flex', sans-serif",
                   }}
                 />
               </div>

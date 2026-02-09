@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Roboto, Roboto_Slab, Roboto_Flex } from "next/font/google";
+import { Roboto, Roboto_Slab, Roboto_Flex, Fraunces, Inter } from "next/font/google";
 import Script from "next/script";
 import CookieBanner from "@/components/cookieBanner";
 import "../globals.css";
@@ -22,6 +22,18 @@ const robotoFlex = Roboto_Flex({
   variable: "--font-roboto-flex",
   subsets: ["latin"],
   weight: ["300", "500"],
+});
+
+const fraunces = Fraunces({
+  variable: "--font-fraunces",
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
+});
+
+const inter = Inter({
+  variable: "--font-inter",
+  subsets: ["latin"],
+  weight: ["300", "400", "500", "600", "700"],
 });
 
 export const metadata: Metadata = {
@@ -55,7 +67,7 @@ export default function MainLayout({
         </Script>
       </head>
       <body
-        className={`${roboto.variable} ${robotoSlab.variable} ${robotoFlex.variable} antialiased`}
+        className={`${roboto.variable} ${robotoSlab.variable} ${robotoFlex.variable} ${fraunces.variable} ${inter.variable} antialiased`}
       >
         {children}
         <CookieBanner />

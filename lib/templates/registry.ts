@@ -2,6 +2,7 @@ import { TemplateConfig, TemplateData, Profile } from './types';
 import ProTemplate from '@/components/templates/pro/ProTemplate';
 import BubblyTemplate from '@/components/templates/bubbly/BubblyTemplate';
 import BasicTemplate from '@/components/templates/basic/BasicTemplate';
+import FriendlyTemplate from '@/components/templates/friendly/FriendlyTemplate';
 
 // Template registry - central configuration for all templates
 export const TEMPLATES: Record<string, TemplateConfig> = {
@@ -104,6 +105,32 @@ export const TEMPLATES: Record<string, TemplateConfig> = {
       reviews: true,
     },
   },
+
+  'friendly': {
+    id: 'friendly',
+    name: 'Friendly',
+    description: 'Warm and welcoming template with circular photo frames and soft colors',
+    thumbnail: '/templates/friendly-preview.png',
+    requiredFields: ['business_name', 'display_name'],
+    optionalFields: [
+      'tagline',
+      'about_business',
+      'service_area',
+      'booking_link',
+      'instagram_link',
+      'facebook_link',
+      'tiktok_link',
+      'twitter_link',
+    ],
+    supportsFeatures: {
+      faqs: true,
+      policies: true,
+      serviceAreas: false,
+      teamMembers: false,
+      gallery: true,
+      reviews: true,
+    },
+  },
 };
 
 // Component mapping - maps template IDs to their React components
@@ -111,6 +138,7 @@ export const TEMPLATE_COMPONENTS: Record<string, React.ComponentType<{ data: Tem
   'pro': ProTemplate,
   'bubbly': BubblyTemplate,
   'basic': BasicTemplate,
+  'friendly': FriendlyTemplate,
   // 'classic': ClassicTemplate, // Will implement later
 };
 

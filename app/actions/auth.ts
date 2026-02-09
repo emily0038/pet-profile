@@ -4,6 +4,7 @@ import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
 import { createClient } from '@/utils/supabase/server'
 import { generateUsername } from '@/utils/username'
+import { createSubscription } from './subscription'
 
 // Added prevState to allow login to be null at initial state; maybe check back
 export async function login(prevState: { error: string } | null, formData: FormData) {
@@ -72,6 +73,7 @@ export async function signupBasicInfo(prevState: { error: string } | null, formD
   const password = formData.get('password') as string
   const firstName = formData.get('first_name') as string
   const lastName = formData.get('last_name') as string
+  const plan = (formData.get('plan') as 'free' | 'premium') || 'free'
 
   // Get the origin for the confirmation URL
   const origin = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000'
@@ -84,6 +86,7 @@ export async function signupBasicInfo(prevState: { error: string } | null, formD
       data: {
         first_name: firstName,
         last_name: lastName,
+        plan: plan,
       },
       emailRedirectTo: `${origin}/auth/callback`,
     }
@@ -182,6 +185,9 @@ export async function completeProfile(prevState: { error: string } | null, formD
     return { error: 'You must be logged in to complete your profile' }
   }
 
+  // Get plan from user metadata (set during signup)
+  const plan = (user.user_metadata?.plan as 'free' | 'premium') || 'free'
+
   // Validate domain availability one more time
   const domainCheck = await checkDomainAvailability(domain)
   if (!domainCheck.available) {
@@ -228,6 +234,13 @@ export async function completeProfile(prevState: { error: string } | null, formD
     if (error) {
       return { error: error.message }
     }
+  }
+
+  // Create subscription for the user
+  const subscriptionResult = await createSubscription(user.id, plan)
+  if (!subscriptionResult.success) {
+    console.error('Failed to create subscription:', subscriptionResult.error)
+    // Don't block profile creation if subscription fails
   }
 
   revalidatePath('/', 'layout')

@@ -319,7 +319,7 @@ export default function ServicesSection({
           value={editingService?.type || ''}
           onChange={(e) => updateServiceType(e.target.value)}
           className={styles.input}
-          style={{ fontFamily: config.fonts.body }}
+          style={{ fontFamily: "'Roboto Flex', sans-serif" }}
         />
         {editingService?.id && (
           <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: '8px' }}>
@@ -350,7 +350,7 @@ export default function ServicesSection({
           placeholder="Describe this service category..."
           rows={3}
           className={styles.textarea}
-          style={{ fontFamily: config.fonts.body }}
+          style={{ fontFamily: "'Roboto Flex', sans-serif" }}
         />
       </div>
 
@@ -372,7 +372,7 @@ export default function ServicesSection({
                 onChange={(e) => updateMenuItem(index, 'name', e.target.value)}
                 placeholder="e.g., 20-min walk"
                 className={styles.input}
-                style={{ fontFamily: config.fonts.body }}
+                style={{ fontFamily: "'Roboto Flex', sans-serif" }}
               />
               <div style={{ position: 'relative' }}>
                 <span style={{
@@ -394,7 +394,7 @@ export default function ServicesSection({
                   style={{
                     paddingLeft: '28px',
                     width: '80px',
-                    fontFamily: config.fonts.body
+                    fontFamily: "'Roboto Flex', sans-serif"
                   }}
                 />
               </div>
@@ -625,7 +625,7 @@ export default function ServicesSection({
           disabled={isEditingService}
           className={styles.input}
           style={{
-            fontFamily: config.fonts.body,
+            fontFamily: "'Roboto Flex', sans-serif",
             marginBottom: '12px',
             opacity: isEditingService ? 0.5 : 1,
           }}

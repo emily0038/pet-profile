@@ -50,7 +50,7 @@ export default function HomePage() {
 
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
             {/* Step 1 */}
-            <div className="bg-white rounded-lg border border-gray-200 overflow-hidden">
+            <div className="bg-white rounded-lg border border-gray-200 overflow-hidden flex flex-col">
               <div className="bg-white p-4 border-b border-gray-200">
                 <div className="rounded shadow-sm overflow-hidden">
                   <Image
@@ -62,7 +62,7 @@ export default function HomePage() {
                   />
                 </div>
               </div>
-              <div className="p-8 pb-6">
+              <div className="p-8 pb-6 mt-auto">
                 <div className="inline-flex items-center justify-center w-10 h-10 bg-[#E4E1FF] text-[#9185FF] rounded-full text-xl font-bold mb-4">
                   1
                 </div>
@@ -70,13 +70,13 @@ export default function HomePage() {
                   Select a template
                 </h3>
                 <p className="text-base text-gray-700 leading-relaxed font-flex">
-                  Choose from professionally designed templates that showcase your business.
+                  Choose from professionally designed templates to showcase your business.
                 </p>
               </div>
             </div>
 
             {/* Step 2 */}
-            <div className="bg-white rounded-lg border border-gray-200 overflow-hidden">
+            <div className="bg-white rounded-lg border border-gray-200 overflow-hidden flex flex-col">
               <div className="bg-white p-4 border-b border-gray-200">
                 <div className="rounded shadow-sm overflow-hidden">
                   <Image
@@ -88,7 +88,7 @@ export default function HomePage() {
                   />
                 </div>
               </div>
-              <div className="p-8 pb-6">
+              <div className="p-8 pb-6 mt-auto">
                 <div className="inline-flex items-center justify-center w-10 h-10 bg-[#E4E1FF] text-[#9185FF] rounded-full text-xl font-bold mb-4">
                   2
                 </div>
@@ -102,7 +102,7 @@ export default function HomePage() {
             </div>
 
             {/* Step 3 */}
-            <div className="bg-white rounded-lg border border-gray-200 overflow-hidden">
+            <div className="bg-white rounded-lg border border-gray-200 overflow-hidden flex flex-col">
               <div className="bg-white p-4 border-b border-gray-200">
                 <div className="rounded shadow-sm overflow-hidden">
                   <Image
@@ -114,7 +114,7 @@ export default function HomePage() {
                   />
                 </div>
               </div>
-              <div className="p-8 pb-6">
+              <div className="p-8 pb-6 mt-auto">
                 <div className="inline-flex items-center justify-center w-10 h-10 bg-[#E4E1FF] text-[#9185FF] rounded-full text-xl font-bold mb-4">
                   3
                 </div>
@@ -143,7 +143,7 @@ export default function HomePage() {
                 <span className="text-2xl group-open:rotate-180 transition-transform">›</span>
               </summary>
               <p className="mt-4 text-gray-700 font-flex">
-                Pets Friendz makes it easy to create a professional profile for your pet sitting business. Simply add your details, services, and photos, then share your unique link with clients. They can view your services and request bookings directly through your page.
+                Pets Friendz is a website builder with a form-based editing process. That means that to build a page, all you have to do is choose a template, upload your content (business details, services, and photos), then click Publish. No coding, formatting, or hosting setup required!
               </p>
             </details>
 
@@ -153,7 +153,7 @@ export default function HomePage() {
                 <span className="text-2xl group-open:rotate-180 transition-transform">›</span>
               </summary>
               <p className="mt-4 text-gray-700 font-flex">
-                We offer a free (always!) plan to get you started. Premium features and advanced customization options will be available with our paid plans once we launch.
+                Yes! With the Free (Always!) plan, you can get started with the Basic template and a custom subdomain. You can also upgrade to the Premium plan for additional template designs, along with custom domain and GA4 setup.
               </p>
             </details>
 
@@ -163,7 +163,10 @@ export default function HomePage() {
                 <span className="text-2xl group-open:rotate-180 transition-transform">›</span>
               </summary>
               <p className="mt-4 text-gray-700 font-flex">
-                Yes! Once you select your template, you can add your business details, upload photos, and customize your services to match your unique offerings. You can also leave optional sections blank to exclude them from your page.
+                Yes! Once you select your template, you can customize your page by uploading your own logo, photos, and content. You can also leave optional sections blank to exclude them from your page.
+              </p>
+              <p className="mt-4 text-gray-700 font-flex">
+                If there are any changes you’d like to see made to the page designs, please reach out to <a href="mailto:emily@petsfriendz.com">emily@petsfriendz.com</a>.
               </p>
             </details>
 
@@ -173,17 +176,7 @@ export default function HomePage() {
                 <span className="text-2xl group-open:rotate-180 transition-transform">›</span>
               </summary>
               <p className="mt-4 text-gray-700 font-flex">
-                When a client submits a request through your profile, you&apos;ll receive an email notification with all the details. You can then respond directly to the client.
-              </p>
-            </details>
-
-            <details className="bg-white border border-gray-200 rounded-lg p-6 group">
-              <summary className="text-xl font-bold text-black cursor-pointer list-none flex justify-between items-center">
-                When will Pets Friendz launch?
-                <span className="text-2xl group-open:rotate-180 transition-transform">›</span>
-              </summary>
-              <p className="mt-4 text-gray-700 font-flex">
-                We&apos;re working hard to perfect the platform before we launch in February 2026. Join our waitlist to be the first to know when we launch!
+                All of the Pets Friendz premium templates include an optional form where visitors can submit pet care inquiries. You&apos;ll receive any messages directly in your account email.
               </p>
             </details>
           </div>

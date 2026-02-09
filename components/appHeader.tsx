@@ -119,6 +119,7 @@ export default function AppHeader() {
             {userDomain && hasPublishedPage ? (
               <Link
                 href={getProfilePath(userDomain)}
+                target="_blank"
                 onClick={() => setIsDropdownOpen(false)}
                 className="w-full text-left px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 transition-colors flex items-center gap-3"
               >

@@ -140,7 +140,7 @@ export default function ContactSection({
               border: '1px solid #D1D5DB',
               borderRadius: '6px',
               fontSize: '15px',
-              fontFamily: config.fonts.body,
+              fontFamily: "'Roboto Flex', sans-serif",
               background: useAccountPhone ? '#F9FAFB' : 'white',
               cursor: useAccountPhone ? 'not-allowed' : 'text',
             }}
@@ -205,7 +205,7 @@ export default function ContactSection({
               border: '1px solid #D1D5DB',
               borderRadius: '6px',
               fontSize: '15px',
-              fontFamily: config.fonts.body,
+              fontFamily: "'Roboto Flex', sans-serif",
               background: useAccountEmail ? '#F9FAFB' : 'white',
               cursor: useAccountEmail ? 'not-allowed' : 'text',
             }}

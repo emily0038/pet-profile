@@ -50,8 +50,8 @@ export default function ProEditorPage() {
       try {
         const result = await updateTemplateId(editorTemplate);
         setCurrentTemplateId(editorTemplate);
-        // Navigate to the published page
-        router.push(getProfilePath(result.username));
+        // Open the published page in a new tab
+        window.open(getProfilePath(result.username), '_blank');
       } catch (error) {
         console.error('Failed to publish template:', error);
         alert('Failed to publish template. Please try again.');
@@ -59,8 +59,8 @@ export default function ProEditorPage() {
         setIsPublishing(false);
       }
     } else {
-      // Just navigate to the published page
-      router.push(getProfilePath(username));
+      // Open the published page in a new tab
+      window.open(getProfilePath(username), '_blank');
     }
   };
 

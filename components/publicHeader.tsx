@@ -15,6 +15,9 @@ export default function PublicHeader() {
       </Link>
 
       <div className="flex items-center gap-5">
+        <Link href="/pricing" className="text-lg text-black hover:text-gray-600 transition-colors">
+          Pricing
+        </Link>
         <Link href="/blog" className="text-lg text-black hover:text-gray-600 transition-colors">
           Blog
         </Link>

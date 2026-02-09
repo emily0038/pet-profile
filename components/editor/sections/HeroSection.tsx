@@ -187,7 +187,7 @@ export default function HeroSection({ config, onStatusChange, onSaveStatusChange
             border: '1px solid #D1D5DB',
             borderRadius: '6px',
             fontSize: '15px',
-            fontFamily: config.fonts.body,
+            fontFamily: "'Roboto Flex', sans-serif",
           }}
           onFocus={(e) => e.currentTarget.style.borderColor = config.colors.primary}
           onBlur={(e) => e.currentTarget.style.borderColor = '#D1D5DB'}

@@ -1,17 +1,24 @@
-import { InquiryEmailTemplate } from '@/components/emailTemplate';
 import { Resend } from 'resend';
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
-export async function POST() {
+export async function POST(request: Request) {
   try {
-    console.log('API Key exists:', !!process.env.RESEND_API_KEY);
+    const body = await request.json();
+    const { subject, html } = body;
+
+    if (!subject || !html) {
+      return Response.json(
+        { error: 'Missing required fields: subject, html' },
+        { status: 400 }
+      );
+    }
 
     const { data, error } = await resend.emails.send({
-      from: 'Emily from Pets Friendz <no-reply@petsfriendz.com>',
-      to: ['emilymoywong@gmail.com'],
-      subject: 'Hello world',
-      react: InquiryEmailTemplate({ firstName: 'Emily', lastName: 'Wong', phoneNumber: '5555555555', message: 'Hi! I am looking for a new dog walker and wanted to hear more about your services.' }),
+      from: 'Pets Friendz <no-reply@petsfriendz.com>',
+      to: ['emily@petsfriendz.com'],
+      subject,
+      html,
     });
 
     if (error) {

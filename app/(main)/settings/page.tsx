@@ -2,8 +2,11 @@
 
 import { updatePersonalInfo, updateBusinessInfo, updatePassword, updateGoogleAnalytics } from '@/app/actions/settings'
 import { useState, useEffect } from 'react'
+import { useRouter } from 'next/navigation'
 import { createClient } from '@/utils/supabase/client'
 import AppHeader from '@/components/appHeader'
+import { Subscription, getPlanDisplayName, canUsePremiumFeatures, isTrialActive, getTrialDaysRemaining, formatTrialEndDate, hasUsedTrial } from '@/lib/subscription'
+import { startPremiumTrial, recordUpgradeInterest } from '@/app/actions/subscription'
 
 interface ConfirmModalProps {
   isOpen: boolean
@@ -80,6 +83,7 @@ function ConfirmModal({ isOpen, onConfirm, onCancel, title, message }: ConfirmMo
 }
 
 export default function SettingsPage() {
+  const router = useRouter()
   const [userData, setUserData] = useState({
     firstName: '',
     lastName: '',
@@ -91,12 +95,22 @@ export default function SettingsPage() {
   })
 
   const [originalData, setOriginalData] = useState(userData)
+  const [subscription, setSubscription] = useState<Subscription | null>(null)
+  const [customDomain, setCustomDomain] = useState<{ domain: string; status: string } | null>(null)
+  const [isStartingTrial, setIsStartingTrial] = useState(false)
+  const [isRecordingInterest, setIsRecordingInterest] = useState(false)
 
   // Form state for each section
   const [personalForm, setPersonalForm] = useState({ firstName: '', lastName: '', email: '' })
   const [businessForm, setBusinessForm] = useState({ businessName: '', phoneNumber: '' })
   const [passwordForm, setPasswordForm] = useState({ currentPassword: '', newPassword: '', confirmPassword: '' })
   const [analyticsForm, setAnalyticsForm] = useState({ googleMeasurementId: '' })
+
+  const hasPremiumAccess = canUsePremiumFeatures(subscription)
+  const onTrial = isTrialActive(subscription)
+  const trialDaysRemaining = getTrialDaysRemaining(subscription)
+  const trialEndDate = formatTrialEndDate(subscription)
+  const usedTrial = hasUsedTrial(subscription)
 
   // Error states
   const [personalErrors, setPersonalErrors] = useState<Record<string, string>>({})
@@ -128,6 +142,7 @@ export default function SettingsPage() {
       const { data: { user } } = await supabase.auth.getUser()
 
       if (user) {
+        // Fetch profile
         const { data: profile, error } = await supabase
           .from('profiles')
           .select('first_name, last_name, email, business_name, phone_number, domain, google_measurement_id')
@@ -153,6 +168,28 @@ export default function SettingsPage() {
           setPersonalForm({ firstName: data.firstName, lastName: data.lastName, email: data.email })
           setBusinessForm({ businessName: data.businessName, phoneNumber: data.phoneNumber })
           setAnalyticsForm({ googleMeasurementId: data.googleMeasurementId })
+        }
+
+        // Fetch subscription
+        const { data: sub } = await supabase
+          .from('subscriptions')
+          .select('*')
+          .eq('user_id', user.id)
+          .single()
+
+        if (sub) {
+          setSubscription(sub)
+        }
+
+        // Fetch custom domain
+        const { data: customDomainData } = await supabase
+          .from('custom_domains')
+          .select('domain, status')
+          .eq('user_id', user.id)
+          .maybeSingle()
+
+        if (customDomainData) {
+          setCustomDomain(customDomainData)
         }
       }
     }
@@ -352,6 +389,119 @@ export default function SettingsPage() {
             <p className="text-[#64748b] text-[15px]">Manage your account information and preferences</p>
           </div>
 
+          {/* Your Plan */}
+          <div className="bg-white rounded-xl shadow-sm mb-6 overflow-hidden">
+            <div className="px-6 py-5 border-b border-[#e2e8f0]">
+              <h2 className="text-[#1e293b] text-lg font-semibold mb-1">Your Plan</h2>
+              <p className="text-[#64748b] text-sm">Manage your subscription</p>
+            </div>
+            <div className="p-6">
+              {/* Current Plan Display */}
+              <div className="flex items-center justify-between mb-6">
+                <div>
+                  <div className="flex items-center gap-3 mb-1">
+                    <span className="text-[#1e293b] text-xl font-semibold">
+                      {getPlanDisplayName(subscription)}
+                    </span>
+                    {onTrial && (
+                      <span className="px-2 py-1 bg-[#f3e8ff] text-[#7c3aed] text-xs font-medium rounded-full">
+                        Trial
+                      </span>
+                    )}
+                  </div>
+                  {onTrial && (
+                    <p className="text-[#64748b] text-sm">
+                      {trialDaysRemaining} day{trialDaysRemaining !== 1 ? 's' : ''} remaining (ends {trialEndDate})
+                    </p>
+                  )}
+                  {!hasPremiumAccess && !onTrial && (
+                    <p className="text-[#64748b] text-sm">
+                      Upgrade to Premium for more templates and features
+                    </p>
+                  )}
+                  {hasPremiumAccess && !onTrial && (
+                    <p className="text-[#64748b] text-sm">
+                      You have access to all premium features
+                    </p>
+                  )}
+                </div>
+              </div>
+
+              {/* Action Buttons */}
+              {!hasPremiumAccess && (
+                <div className="flex gap-3">
+                  {!usedTrial && (
+                    <button
+                      onClick={async () => {
+                        setIsStartingTrial(true)
+                        const result = await startPremiumTrial()
+                        if (result.success) {
+                          // Refresh subscription
+                          const supabase = createClient()
+                          const { data: { user } } = await supabase.auth.getUser()
+                          if (user) {
+                            const { data: sub } = await supabase
+                              .from('subscriptions')
+                              .select('*')
+                              .eq('user_id', user.id)
+                              .single()
+                            if (sub) setSubscription(sub)
+                          }
+                        }
+                        setIsStartingTrial(false)
+                      }}
+                      disabled={isStartingTrial}
+                      className="px-6 py-3 rounded-lg text-[15px] font-medium transition-all"
+                      style={{
+                        background: 'linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%)',
+                        color: 'white',
+                        opacity: isStartingTrial ? 0.7 : 1,
+                        cursor: isStartingTrial ? 'wait' : 'pointer',
+                      }}
+                    >
+                      {isStartingTrial ? 'Starting...' : 'Start 30-Day Free Trial'}
+                    </button>
+                  )}
+                  <button
+                    onClick={async () => {
+                      setIsRecordingInterest(true)
+                      await recordUpgradeInterest()
+                      router.push('/upgrade')
+                    }}
+                    disabled={isRecordingInterest}
+                    className="px-6 py-3 rounded-lg text-[15px] font-medium transition-all"
+                    style={{
+                      background: 'white',
+                      color: '#7c3aed',
+                      border: '2px solid #7c3aed',
+                      opacity: isRecordingInterest ? 0.7 : 1,
+                      cursor: isRecordingInterest ? 'wait' : 'pointer',
+                    }}
+                  >
+                    {isRecordingInterest ? 'Submitting...' : 'I Want to Upgrade'}
+                  </button>
+                </div>
+              )}
+
+              {/* Premium Features List */}
+              <div className="mt-6 pt-6 border-t border-[#e2e8f0]">
+                <p className="text-[#475569] text-sm font-medium mb-3">Premium features include:</p>
+                <ul className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                  {[
+                    'All premium templates',
+                    'Custom domain support',
+                    'Google Analytics integration',
+                  ].map((feature) => (
+                    <li key={feature} className="flex items-center gap-2 text-[14px] text-[#64748b]">
+                      <span className="text-[#8b5cf6]">✓</span>
+                      <span>{feature}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+          </div>
+
           {/* Personal Information */}
           <div className="bg-white rounded-xl shadow-sm mb-6 overflow-hidden">
             <div className="px-6 py-5 border-b border-[#e2e8f0]">
@@ -514,41 +664,145 @@ export default function SettingsPage() {
 
           {/* Domain Settings */}
           <div className="bg-white rounded-xl shadow-sm mb-6 overflow-hidden">
-            <div className="px-6 py-5 border-b border-[#e2e8f0]">
-              <h2 className="text-[#1e293b] text-lg font-semibold mb-1">Domain Settings</h2>
-              <p className="text-[#64748b] text-sm">Manage your custom domain</p>
+            <div className="px-6 py-5 border-b border-[#e2e8f0] flex items-center justify-between">
+              <div>
+                <h2 className="text-[#1e293b] text-lg font-semibold mb-1">Domain Settings</h2>
+                <p className="text-[#64748b] text-sm">Manage your domain</p>
+              </div>
             </div>
             <div className="p-6">
-              <div className="bg-[#fef3c7] border border-[#fcd34d] rounded-lg p-4 mb-5 flex gap-3">
-                <svg className="w-5 h-5 text-[#d97706] flex-shrink-0 mt-[2px]" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
-                </svg>
-                <div>
-                  <p className="text-[#78350f] text-sm leading-relaxed">
-                    Your domain is managed by Pets Friendz. To change your domain, please{' '}
-                    <a href="mailto:support@petsfriendz.com" className="text-[#d97706] font-semibold hover:underline">
-                      contact support
-                    </a>.
-                  </p>
-                </div>
-              </div>
-
               <div className="mb-5">
-                <label className="block text-[#475569] text-sm font-medium mb-2">Current domain</label>
+                <label className="block text-[#475569] text-sm font-medium mb-2">Current subdomain</label>
                 <input
                   type="text"
                   value={`${userData.domain}.petsfriendz.com`}
                   disabled
                   className="w-full bg-[#f1f5f9] border border-[#cbd5e1] rounded-lg px-[14px] py-[10px] text-[#94a3b8] text-[15px] cursor-not-allowed"
                 />
-                <div className="text-[#64748b] text-[13px] mt-[6px] flex items-center gap-[6px]">
-                  <svg className="w-[14px] h-[14px] text-[#94a3b8]" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
-                  </svg>
-                  Contact Pets Friendz to update this domain
+                <div className="text-[#64748b] text-[13px] mt-[6px]">
+                  This is your free Pets Friendz subdomain
                 </div>
               </div>
 
+              {/* Custom Domain - Premium Feature */}
+              <div className="mt-6 pt-6 border-t border-[#e2e8f0]">
+                <div className="flex items-center justify-between mb-3">
+                  <label className="block text-[#475569] text-sm font-medium">Custom Domain</label>
+                  {!hasPremiumAccess && (
+                    <span className="px-3 py-1 text-xs font-medium rounded-full" style={{ background: 'linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%)', color: 'white' }}>
+                      Premium
+                    </span>
+                  )}
+                </div>
+
+                {!hasPremiumAccess ? (
+                  <div className="bg-[#faf5ff] border border-[#e9d5ff] rounded-lg p-4">
+                    <p className="text-[#6b21a8] text-sm mb-3">
+                      Connect your own domain (e.g., yourbusiness.com) with a Premium subscription.
+                    </p>
+                    {!usedTrial ? (
+                      <button
+                        onClick={async () => {
+                          setIsStartingTrial(true)
+                          const result = await startPremiumTrial()
+                          if (result.success) {
+                            const supabase = createClient()
+                            const { data: { user } } = await supabase.auth.getUser()
+                            if (user) {
+                              const { data: sub } = await supabase
+                                .from('subscriptions')
+                                .select('*')
+                                .eq('user_id', user.id)
+                                .single()
+                              if (sub) setSubscription(sub)
+                            }
+                          }
+                          setIsStartingTrial(false)
+                        }}
+                        disabled={isStartingTrial}
+                        className="px-4 py-2 rounded-lg text-[13px] font-medium transition-all"
+                        style={{
+                          background: 'linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%)',
+                          color: 'white',
+                        }}
+                      >
+                        {isStartingTrial ? 'Starting...' : 'Start Free Trial to Unlock'}
+                      </button>
+                    ) : (
+                      <button
+                        onClick={async () => {
+                          setIsRecordingInterest(true)
+                          await recordUpgradeInterest()
+                          router.push('/upgrade')
+                        }}
+                        disabled={isRecordingInterest}
+                        className="px-4 py-2 rounded-lg text-[13px] font-medium transition-all"
+                        style={{
+                          background: 'white',
+                          color: '#7c3aed',
+                          border: '2px solid #7c3aed',
+                        }}
+                      >
+                        {isRecordingInterest ? 'Submitting...' : 'Upgrade to Premium'}
+                      </button>
+                    )}
+                  </div>
+                ) : customDomain ? (
+                  <div>
+                    {customDomain.status === 'active' ? (
+                      <div className="bg-[#f0fdf4] border border-[#86efac] rounded-lg p-4">
+                        <div className="flex items-center gap-2 mb-2">
+                          <span className="text-[#15803d] text-lg">&#10003;</span>
+                          <span className="text-[#15803d] text-sm font-medium">Connected</span>
+                        </div>
+                        <p className="text-[#166534] text-[15px] font-medium mb-1">{customDomain.domain}</p>
+                        <p className="text-[#64748b] text-[13px]">Your custom domain is active and routing to your profile.</p>
+                        <button
+                          onClick={() => router.push('/account/custom-domain')}
+                          className="mt-3 text-[#7c3aed] text-[13px] font-medium hover:underline"
+                        >
+                          Manage Domain
+                        </button>
+                      </div>
+                    ) : (
+                      <div className="bg-[#fffbeb] border border-[#fcd34d] rounded-lg p-4">
+                        <div className="flex items-center gap-2 mb-2">
+                          <span className="text-[#d97706] text-lg">&#9679;</span>
+                          <span className="text-[#d97706] text-sm font-medium">Pending Verification</span>
+                        </div>
+                        <p className="text-[#92400e] text-[15px] font-medium mb-1">{customDomain.domain}</p>
+                        <p className="text-[#64748b] text-[13px]">Complete DNS configuration to activate your domain.</p>
+                        <button
+                          onClick={() => router.push('/account/custom-domain')}
+                          className="mt-3 px-4 py-2 rounded-lg text-[13px] font-medium transition-all"
+                          style={{
+                            background: 'linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%)',
+                            color: 'white',
+                          }}
+                        >
+                          Complete Setup
+                        </button>
+                      </div>
+                    )}
+                  </div>
+                ) : (
+                  <div>
+                    <p className="text-[#64748b] text-sm mb-3">
+                      Use your own domain instead of a Pets Friendz subdomain.
+                    </p>
+                    <button
+                      onClick={() => router.push('/account/custom-domain')}
+                      className="px-4 py-2 rounded-lg text-[14px] font-medium transition-all"
+                      style={{
+                        background: 'linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%)',
+                        color: 'white',
+                      }}
+                    >
+                      Add Custom Domain
+                    </button>
+                  </div>
+                )}
+              </div>
             </div>
           </div>
 
@@ -645,57 +899,120 @@ export default function SettingsPage() {
           </div>
 
           {/* Google Analytics */}
-          <div className="bg-white rounded-xl shadow-sm mb-6 overflow-hidden">
-            <div className="px-6 py-5 border-b border-[#e2e8f0]">
-              <h2 className="text-[#1e293b] text-lg font-semibold mb-1">Google Analytics</h2>
-              <p className="text-[#64748b] text-sm">Track visitors to your profile page</p>
+          <div className="bg-white rounded-xl shadow-sm mb-6 overflow-hidden relative">
+            <div className="px-6 py-5 border-b border-[#e2e8f0] flex items-center justify-between">
+              <div>
+                <h2 className="text-[#1e293b] text-lg font-semibold mb-1">Google Analytics</h2>
+                <p className="text-[#64748b] text-sm">Track visitors to your profile page</p>
+              </div>
+              {!hasPremiumAccess && (
+                <span className="px-3 py-1 text-xs font-medium rounded-full" style={{ background: 'linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%)', color: 'white' }}>
+                  Premium
+                </span>
+              )}
             </div>
             <div className="p-6">
-              <div className="mb-5">
-                <label htmlFor="googleMeasurementId" className="block text-[#475569] text-sm font-medium mb-2">
-                  Measurement ID
-                </label>
-                <input
-                  type="text"
-                  id="googleMeasurementId"
-                  value={analyticsForm.googleMeasurementId}
-                  onChange={(e) => setAnalyticsForm({ ...analyticsForm, googleMeasurementId: e.target.value })}
-                  placeholder="G-XXXXXXXXXX"
-                  className="w-full bg-white border border-[#cbd5e1] rounded-lg px-[14px] py-[10px] text-[#0f172a] text-[15px] transition-all focus:outline-none focus:border-[#8b5cf6] focus:shadow-[0_0_0_3px_rgba(139,92,246,0.1)] placeholder:text-[#94a3b8]"
-                />
-                <div className="text-[#64748b] text-[13px] mt-[6px]">
-                  Find this in your Google Analytics account under Admin &gt; Data Streams &gt; Web
+              {!hasPremiumAccess ? (
+                <div className="text-center py-6">
+                  <div className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-[#f3e8ff] mb-4">
+                    <span className="text-2xl">📊</span>
+                  </div>
+                  <h3 className="text-[#1e293b] text-lg font-semibold mb-2">Premium Feature</h3>
+                  <p className="text-[#64748b] text-sm mb-4 max-w-md mx-auto">
+                    Add your Google Analytics tracking code to monitor visitor activity on your profile page.
+                  </p>
+                  {!usedTrial && (
+                    <button
+                      onClick={async () => {
+                        setIsStartingTrial(true)
+                        const result = await startPremiumTrial()
+                        if (result.success) {
+                          const supabase = createClient()
+                          const { data: { user } } = await supabase.auth.getUser()
+                          if (user) {
+                            const { data: sub } = await supabase
+                              .from('subscriptions')
+                              .select('*')
+                              .eq('user_id', user.id)
+                              .single()
+                            if (sub) setSubscription(sub)
+                          }
+                        }
+                        setIsStartingTrial(false)
+                      }}
+                      disabled={isStartingTrial}
+                      className="px-6 py-2 rounded-lg text-[14px] font-medium transition-all"
+                      style={{
+                        background: 'linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%)',
+                        color: 'white',
+                      }}
+                    >
+                      {isStartingTrial ? 'Starting...' : 'Start Free Trial to Unlock'}
+                    </button>
+                  )}
                 </div>
-              </div>
+              ) : (
+                <>
+                  <div className="mb-5">
+                    <label htmlFor="googleMeasurementId" className="block text-[#475569] text-sm font-medium mb-2">
+                      Measurement ID
+                    </label>
+                    <input
+                      type="text"
+                      id="googleMeasurementId"
+                      value={analyticsForm.googleMeasurementId}
+                      onChange={(e) => setAnalyticsForm({ ...analyticsForm, googleMeasurementId: e.target.value })}
+                      placeholder="G-XXXXXXXXXX"
+                      className="w-full bg-white border border-[#cbd5e1] rounded-lg px-[14px] py-[10px] text-[#0f172a] text-[15px] transition-all focus:outline-none focus:border-[#8b5cf6] focus:shadow-[0_0_0_3px_rgba(139,92,246,0.1)] placeholder:text-[#94a3b8]"
+                    />
+                    <div className="text-[#64748b] text-[13px] mt-[6px]">
+                      Find this in your Google Analytics account under Admin &gt; Data Streams &gt; Web
+                    </div>
+                  </div>
 
-              {analyticsErrors.general && (
-                <div className="text-[#ef4444] text-sm p-3 rounded-lg mb-5 bg-[#fef2f2] border border-[#fecaca]">
-                  {analyticsErrors.general}
-                </div>
+                  {analyticsErrors.general && (
+                    <div className="text-[#ef4444] text-sm p-3 rounded-lg mb-5 bg-[#fef2f2] border border-[#fecaca]">
+                      {analyticsErrors.general}
+                    </div>
+                  )}
+
+                  {analyticsSuccess && (
+                    <div className="text-[#15803d] text-sm p-3 rounded-lg mb-5 bg-[#dcfce7] border border-[#86efac]">
+                      Google Analytics settings updated successfully
+                    </div>
+                  )}
+
+                  <div style={{ display: 'flex', gap: '12px', marginTop: '24px', paddingTop: '24px', borderTop: '1px solid #E5E7EB' }}>
+                    <button
+                      onClick={handleSaveAnalytics}
+                      disabled={!hasAnalyticsChanges || savingAnalytics}
+                      className="btn-save"
+                    >
+                      {savingAnalytics ? 'Saving...' : 'Save Changes'}
+                    </button>
+                    <button
+                      onClick={cancelAnalyticsChanges}
+                      disabled={!hasAnalyticsChanges}
+                      className="btn-cancel"
+                    >
+                      Cancel
+                    </button>
+                  </div>
+                </>
               )}
+            </div>
+          </div>
 
-              {analyticsSuccess && (
-                <div className="text-[#15803d] text-sm p-3 rounded-lg mb-5 bg-[#dcfce7] border border-[#86efac]">
-                  Google Analytics settings updated successfully
-                </div>
-              )}
-
-              <div style={{ display: 'flex', gap: '12px', marginTop: '24px', paddingTop: '24px', borderTop: '1px solid #E5E7EB' }}>
-                <button
-                  onClick={handleSaveAnalytics}
-                  disabled={!hasAnalyticsChanges || savingAnalytics}
-                  className="btn-save"
-                >
-                  {savingAnalytics ? 'Saving...' : 'Save Changes'}
-                </button>
-                <button
-                  onClick={cancelAnalyticsChanges}
-                  disabled={!hasAnalyticsChanges}
-                  className="btn-cancel"
-                >
-                  Cancel
-                </button>
-              </div>
+          {/* Support */}
+          <div className="bg-white rounded-xl shadow-sm mb-6 overflow-hidden">
+            <div className="px-6 py-5 border-b border-[#e2e8f0]">
+              <h2 className="text-[#1e293b] text-lg font-semibold mb-1">Support</h2>
+              <p className="text-[#64748b] text-sm">Tell us how Pets Friendz can improve</p>
+            </div>
+            <div className="p-6">
+              <p className="text-[#64748b] text-sm mb-4">
+                Have a question or having issues with your account? Reach out to <a href='mailto:emily@petsfriendz.com'>emily@petsfriendz.com</a>.
+              </p>
             </div>
           </div>
         </div>

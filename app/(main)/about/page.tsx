@@ -6,10 +6,10 @@ import type { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "About Pets Friendz - Our Story and Mission",
-  description: "Learn about how Pets Friendz was created to help pet sitters grow their businesses and connect with pet owners who need trusted care for their furry friends.",
+  description: "Learn about how Pets Friendz was created to help pet sitters grow their businesses with professional-grade websites and marketing.",
   openGraph: {
     title: "About Pets Friendz - Our Story and Mission",
-    description: "Learn about how Pets Friendz was created to help pet sitters grow their businesses and connect with pet owners who need trusted care for their furry friends.",
+    description: "Learn about how Pets Friendz was created to help pet sitters grow their businesses with professional-grade websites and marketing.",
     type: "website",
   },
 };
@@ -45,9 +45,6 @@ export default function AboutPage() {
             <p>
               Hi, I&apos;m Emily! I&apos;m an animal lover and pet care provider, and I&apos;m trying to solve the marketing problem for pet sitters by removing the barriers to building and growing their own business.
 
-            </p>
-            <p>
-              When I first got my mini goldendoodle, I found it surprisingly difficult to find experienced, responsible caregivers to trust her with when I went away.
             </p>
             <p>
               I got my start in professional dog care in 2024, when I joined Rover as a boarding and daycare provider. At first, it was a great experience. Getting listed on the marketplace helped me connect with clients, and the app made it easy to manage communications and bookings in one place.
