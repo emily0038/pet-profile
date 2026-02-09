@@ -25,7 +25,6 @@ export default function PricingPage() {
           className="font-slab"
           style={{
             fontSize: '3rem',
-            fontWeight: 700,
             color: '#000000',
             lineHeight: 1.2,
             marginBottom: '1rem',

@@ -25,7 +25,7 @@ export default function PublicHeader() {
           Login
         </Link>
         <Link
-          href="/waitlist"
+          href="/signup"
           className="bg-black text-white px-6 py-2.5 rounded text-base flex items-center gap-2 hover:bg-gray-800 transition-colors"
         >
           Build your page

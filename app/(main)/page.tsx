@@ -28,7 +28,7 @@ export default function HomePage() {
           Launch a professional pet care website in <b>minutes</b> to take your business to the next level
         </p>
         <Link
-          href="/waitlist"
+          href="/signup"
           className="bg-black text-white px-8 py-3.5 rounded text-base inline-flex items-center gap-2.5 hover:bg-gray-800 transition-colors font-medium"
         >
           Get Started
