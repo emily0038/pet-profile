@@ -129,28 +129,6 @@ export default function Footer() {
               </li>
             </ul>
           </div>
-
-          {/* Social (placeholder) */}
-          <div>
-            <h4 className="font-bold text-lg mb-4 font-slab">Follow Us</h4>
-            <ul className="space-y-3 font-flex">
-              <li>
-                <a href="#" className="text-gray-400 hover:text-white transition-colors">
-                  Twitter
-                </a>
-              </li>
-              <li>
-                <a href="#" className="text-gray-400 hover:text-white transition-colors">
-                  Instagram
-                </a>
-              </li>
-              <li>
-                <a href="#" className="text-gray-400 hover:text-white transition-colors">
-                  Facebook
-                </a>
-              </li>
-            </ul>
-          </div>
         </div>
       </div>
 
