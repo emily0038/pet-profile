@@ -20,20 +20,48 @@ export default function HomePage() {
       <PublicHeader />
 
       {/* Hero Section */}
-      <section className="text-center py-20 px-8 bg-white">
-        <h1 className="text-5xl font-bold text-black mb-5 leading-tight font-slab">
-          The easiest way to grow<br />your pet sitting business
-        </h1>
-        <p className="text-xl text-gray-700 mb-10 max-w-[700px] mx-auto font-flex">
-          Launch a professional pet care website in <b>minutes</b> to take your business to the next level
-        </p>
-        <Link
-          href="/signup"
-          className="bg-black text-white px-8 py-3.5 rounded text-base inline-flex items-center gap-2.5 hover:bg-gray-800 transition-colors font-medium"
-        >
-          Get Started
-          <span className="text-xl">→</span>
-        </Link>
+      <section className="py-20 px-8 bg-white">
+        <div className="max-w-screen-xl mx-auto flex flex-col lg:flex-row items-center gap-12 lg:gap-16">
+          <div className="flex-1 text-left">
+            <h1 className="text-5xl font-bold text-black mb-5 leading-tight font-slab">
+              The easiest way to grow<br />your pet sitting business
+            </h1>
+            <p className="text-xl text-gray-700 mb-10 max-w-[700px] font-flex">
+              Launch a professional pet care website in <b>minutes</b> to take your business to the next level
+            </p>
+            <Link
+              href="/signup"
+              className="bg-black text-white px-8 py-3.5 rounded text-base inline-flex items-center gap-2.5 hover:bg-gray-800 transition-colors font-medium"
+            >
+              Get Started
+              <span className="text-xl">→</span>
+            </Link>
+          </div>
+          <div className="flex-1 w-full">
+            <div className="hero-images">
+              <div className="hero-image hero-image-1 rounded-lg border border-gray-200 shadow-sm overflow-hidden">
+                <Image
+                  src="/hero-editor.png"
+                  alt="Pets Friendz editor interface"
+                  width={400}
+                  height={334}
+                  className="w-full h-auto"
+                  priority
+                />
+              </div>
+              <div className="hero-image hero-image-2 rounded-lg border border-gray-200 shadow-sm overflow-hidden">
+                <Image
+                  src="/hero-preview.png"
+                  alt="Pets Friendz published website preview"
+                  width={400}
+                  height={334}
+                  className="w-full h-auto"
+                  priority
+                />
+              </div>
+            </div>
+          </div>
+        </div>
       </section>
 
       {/* Steps Section */}
@@ -93,7 +121,7 @@ export default function HomePage() {
                   2
                 </div>
                 <h3 className="text-2xl font-bold mb-3 text-black leading-snug font-slab">
-                  Add your business details, services, and photos
+                  Add details, services, and photos
                 </h3>
                 <p className="text-base text-gray-700 leading-relaxed font-flex">
                   Customize with your information, services, pricing, and photos.

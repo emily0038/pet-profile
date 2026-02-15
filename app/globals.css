@@ -249,3 +249,34 @@ body {
   cursor: not-allowed;
   opacity: 0.6;
 }
+
+/* Hero stacked images */
+.hero-images {
+  position: relative;
+  width: 100%;
+  height: 300px;
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+.hero-image {
+  position: absolute;
+  width: 60%;
+  left: 50%;
+  transition: transform 0.3s, z-index 0.3s;
+}
+
+.hero-image-1 {
+  z-index: 1;
+  transform: translateX(calc(-50% - 80px)) rotate(-6deg);
+}
+
+.hero-image-2 {
+  z-index: 3;
+  transform: translateX(calc(-50% + 80px)) rotate(5deg);
+}
+
+.hero-image:hover {
+  transform: translateX(-50%) scale(1.05) rotate(0deg) !important;
+  z-index: 10 !important;
+}
