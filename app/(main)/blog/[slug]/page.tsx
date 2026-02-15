@@ -139,7 +139,7 @@ export default async function BlogPost({ params }: BlogPostProps) {
                 color: '#374151'
               }}
             >
-              <MDXRemote source={post.content} components={mdxComponents} />
+              <MDXRemote source={post.content} components={mdxComponents} options={{ blockJS: false }} />
             </div>
 
             {/* CTA Footer */}
