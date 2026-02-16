@@ -38,8 +38,8 @@ export default function HomePage() {
             </Link>
           </div>
           <div className="flex-1 w-full">
-            <div className="hero-images">
-              <div className="hero-image hero-image-1 rounded-lg border border-gray-200 shadow-sm overflow-hidden">
+            <div className="homepage-hero-images">
+              <div className="homepage-hero-image homepage-hero-image-1 rounded-lg border border-gray-200 shadow-sm overflow-hidden">
                 <Image
                   src="/hero-editor.png"
                   alt="Pets Friendz editor interface"
@@ -49,7 +49,7 @@ export default function HomePage() {
                   priority
                 />
               </div>
-              <div className="hero-image hero-image-2 rounded-lg border border-gray-200 shadow-sm overflow-hidden">
+              <div className="homepage-hero-image homepage-hero-image-2 rounded-lg border border-gray-200 shadow-sm overflow-hidden">
                 <Image
                   src="/hero-preview.png"
                   alt="Pets Friendz published website preview"
