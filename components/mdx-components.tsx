@@ -1,6 +1,7 @@
 import Callout from './Callout'
 import BlogFAQ from './BlogFAQ'
 import CTABox from './CTABox'
+import ProductCTA from './ProductCTA'
 import NewsletterBox from './NewsletterBox'
 import Image from 'next/image'
 
@@ -56,6 +57,7 @@ export const mdxComponents = {
   Callout,
   BlogFAQ,
   CTABox,
+  ProductCTA,
   NewsletterBox,
   BlogImage,
   a: (props: React.AnchorHTMLAttributes<HTMLAnchorElement>) => (

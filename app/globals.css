@@ -280,3 +280,34 @@ body {
   transform: translateX(-50%) scale(1.05) rotate(0deg) !important;
   z-index: 10 !important;
 }
+
+/* Blog CTA stacked images (smaller variant) */
+.blog-cta-images {
+  position: relative;
+  width: 100%;
+  height: 200px;
+  max-width: 320px;
+  margin: 0 auto;
+}
+
+.blog-cta-image {
+  position: absolute;
+  width: 65%;
+  left: 50%;
+  transition: transform 0.3s, z-index 0.3s;
+}
+
+.blog-cta-image-1 {
+  z-index: 1;
+  transform: translateX(calc(-50% - 50px)) rotate(-6deg);
+}
+
+.blog-cta-image-2 {
+  z-index: 3;
+  transform: translateX(calc(-50% + 50px)) rotate(5deg);
+}
+
+.blog-cta-image:hover {
+  transform: translateX(-50%) scale(1.05) rotate(0deg) !important;
+  z-index: 10 !important;
+}
