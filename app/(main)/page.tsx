@@ -181,7 +181,7 @@ export default function HomePage() {
                 <span className="text-2xl group-open:rotate-180 transition-transform">›</span>
               </summary>
               <p className="mt-4 text-gray-700 font-flex">
-                Yes! With the Free (Always!) plan, you can get started with the Basic template and a custom subdomain. You can also upgrade to the Premium plan for additional template designs, along with custom domain and GA4 setup.
+                Yes! Pets Friendz is completely free to use. Get started with any template design, a custom subdomain, custom domain connection, and GA4 setup — no fees, no upgrades required.
               </p>
             </details>
 
@@ -204,7 +204,7 @@ export default function HomePage() {
                 <span className="text-2xl group-open:rotate-180 transition-transform">›</span>
               </summary>
               <p className="mt-4 text-gray-700 font-flex">
-                All of the Pets Friendz premium templates include an optional form where visitors can submit pet care inquiries. You&apos;ll receive any messages directly in your account email.
+                All of the Pets Friendz templates include an optional form where visitors can submit pet care inquiries. You&apos;ll receive any messages directly in your account email.
               </p>
             </details>
           </div>

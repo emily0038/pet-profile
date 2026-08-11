@@ -225,7 +225,7 @@ export async function middleware(request: NextRequest) {
       // Reserved paths that should NOT be redirected
       const RESERVED_PATHS = [
         'editor', 'login', 'signup', 'blog', 'about', 'contact',
-        'pricing', 'privacy', 'terms', 'waitlist', 'get-involved', 'api', 'settings',
+        'privacy', 'terms', 'waitlist', 'get-involved', 'api', 'settings',
         'style-guide', 'free-pet-website-templates', 'templates'
       ]
 

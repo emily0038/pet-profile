@@ -198,6 +198,50 @@ Use the `CTABox` component to create call-to-action sections with text and an op
 - Optional image and button
 - Supports JSX in body content
 
+### ValueCard Component
+
+Use the `ValueCard` component to display value propositions with an icon, title, and description.
+
+```mdx
+<ValueCard icon="/logo.svg" title="Keep 100% of every booking">
+No platform fees or commission cutting into your revenue
+</ValueCard>
+```
+
+**Props:**
+- `icon` (required): Path to an SVG image (e.g., `/logo.svg`)
+- `title` (required): Bold heading text
+- `children` (required): Description text or JSX content
+
+**Styling:**
+- Light purple background (#E4E1FF)
+- Icon displayed at 40x40px
+- Title in bold font-slab, description in gray font-flex
+
+### ComparisonGrid Component
+
+Use the `ComparisonGrid` component to compare two options across multiple criteria.
+
+```mdx
+<ComparisonGrid
+  columns={["Your Own Website", "Pet Sitting Apps"]}
+  rows={[
+    { label: "Marketing", col1: "Full control over SEO & ads", col2: "Competing with other sitters" },
+    { label: "Branding", col1: "100% your brand", col2: "Platform's brand first" },
+    { label: "Costs", col1: "Free or low monthly cost", col2: "15-25% commission per booking" },
+  ]}
+/>
+```
+
+**Props:**
+- `columns` (required): Array of exactly 2 strings for column headers
+- `rows` (required): Array of objects with `label`, `col1`, and `col2` strings
+
+**Styling:**
+- Purple header row (#9185FF) with white text
+- Alternating white/gray row backgrounds
+- Rounded container with border
+
 ### BlogImage Component
 
 Use the `BlogImage` component to add images to your blog posts with floating and caption support.

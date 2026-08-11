@@ -3,6 +3,8 @@ import BlogFAQ from './BlogFAQ'
 import CTABox from './CTABox'
 import ProductCTA from './ProductCTA'
 import NewsletterBox from './NewsletterBox'
+import ValueCard from './ValueCard'
+import ComparisonGrid from './ComparisonGrid'
 import Image from 'next/image'
 
 // Helper function to generate slug from heading text
@@ -59,6 +61,8 @@ export const mdxComponents = {
   CTABox,
   ProductCTA,
   NewsletterBox,
+  ValueCard,
+  ComparisonGrid,
   BlogImage,
   a: (props: React.AnchorHTMLAttributes<HTMLAnchorElement>) => (
     <a

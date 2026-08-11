@@ -145,7 +145,7 @@ export default function BasicLandingContent() {
                   professional canvas for promoting your pet care brand.
                 </p>
                 <p style={{ fontSize: '1.125rem', color: '#374151', fontStyle: 'italic' }}>
-                  Included in the <strong>Free (Always!)</strong> and <strong>Premium</strong> plans.
+                  Free to use, always.
                 </p>
               </div>
 
@@ -465,12 +465,11 @@ export default function BasicLandingContent() {
                   borderRadius: '0.5rem',
                 }}>
                   <p style={{ marginBottom: '1rem', color: '#374151', lineHeight: 1.7 }}>
-                    The <strong>Free (Always!)</strong> plan comes with a customizable subdomain that you can share
+                    Every Pets Friendz account comes with a customizable subdomain that you can share
                     with potential clients and link across your social media and marketing materials.
                   </p>
                   <p style={{ color: '#374151', lineHeight: 1.7 }}>
-                    To connect your own domain, sign up for the <strong>Premium</strong> plan,
-                    or check it out with the <strong>30-day free trial</strong>.
+                    You can also connect your own custom domain at no extra cost.
                   </p>
                 </div>
               </div>
@@ -504,7 +503,7 @@ export default function BasicLandingContent() {
               More Pet Website Templates to Try for Free
             </h2>
             <p style={{ fontSize: '1.125rem', color: '#374151', lineHeight: 1.7, marginBottom: '3rem', textAlign: 'center' }}>
-              Check out our premium templates - available to try free for 30 days.
+              Check out our other templates - all free to use.
             </p>
 
             <div style={{

@@ -2,6 +2,8 @@ import Link from 'next/link'
 import Image from 'next/image'
 import Callout from '@/components/Callout'
 import BlogFAQ from '@/components/BlogFAQ'
+import ValueCard from '@/components/ValueCard'
+import ComparisonGrid from '@/components/ComparisonGrid'
 
 export default function StyleGuidePage() {
   return (
@@ -318,6 +320,61 @@ export default function StyleGuidePage() {
             </pre>
           </div>
         </section>
+
+          {/* ValueCard */}
+          <div className="mb-12">
+            <h3 className="text-2xl font-bold mb-4 font-slab">Value Card</h3>
+            <p className="text-gray-700 mb-4 font-flex">
+              A card for communicating value points with an icon, title, and description.
+            </p>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <ValueCard icon="/logo.svg" title="Keep 100% of every booking">
+                No platform fees or commission cutting into your revenue
+              </ValueCard>
+              <ValueCard icon="/logo.svg" title="Free hosting included">
+                Your website is hosted and maintained at no extra cost
+              </ValueCard>
+            </div>
+
+            <pre className="bg-gray-900 text-gray-100 p-4 rounded-lg overflow-x-auto mt-4">
+              <code>{`import ValueCard from '@/components/ValueCard'
+
+<ValueCard icon="/logo.svg" title="Keep 100% of every booking">
+  No platform fees or commission cutting into your revenue
+</ValueCard>`}</code>
+            </pre>
+          </div>
+
+          {/* ComparisonGrid */}
+          <div className="mb-12">
+            <h3 className="text-2xl font-bold mb-4 font-slab">Comparison Grid</h3>
+            <p className="text-gray-700 mb-4 font-flex">
+              A configurable grid for comparing two options across multiple axes.
+            </p>
+
+            <ComparisonGrid
+              columns={["Your Own Website", "Pet Sitting Apps"]}
+              rows={[
+                { label: "Marketing", col1: "Full control over SEO & ads", col2: "Competing with other sitters" },
+                { label: "Branding", col1: "100% your brand", col2: "Platform's brand first" },
+                { label: "Costs", col1: "Free or low monthly cost", col2: "15-25% commission per booking" },
+              ]}
+            />
+
+            <pre className="bg-gray-900 text-gray-100 p-4 rounded-lg overflow-x-auto mt-4">
+              <code>{`import ComparisonGrid from '@/components/ComparisonGrid'
+
+<ComparisonGrid
+  columns={["Your Own Website", "Pet Sitting Apps"]}
+  rows={[
+    { label: "Marketing", col1: "Full control over SEO & ads", col2: "Competing with other sitters" },
+    { label: "Branding", col1: "100% your brand", col2: "Platform's brand first" },
+    { label: "Costs", col1: "Free or low monthly cost", col2: "15-25% commission per booking" },
+  ]}
+/>`}</code>
+            </pre>
+          </div>
 
         {/* Layout Patterns */}
         <section className="mb-16">

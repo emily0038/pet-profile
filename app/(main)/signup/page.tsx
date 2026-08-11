@@ -2,11 +2,10 @@
 
 import { signupBasicInfo } from '@/app/actions/auth'
 import Link from 'next/link'
-import { useActionState, useState, useEffect, Suspense } from 'react'
+import { useActionState, Suspense } from 'react'
 import { useFormStatus } from 'react-dom'
-import { useSearchParams } from 'next/navigation'
 
-function SubmitButton({ selectedPlan }: { selectedPlan: 'free' | 'premium' }) {
+function SubmitButton() {
   const { pending } = useFormStatus()
 
   return (
@@ -15,23 +14,13 @@ function SubmitButton({ selectedPlan }: { selectedPlan: 'free' | 'premium' }) {
       disabled={pending}
       className="w-full bg-gradient-to-br from-[#8b5cf6] to-[#7c3aed] text-white rounded-lg px-4 py-4 text-base font-medium hover:from-[#7c3aed] hover:to-[#6d28d9] hover:shadow-[0_8px_24px_rgba(139,92,246,0.3)] hover:-translate-y-[1px] disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-300 mt-8"
     >
-      {pending ? 'Creating account...' : selectedPlan === 'premium' ? 'Start Premium Trial' : 'Sign up'}
+      {pending ? 'Creating account...' : 'Sign up'}
     </button>
   )
 }
 
 function SignupForm() {
   const [state, formAction] = useActionState(signupBasicInfo, null)
-  const searchParams = useSearchParams()
-  const [selectedPlan, setSelectedPlan] = useState<'free' | 'premium'>('free')
-
-  // Pre-select plan from URL parameter
-  useEffect(() => {
-    const planParam = searchParams.get('plan')
-    if (planParam === 'premium' || planParam === 'free') {
-      setSelectedPlan(planParam)
-    }
-  }, [searchParams])
 
   return (
     <div
@@ -210,96 +199,6 @@ function SignupForm() {
               </p>
             </div>
 
-            {/* Plan Selection */}
-            <div className="mb-6">
-              <label
-                className="flex items-center gap-2 text-sm mb-3 font-normal"
-                style={{ color: '#94a3b8' }}
-              >
-                Choose your plan
-              </label>
-              <div className="grid grid-cols-2 gap-3">
-                {/* Free Plan */}
-                <label
-                  className="relative cursor-pointer rounded-xl p-4 transition-all duration-200"
-                  style={{
-                    background: selectedPlan === 'free' ? 'rgba(139, 92, 246, 0.15)' : 'rgba(15, 23, 42, 0.6)',
-                    border: selectedPlan === 'free' ? '2px solid #8b5cf6' : '1px solid rgba(71, 85, 105, 0.5)',
-                  }}
-                >
-                  <input
-                    type="radio"
-                    name="plan"
-                    value="free"
-                    checked={selectedPlan === 'free'}
-                    onChange={() => setSelectedPlan('free')}
-                    className="sr-only"
-                  />
-                  <div className="text-center">
-                    <div className="text-lg font-semibold mb-1" style={{ color: '#e2e8f0' }}>
-                      Free
-                    </div>
-                    <div className="text-2xl font-bold mb-1" style={{ color: selectedPlan === 'free' ? '#a78bfa' : '#94a3b8' }}>
-                      $0
-                    </div>
-                    <div className="text-[13px]" style={{ color: '#64748b' }}>
-                      Forever free
-                    </div>
-                  </div>
-                  {selectedPlan === 'free' && (
-                    <div
-                      className="absolute top-2 right-2 w-5 h-5 rounded-full flex items-center justify-center text-[12px]"
-                      style={{ background: '#8b5cf6', color: 'white' }}
-                    >
-                      ✓
-                    </div>
-                  )}
-                </label>
-
-                {/* Premium Plan */}
-                <label
-                  className="relative cursor-pointer rounded-xl p-4 transition-all duration-200"
-                  style={{
-                    background: selectedPlan === 'premium' ? 'rgba(139, 92, 246, 0.15)' : 'rgba(15, 23, 42, 0.6)',
-                    border: selectedPlan === 'premium' ? '2px solid #8b5cf6' : '1px solid rgba(71, 85, 105, 0.5)',
-                  }}
-                >
-                  <input
-                    type="radio"
-                    name="plan"
-                    value="premium"
-                    checked={selectedPlan === 'premium'}
-                    onChange={() => setSelectedPlan('premium')}
-                    className="sr-only"
-                  />
-                  <div className="text-center">
-                    <div className="text-lg font-semibold mb-1" style={{ color: '#e2e8f0' }}>
-                      Premium
-                    </div>
-                    <div className="text-2xl font-bold mb-1" style={{ color: selectedPlan === 'premium' ? '#a78bfa' : '#94a3b8' }}>
-                      $5<span className="text-sm font-normal">/mo</span>
-                    </div>
-                    <div className="text-[13px]" style={{ color: '#64748b' }}>
-                      30-day free trial
-                    </div>
-                  </div>
-                  {selectedPlan === 'premium' && (
-                    <div
-                      className="absolute top-2 right-2 w-5 h-5 rounded-full flex items-center justify-center text-[12px]"
-                      style={{ background: '#8b5cf6', color: 'white' }}
-                    >
-                      ✓
-                    </div>
-                  )}
-                </label>
-              </div>
-              {selectedPlan === 'premium' && (
-                <p className="mt-3 text-[13px] text-center" style={{ color: '#86efac' }}>
-                  ✓ 30-day Premium trial included - no credit card required
-                </p>
-              )}
-            </div>
-
             {state?.error && (
               <div
                 className="text-sm p-3 rounded-lg mb-6"
@@ -313,7 +212,7 @@ function SignupForm() {
               </div>
             )}
 
-            <SubmitButton selectedPlan={selectedPlan} />
+            <SubmitButton />
           </form>
         </div>
       </div>

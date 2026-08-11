@@ -5,8 +5,6 @@ import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import { createClient } from '@/utils/supabase/client'
 import AppHeader from '@/components/appHeader'
-import { Subscription, getPlanDisplayName, canUsePremiumFeatures, isTrialActive, getTrialDaysRemaining, formatTrialEndDate, hasUsedTrial } from '@/lib/subscription'
-import { startPremiumTrial, recordUpgradeInterest } from '@/app/actions/subscription'
 
 interface ConfirmModalProps {
   isOpen: boolean
@@ -95,22 +93,13 @@ export default function SettingsPage() {
   })
 
   const [originalData, setOriginalData] = useState(userData)
-  const [subscription, setSubscription] = useState<Subscription | null>(null)
   const [customDomain, setCustomDomain] = useState<{ domain: string; status: string } | null>(null)
-  const [isStartingTrial, setIsStartingTrial] = useState(false)
-  const [isRecordingInterest, setIsRecordingInterest] = useState(false)
 
   // Form state for each section
   const [personalForm, setPersonalForm] = useState({ firstName: '', lastName: '', email: '' })
   const [businessForm, setBusinessForm] = useState({ businessName: '', phoneNumber: '' })
   const [passwordForm, setPasswordForm] = useState({ currentPassword: '', newPassword: '', confirmPassword: '' })
   const [analyticsForm, setAnalyticsForm] = useState({ googleMeasurementId: '' })
-
-  const hasPremiumAccess = canUsePremiumFeatures(subscription)
-  const onTrial = isTrialActive(subscription)
-  const trialDaysRemaining = getTrialDaysRemaining(subscription)
-  const trialEndDate = formatTrialEndDate(subscription)
-  const usedTrial = hasUsedTrial(subscription)
 
   // Error states
   const [personalErrors, setPersonalErrors] = useState<Record<string, string>>({})
@@ -168,17 +157,6 @@ export default function SettingsPage() {
           setPersonalForm({ firstName: data.firstName, lastName: data.lastName, email: data.email })
           setBusinessForm({ businessName: data.businessName, phoneNumber: data.phoneNumber })
           setAnalyticsForm({ googleMeasurementId: data.googleMeasurementId })
-        }
-
-        // Fetch subscription
-        const { data: sub } = await supabase
-          .from('subscriptions')
-          .select('*')
-          .eq('user_id', user.id)
-          .single()
-
-        if (sub) {
-          setSubscription(sub)
         }
 
         // Fetch custom domain
@@ -389,119 +367,6 @@ export default function SettingsPage() {
             <p className="text-[#64748b] text-[15px]">Manage your account information and preferences</p>
           </div>
 
-          {/* Your Plan */}
-          <div className="bg-white rounded-xl shadow-sm mb-6 overflow-hidden">
-            <div className="px-6 py-5 border-b border-[#e2e8f0]">
-              <h2 className="text-[#1e293b] text-lg font-semibold mb-1">Your Plan</h2>
-              <p className="text-[#64748b] text-sm">Manage your subscription</p>
-            </div>
-            <div className="p-6">
-              {/* Current Plan Display */}
-              <div className="flex items-center justify-between mb-6">
-                <div>
-                  <div className="flex items-center gap-3 mb-1">
-                    <span className="text-[#1e293b] text-xl font-semibold">
-                      {getPlanDisplayName(subscription)}
-                    </span>
-                    {onTrial && (
-                      <span className="px-2 py-1 bg-[#f3e8ff] text-[#7c3aed] text-xs font-medium rounded-full">
-                        Trial
-                      </span>
-                    )}
-                  </div>
-                  {onTrial && (
-                    <p className="text-[#64748b] text-sm">
-                      {trialDaysRemaining} day{trialDaysRemaining !== 1 ? 's' : ''} remaining (ends {trialEndDate})
-                    </p>
-                  )}
-                  {!hasPremiumAccess && !onTrial && (
-                    <p className="text-[#64748b] text-sm">
-                      Upgrade to Premium for more templates and features
-                    </p>
-                  )}
-                  {hasPremiumAccess && !onTrial && (
-                    <p className="text-[#64748b] text-sm">
-                      You have access to all premium features
-                    </p>
-                  )}
-                </div>
-              </div>
-
-              {/* Action Buttons */}
-              {!hasPremiumAccess && (
-                <div className="flex gap-3">
-                  {!usedTrial && (
-                    <button
-                      onClick={async () => {
-                        setIsStartingTrial(true)
-                        const result = await startPremiumTrial()
-                        if (result.success) {
-                          // Refresh subscription
-                          const supabase = createClient()
-                          const { data: { user } } = await supabase.auth.getUser()
-                          if (user) {
-                            const { data: sub } = await supabase
-                              .from('subscriptions')
-                              .select('*')
-                              .eq('user_id', user.id)
-                              .single()
-                            if (sub) setSubscription(sub)
-                          }
-                        }
-                        setIsStartingTrial(false)
-                      }}
-                      disabled={isStartingTrial}
-                      className="px-6 py-3 rounded-lg text-[15px] font-medium transition-all"
-                      style={{
-                        background: 'linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%)',
-                        color: 'white',
-                        opacity: isStartingTrial ? 0.7 : 1,
-                        cursor: isStartingTrial ? 'wait' : 'pointer',
-                      }}
-                    >
-                      {isStartingTrial ? 'Starting...' : 'Start 30-Day Free Trial'}
-                    </button>
-                  )}
-                  <button
-                    onClick={async () => {
-                      setIsRecordingInterest(true)
-                      await recordUpgradeInterest()
-                      router.push('/upgrade')
-                    }}
-                    disabled={isRecordingInterest}
-                    className="px-6 py-3 rounded-lg text-[15px] font-medium transition-all"
-                    style={{
-                      background: 'white',
-                      color: '#7c3aed',
-                      border: '2px solid #7c3aed',
-                      opacity: isRecordingInterest ? 0.7 : 1,
-                      cursor: isRecordingInterest ? 'wait' : 'pointer',
-                    }}
-                  >
-                    {isRecordingInterest ? 'Submitting...' : 'I Want to Upgrade'}
-                  </button>
-                </div>
-              )}
-
-              {/* Premium Features List */}
-              <div className="mt-6 pt-6 border-t border-[#e2e8f0]">
-                <p className="text-[#475569] text-sm font-medium mb-3">Premium features include:</p>
-                <ul className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-                  {[
-                    'All premium templates',
-                    'Custom domain support',
-                    'Google Analytics integration',
-                  ].map((feature) => (
-                    <li key={feature} className="flex items-center gap-2 text-[14px] text-[#64748b]">
-                      <span className="text-[#8b5cf6]">✓</span>
-                      <span>{feature}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            </div>
-          </div>
-
           {/* Personal Information */}
           <div className="bg-white rounded-xl shadow-sm mb-6 overflow-hidden">
             <div className="px-6 py-5 border-b border-[#e2e8f0]">
@@ -684,70 +549,13 @@ export default function SettingsPage() {
                 </div>
               </div>
 
-              {/* Custom Domain - Premium Feature */}
+              {/* Custom Domain */}
               <div className="mt-6 pt-6 border-t border-[#e2e8f0]">
                 <div className="flex items-center justify-between mb-3">
                   <label className="block text-[#475569] text-sm font-medium">Custom Domain</label>
-                  {!hasPremiumAccess && (
-                    <span className="px-3 py-1 text-xs font-medium rounded-full" style={{ background: 'linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%)', color: 'white' }}>
-                      Premium
-                    </span>
-                  )}
                 </div>
 
-                {!hasPremiumAccess ? (
-                  <div className="bg-[#faf5ff] border border-[#e9d5ff] rounded-lg p-4">
-                    <p className="text-[#6b21a8] text-sm mb-3">
-                      Connect your own domain (e.g., yourbusiness.com) with a Premium subscription.
-                    </p>
-                    {!usedTrial ? (
-                      <button
-                        onClick={async () => {
-                          setIsStartingTrial(true)
-                          const result = await startPremiumTrial()
-                          if (result.success) {
-                            const supabase = createClient()
-                            const { data: { user } } = await supabase.auth.getUser()
-                            if (user) {
-                              const { data: sub } = await supabase
-                                .from('subscriptions')
-                                .select('*')
-                                .eq('user_id', user.id)
-                                .single()
-                              if (sub) setSubscription(sub)
-                            }
-                          }
-                          setIsStartingTrial(false)
-                        }}
-                        disabled={isStartingTrial}
-                        className="px-4 py-2 rounded-lg text-[13px] font-medium transition-all"
-                        style={{
-                          background: 'linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%)',
-                          color: 'white',
-                        }}
-                      >
-                        {isStartingTrial ? 'Starting...' : 'Start Free Trial to Unlock'}
-                      </button>
-                    ) : (
-                      <button
-                        onClick={async () => {
-                          setIsRecordingInterest(true)
-                          await recordUpgradeInterest()
-                          router.push('/upgrade')
-                        }}
-                        disabled={isRecordingInterest}
-                        className="px-4 py-2 rounded-lg text-[13px] font-medium transition-all"
-                        style={{
-                          background: 'white',
-                          color: '#7c3aed',
-                          border: '2px solid #7c3aed',
-                        }}
-                      >
-                        {isRecordingInterest ? 'Submitting...' : 'Upgrade to Premium'}
-                      </button>
-                    )}
-                  </div>
-                ) : customDomain ? (
+                {customDomain ? (
                   <div>
                     {customDomain.status === 'active' ? (
                       <div className="bg-[#f0fdf4] border border-[#86efac] rounded-lg p-4">
@@ -905,101 +713,53 @@ export default function SettingsPage() {
                 <h2 className="text-[#1e293b] text-lg font-semibold mb-1">Google Analytics</h2>
                 <p className="text-[#64748b] text-sm">Track visitors to your profile page</p>
               </div>
-              {!hasPremiumAccess && (
-                <span className="px-3 py-1 text-xs font-medium rounded-full" style={{ background: 'linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%)', color: 'white' }}>
-                  Premium
-                </span>
-              )}
             </div>
             <div className="p-6">
-              {!hasPremiumAccess ? (
-                <div className="text-center py-6">
-                  <div className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-[#f3e8ff] mb-4">
-                    <span className="text-2xl">📊</span>
-                  </div>
-                  <h3 className="text-[#1e293b] text-lg font-semibold mb-2">Premium Feature</h3>
-                  <p className="text-[#64748b] text-sm mb-4 max-w-md mx-auto">
-                    Add your Google Analytics tracking code to monitor visitor activity on your profile page.
-                  </p>
-                  {!usedTrial && (
-                    <button
-                      onClick={async () => {
-                        setIsStartingTrial(true)
-                        const result = await startPremiumTrial()
-                        if (result.success) {
-                          const supabase = createClient()
-                          const { data: { user } } = await supabase.auth.getUser()
-                          if (user) {
-                            const { data: sub } = await supabase
-                              .from('subscriptions')
-                              .select('*')
-                              .eq('user_id', user.id)
-                              .single()
-                            if (sub) setSubscription(sub)
-                          }
-                        }
-                        setIsStartingTrial(false)
-                      }}
-                      disabled={isStartingTrial}
-                      className="px-6 py-2 rounded-lg text-[14px] font-medium transition-all"
-                      style={{
-                        background: 'linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%)',
-                        color: 'white',
-                      }}
-                    >
-                      {isStartingTrial ? 'Starting...' : 'Start Free Trial to Unlock'}
-                    </button>
-                  )}
+              <div className="mb-5">
+                <label htmlFor="googleMeasurementId" className="block text-[#475569] text-sm font-medium mb-2">
+                  Measurement ID
+                </label>
+                <input
+                  type="text"
+                  id="googleMeasurementId"
+                  value={analyticsForm.googleMeasurementId}
+                  onChange={(e) => setAnalyticsForm({ ...analyticsForm, googleMeasurementId: e.target.value })}
+                  placeholder="G-XXXXXXXXXX"
+                  className="w-full bg-white border border-[#cbd5e1] rounded-lg px-[14px] py-[10px] text-[#0f172a] text-[15px] transition-all focus:outline-none focus:border-[#8b5cf6] focus:shadow-[0_0_0_3px_rgba(139,92,246,0.1)] placeholder:text-[#94a3b8]"
+                />
+                <div className="text-[#64748b] text-[13px] mt-[6px]">
+                  Find this in your Google Analytics account under Admin &gt; Data Streams &gt; Web
                 </div>
-              ) : (
-                <>
-                  <div className="mb-5">
-                    <label htmlFor="googleMeasurementId" className="block text-[#475569] text-sm font-medium mb-2">
-                      Measurement ID
-                    </label>
-                    <input
-                      type="text"
-                      id="googleMeasurementId"
-                      value={analyticsForm.googleMeasurementId}
-                      onChange={(e) => setAnalyticsForm({ ...analyticsForm, googleMeasurementId: e.target.value })}
-                      placeholder="G-XXXXXXXXXX"
-                      className="w-full bg-white border border-[#cbd5e1] rounded-lg px-[14px] py-[10px] text-[#0f172a] text-[15px] transition-all focus:outline-none focus:border-[#8b5cf6] focus:shadow-[0_0_0_3px_rgba(139,92,246,0.1)] placeholder:text-[#94a3b8]"
-                    />
-                    <div className="text-[#64748b] text-[13px] mt-[6px]">
-                      Find this in your Google Analytics account under Admin &gt; Data Streams &gt; Web
-                    </div>
-                  </div>
+              </div>
 
-                  {analyticsErrors.general && (
-                    <div className="text-[#ef4444] text-sm p-3 rounded-lg mb-5 bg-[#fef2f2] border border-[#fecaca]">
-                      {analyticsErrors.general}
-                    </div>
-                  )}
-
-                  {analyticsSuccess && (
-                    <div className="text-[#15803d] text-sm p-3 rounded-lg mb-5 bg-[#dcfce7] border border-[#86efac]">
-                      Google Analytics settings updated successfully
-                    </div>
-                  )}
-
-                  <div style={{ display: 'flex', gap: '12px', marginTop: '24px', paddingTop: '24px', borderTop: '1px solid #E5E7EB' }}>
-                    <button
-                      onClick={handleSaveAnalytics}
-                      disabled={!hasAnalyticsChanges || savingAnalytics}
-                      className="btn-save"
-                    >
-                      {savingAnalytics ? 'Saving...' : 'Save Changes'}
-                    </button>
-                    <button
-                      onClick={cancelAnalyticsChanges}
-                      disabled={!hasAnalyticsChanges}
-                      className="btn-cancel"
-                    >
-                      Cancel
-                    </button>
-                  </div>
-                </>
+              {analyticsErrors.general && (
+                <div className="text-[#ef4444] text-sm p-3 rounded-lg mb-5 bg-[#fef2f2] border border-[#fecaca]">
+                  {analyticsErrors.general}
+                </div>
               )}
+
+              {analyticsSuccess && (
+                <div className="text-[#15803d] text-sm p-3 rounded-lg mb-5 bg-[#dcfce7] border border-[#86efac]">
+                  Google Analytics settings updated successfully
+                </div>
+              )}
+
+              <div style={{ display: 'flex', gap: '12px', marginTop: '24px', paddingTop: '24px', borderTop: '1px solid #E5E7EB' }}>
+                <button
+                  onClick={handleSaveAnalytics}
+                  disabled={!hasAnalyticsChanges || savingAnalytics}
+                  className="btn-save"
+                >
+                  {savingAnalytics ? 'Saving...' : 'Save Changes'}
+                </button>
+                <button
+                  onClick={cancelAnalyticsChanges}
+                  disabled={!hasAnalyticsChanges}
+                  className="btn-cancel"
+                >
+                  Cancel
+                </button>
+              </div>
             </div>
           </div>
 
