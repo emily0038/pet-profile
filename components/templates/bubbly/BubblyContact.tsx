@@ -13,6 +13,7 @@ export default function BubblyContact({ profile, serviceAreas, services }: Bubbl
   const [name, setName] = useState('');
   const [phoneNumber, setPhoneNumber] = useState('');
   const [serviceType, setServiceType] = useState('');
+  const [foundVia, setFoundVia] = useState('');
   const [message, setMessage] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
@@ -72,6 +73,7 @@ export default function BubblyContact({ profile, serviceAreas, services }: Bubbl
         phoneNumber,
         message,
         serviceType: serviceType || undefined,
+        foundVia: foundVia || undefined,
       });
 
       // Show success message
@@ -83,6 +85,7 @@ export default function BubblyContact({ profile, serviceAreas, services }: Bubbl
         setName('');
         setPhoneNumber('');
         setServiceType('');
+        setFoundVia('');
         setMessage('');
       }, 3000);
     } catch (error) {
@@ -260,6 +263,40 @@ export default function BubblyContact({ profile, serviceAreas, services }: Bubbl
                     onBlur={(e) => (e.currentTarget.style.borderColor = '#e5e5e5')}
                   />
                 </div>
+              </div>
+
+              {/* How did you find me? */}
+              <div style={{ marginBottom: '24px' }}>
+                <label
+                  htmlFor="foundVia"
+                  style={{
+                    display: 'block',
+                    marginBottom: '8px',
+                    fontWeight: 600,
+                    fontSize: '14px',
+                    color: 'var(--bubbly-text-dark)',
+                  }}
+                >
+                  How did you find me?
+                </label>
+                <input
+                  type="text"
+                  id="foundVia"
+                  value={foundVia}
+                  onChange={(e) => setFoundVia(e.target.value)}
+                  placeholder="Google, Instagram, a friend..."
+                  style={{
+                    width: '100%',
+                    padding: '14px 16px',
+                    borderRadius: '12px',
+                    border: '2px solid #e5e5e5',
+                    fontSize: '15px',
+                    outline: 'none',
+                    transition: 'border-color 0.3s',
+                  }}
+                  onFocus={(e) => (e.currentTarget.style.borderColor = 'var(--bubbly-primary)')}
+                  onBlur={(e) => (e.currentTarget.style.borderColor = '#e5e5e5')}
+                />
               </div>
 
               {/* Message Field */}

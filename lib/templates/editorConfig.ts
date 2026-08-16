@@ -68,6 +68,12 @@ export interface TemplateEditorConfig {
     showDescription: boolean;
   };
 
+  // Custom section (never required): a free-text heading + body, rendered
+  // just below Services on the public page
+  customSection: {
+    enabled: boolean;
+  };
+
   // Reviews section (never required, reviewMaxLength = 500, ownerNameRequired = showOwnerName)
   reviews: {
     showPetPhoto: boolean;
@@ -148,6 +154,10 @@ export const proTemplateConfig: TemplateEditorConfig = {
     showDescription: true,
   },
 
+  customSection: {
+    enabled: true,
+  },
+
   reviews: {
     showPetPhoto: true,
     petPhotoRequired: false,
@@ -220,6 +230,10 @@ export const bubblyTemplateConfig: TemplateEditorConfig = {
     showDescription: false, // Just names, no descriptions
   },
 
+  customSection: {
+    enabled: true,
+  },
+
   reviews: {
     showPetPhoto: true,
     showPetNameBreed: true,
@@ -289,6 +303,10 @@ export const sleekTemplateConfig: TemplateEditorConfig = {
   serviceAreas: {
     enabled: false, // No service areas in Sleek
     showDescription: false,
+  },
+
+  customSection: {
+    enabled: true,
   },
 
   reviews: {
@@ -363,6 +381,10 @@ export const basicTemplateConfig: TemplateEditorConfig = {
     showDescription: true,
   },
 
+  customSection: {
+    enabled: true,
+  },
+
   reviews: {
     showPetPhoto: true,
     petPhotoRequired: false,
@@ -433,6 +455,10 @@ export const friendlyTemplateConfig: TemplateEditorConfig = {
   serviceAreas: {
     enabled: false,
     showDescription: false,
+  },
+
+  customSection: {
+    enabled: true,
   },
 
   reviews: {

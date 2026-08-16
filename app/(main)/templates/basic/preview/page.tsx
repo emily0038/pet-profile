@@ -34,6 +34,7 @@ const previewData: TemplateData = {
     template_id: 'basic',
     theme: '',
     google_measurement_id: '',
+    llms_txt_content: null, custom_section_heading: '', custom_section_body: '',
     created_at: new Date().toISOString(),
     updated_at: new Date().toISOString(),
   },

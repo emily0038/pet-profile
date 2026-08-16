@@ -15,6 +15,7 @@ import AboutSection from './sections/AboutSection';
 import PersonalSection from './sections/PersonalSection';
 import ServiceAreasSection from './sections/ServiceAreasSection';
 import ContactSection from './sections/ContactSection';
+import CustomSection from './sections/CustomSection';
 import SaveStatusIndicator from './SaveStatusIndicator';
 import { SaveStatus } from '@/hooks/useSaveStatus';
 import AppHeader from '@/components/appHeader';
@@ -157,6 +158,17 @@ export default function TemplateEditor({ config, onBack, onPreview, previewButto
       isExpanded: false,
       isRequired: false, // Services is never required
     });
+
+    if (config.customSection.enabled) {
+      sections.push({
+        id: 'custom-section',
+        title: 'Custom Section',
+        subtitle: 'Your Own Heading & Text',
+        status: 'optional', // Custom section is never required
+        isExpanded: false,
+        isRequired: false,
+      });
+    }
 
     if (config.serviceAreas.enabled) {
       sections.push({
@@ -329,6 +341,14 @@ export default function TemplateEditor({ config, onBack, onPreview, previewButto
           <ServicesSection
             config={config}
             onSaveStatusChange={(saveStatus) => handleSectionSaveStatusChange('services', saveStatus)}
+          />
+        );
+
+      case 'custom-section':
+        return (
+          <CustomSection
+            config={config}
+            onSaveStatusChange={(saveStatus) => handleSectionSaveStatusChange('custom-section', saveStatus)}
           />
         );
 

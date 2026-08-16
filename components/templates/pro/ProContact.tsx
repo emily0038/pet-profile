@@ -14,6 +14,7 @@ export default function ProContact({ profile, serviceAreas, services }: ProConta
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [serviceType, setServiceType] = useState('');
+  const [foundVia, setFoundVia] = useState('');
   const [message, setMessage] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
@@ -66,6 +67,7 @@ export default function ProContact({ profile, serviceAreas, services }: ProConta
         phoneNumber,
         message,
         serviceType: serviceType || undefined,
+        foundVia: foundVia || undefined,
       });
 
       // Show success message
@@ -78,6 +80,7 @@ export default function ProContact({ profile, serviceAreas, services }: ProConta
         setFirstName('');
         setLastName('');
         setServiceType('');
+        setFoundVia('');
         setMessage('');
       }, 3000);
     } catch (error) {
@@ -348,6 +351,26 @@ export default function ProContact({ profile, serviceAreas, services }: ProConta
                     required
                   />
                 </div>
+              </div>
+
+              {/* How did you find me? */}
+              <div style={{ marginBottom: '1.5rem' }}>
+                <label style={{ display: 'block', marginBottom: '0.5rem', color: 'var(--primary)', fontWeight: 600 }}>
+                  How did you find me?
+                </label>
+                <input
+                  type="text"
+                  value={foundVia}
+                  onChange={(e) => setFoundVia(e.target.value)}
+                  placeholder="Google, Instagram, a friend..."
+                  style={{
+                    width: '100%',
+                    padding: '0.75rem',
+                    border: '1px solid rgba(45, 95, 79, 0.2)',
+                    borderRadius: '10px',
+                    fontSize: '1rem',
+                  }}
+                />
               </div>
 
               {/* Message */}

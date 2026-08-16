@@ -18,7 +18,7 @@ const previewData: TemplateData = {
     address: '1234 Pearl St, Boulder, CO 80302',
     accepts_cats: true, accepts_dogs: true, max_weight: 100,
     booking_link: '', instagram_link: '', facebook_link: '', tiktok_link: '', twitter_link: '', google_business_link: '',
-    template_id: 'pro', theme: '', google_measurement_id: '',
+    template_id: 'pro', theme: '', google_measurement_id: '', llms_txt_content: null, custom_section_heading: '', custom_section_body: '',
     created_at: new Date().toISOString(), updated_at: new Date().toISOString(),
   },
   services: [

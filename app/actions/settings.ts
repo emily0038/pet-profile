@@ -169,3 +169,42 @@ export async function updateGoogleAnalytics(prevState: { error?: string; success
   }
   return { success: true }
 }
+
+export async function updateLlmsTxt(prevState: { error?: string; success?: boolean } | null, formData: FormData) {
+  const supabase = await createClient()
+
+  const content = (formData.get('llms_txt_content') as string) ?? ''
+
+  // Get current user
+  const { data: { user } } = await supabase.auth.getUser()
+  if (!user) {
+    return { error: 'You must be logged in to update your settings' }
+  }
+
+  // Get profile to revalidate the correct path
+  const { data: profile } = await supabase
+    .from('profiles')
+    .select('domain')
+    .eq('user_id', user.id)
+    .single()
+
+  // An empty/whitespace-only value clears the override and falls back to
+  // the auto-generated version
+  const { error } = await supabase
+    .from('profiles')
+    .update({
+      llms_txt_content: content.trim() || null,
+    })
+    .eq('user_id', user.id)
+
+  if (error) {
+    return { error: error.message }
+  }
+
+  revalidatePath('/settings')
+  if (profile?.domain) {
+    revalidatePath(`/${profile.domain}`)
+    revalidatePath(`/${profile.domain}/llms.txt`)
+  }
+  return { success: true }
+}

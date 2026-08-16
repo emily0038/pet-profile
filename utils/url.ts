@@ -61,3 +61,16 @@ export function getProfilePath(username: string): string {
     return `/${username}`
   }
 }
+
+/**
+ * Generates a relative link to a sub-path within a profile (e.g. "/blog" or
+ * "/blog/my-post"), correct in both routing modes. On subdomains/custom
+ * domains the profile is already the current host, so the sub-path alone
+ * is enough; in local path-based dev the domain segment has to stay in
+ * the path.
+ * @param username - The profile's domain/username slug
+ * @param subPath - Path starting with "/", e.g. "/blog"
+ */
+export function getProfileSubPath(username: string, subPath: string): string {
+  return isSubdomainsEnabled() ? subPath : `/${username}${subPath}`
+}

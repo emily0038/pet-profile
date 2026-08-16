@@ -13,6 +13,7 @@ interface SubmitInquiryData {
   phoneNumber: string
   message: string
   serviceType?: string
+  foundVia?: string
 }
 
 export async function submitInquiry(data: SubmitInquiryData) {
@@ -58,6 +59,7 @@ export async function submitInquiry(data: SubmitInquiryData) {
         phone_number: data.phoneNumber,
         message: data.message,
         service_type: data.serviceType,
+        found_via: data.foundVia,
       })
 
     if (inquiryError) {
@@ -79,6 +81,7 @@ export async function submitInquiry(data: SubmitInquiryData) {
         phoneNumber: data.phoneNumber,
         message: data.message,
         serviceType: data.serviceType,
+        foundVia: data.foundVia,
       }),
     })
 

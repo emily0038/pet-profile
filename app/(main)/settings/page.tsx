@@ -1,10 +1,11 @@
 'use client'
 
-import { updatePersonalInfo, updateBusinessInfo, updatePassword, updateGoogleAnalytics } from '@/app/actions/settings'
+import { updatePersonalInfo, updateBusinessInfo, updatePassword, updateGoogleAnalytics, updateLlmsTxt } from '@/app/actions/settings'
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import { createClient } from '@/utils/supabase/client'
 import AppHeader from '@/components/appHeader'
+import { getProfileUrl } from '@/utils/url'
 
 interface ConfirmModalProps {
   isOpen: boolean
@@ -90,6 +91,7 @@ export default function SettingsPage() {
     phoneNumber: '',
     domain: '',
     googleMeasurementId: '',
+    llmsTxtContent: '',
   })
 
   const [originalData, setOriginalData] = useState(userData)
@@ -100,24 +102,28 @@ export default function SettingsPage() {
   const [businessForm, setBusinessForm] = useState({ businessName: '', phoneNumber: '' })
   const [passwordForm, setPasswordForm] = useState({ currentPassword: '', newPassword: '', confirmPassword: '' })
   const [analyticsForm, setAnalyticsForm] = useState({ googleMeasurementId: '' })
+  const [llmsTxtForm, setLlmsTxtForm] = useState({ content: '' })
 
   // Error states
   const [personalErrors, setPersonalErrors] = useState<Record<string, string>>({})
   const [businessErrors, setBusinessErrors] = useState<Record<string, string>>({})
   const [passwordErrors, setPasswordErrors] = useState<Record<string, string>>({})
   const [analyticsErrors, setAnalyticsErrors] = useState<Record<string, string>>({})
+  const [llmsTxtErrors, setLlmsTxtErrors] = useState<Record<string, string>>({})
 
   // Success states
   const [personalSuccess, setPersonalSuccess] = useState(false)
   const [businessSuccess, setBusinessSuccess] = useState(false)
   const [passwordSuccess, setPasswordSuccess] = useState(false)
   const [analyticsSuccess, setAnalyticsSuccess] = useState(false)
+  const [llmsTxtSuccess, setLlmsTxtSuccess] = useState(false)
 
   // Saving states
   const [savingPersonal, setSavingPersonal] = useState(false)
   const [savingBusiness, setSavingBusiness] = useState(false)
   const [savingPassword, setSavingPassword] = useState(false)
   const [savingAnalytics, setSavingAnalytics] = useState(false)
+  const [savingLlmsTxt, setSavingLlmsTxt] = useState(false)
 
   // Confirmation modal states
   const [personalModalOpen, setPersonalModalOpen] = useState(false)
@@ -134,7 +140,7 @@ export default function SettingsPage() {
         // Fetch profile
         const { data: profile, error } = await supabase
           .from('profiles')
-          .select('first_name, last_name, email, business_name, phone_number, domain, google_measurement_id')
+          .select('first_name, last_name, email, business_name, phone_number, domain, google_measurement_id, llms_txt_content')
           .eq('user_id', user.id)
           .single()
 
@@ -150,6 +156,7 @@ export default function SettingsPage() {
             phoneNumber: profile.phone_number || '',
             domain: profile.domain || '',
             googleMeasurementId: profile.google_measurement_id || '',
+            llmsTxtContent: profile.llms_txt_content || '',
           }
           console.log('Setting form data:', data)
           setUserData(data)
@@ -157,6 +164,7 @@ export default function SettingsPage() {
           setPersonalForm({ firstName: data.firstName, lastName: data.lastName, email: data.email })
           setBusinessForm({ businessName: data.businessName, phoneNumber: data.phoneNumber })
           setAnalyticsForm({ googleMeasurementId: data.googleMeasurementId })
+          setLlmsTxtForm({ content: data.llmsTxtContent })
         }
 
         // Fetch custom domain
@@ -193,6 +201,8 @@ export default function SettingsPage() {
     passwordForm.confirmPassword !== ''
 
   const hasAnalyticsChanges = analyticsForm.googleMeasurementId !== originalData.googleMeasurementId
+
+  const hasLlmsTxtChanges = llmsTxtForm.content !== originalData.llmsTxtContent
 
   // Validation functions
   const validatePersonalInfo = () => {
@@ -355,6 +365,37 @@ export default function SettingsPage() {
     setAnalyticsForm({ googleMeasurementId: originalData.googleMeasurementId })
     setAnalyticsErrors({})
     setAnalyticsSuccess(false)
+  }
+
+  const handleSaveLlmsTxt = async () => {
+    setSavingLlmsTxt(true)
+    setLlmsTxtSuccess(false)
+    setLlmsTxtErrors({})
+
+    const formData = new FormData()
+    formData.append('llms_txt_content', llmsTxtForm.content)
+
+    const result = await updateLlmsTxt(null, formData)
+
+    if (result?.error) {
+      setLlmsTxtErrors({ general: result.error })
+    } else {
+      setLlmsTxtSuccess(true)
+      setOriginalData({ ...originalData, llmsTxtContent: llmsTxtForm.content })
+      setTimeout(() => setLlmsTxtSuccess(false), 3000)
+    }
+
+    setSavingLlmsTxt(false)
+  }
+
+  const cancelLlmsTxtChanges = () => {
+    setLlmsTxtForm({ content: originalData.llmsTxtContent })
+    setLlmsTxtErrors({})
+    setLlmsTxtSuccess(false)
+  }
+
+  const resetLlmsTxtToAutoGenerated = () => {
+    setLlmsTxtForm({ content: '' })
   }
 
   return (
@@ -755,6 +796,83 @@ export default function SettingsPage() {
                 <button
                   onClick={cancelAnalyticsChanges}
                   disabled={!hasAnalyticsChanges}
+                  className="btn-cancel"
+                >
+                  Cancel
+                </button>
+              </div>
+            </div>
+          </div>
+
+          {/* AI Visibility (llms.txt) */}
+          <div className="bg-white rounded-xl shadow-sm mb-6 overflow-hidden relative">
+            <div className="px-6 py-5 border-b border-[#e2e8f0] flex items-center justify-between">
+              <div>
+                <h2 className="text-[#1e293b] text-lg font-semibold mb-1">AI Visibility (llms.txt)</h2>
+                <p className="text-[#64748b] text-sm">Control how AI tools like ChatGPT and Perplexity summarize your business</p>
+              </div>
+            </div>
+            <div className="p-6">
+              <div className="mb-5">
+                <label htmlFor="llmsTxtContent" className="block text-[#475569] text-sm font-medium mb-2">
+                  Custom llms.txt content (optional)
+                </label>
+                <textarea
+                  id="llmsTxtContent"
+                  rows={10}
+                  value={llmsTxtForm.content}
+                  onChange={(e) => setLlmsTxtForm({ content: e.target.value })}
+                  placeholder={"Leave blank to auto-generate from your business info, services, and service areas.\n\nOr write your own summary in Markdown — this is what AI tools read to understand your business."}
+                  className="w-full bg-white border border-[#cbd5e1] rounded-lg px-[14px] py-[10px] text-[#0f172a] text-[14px] font-mono transition-all focus:outline-none focus:border-[#8b5cf6] focus:shadow-[0_0_0_3px_rgba(139,92,246,0.1)] placeholder:text-[#94a3b8]"
+                />
+                <div className="text-[#64748b] text-[13px] mt-[6px] flex items-center justify-between">
+                  <span>
+                    {userData.domain && (
+                      <a
+                        href={`${getProfileUrl(userData.domain)}/llms.txt`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-[#7c3aed] hover:underline"
+                      >
+                        View your live llms.txt
+                      </a>
+                    )}
+                  </span>
+                  {llmsTxtForm.content && (
+                    <button
+                      type="button"
+                      onClick={resetLlmsTxtToAutoGenerated}
+                      className="text-[#7c3aed] hover:underline"
+                    >
+                      Reset to auto-generated
+                    </button>
+                  )}
+                </div>
+              </div>
+
+              {llmsTxtErrors.general && (
+                <div className="text-[#ef4444] text-sm p-3 rounded-lg mb-5 bg-[#fef2f2] border border-[#fecaca]">
+                  {llmsTxtErrors.general}
+                </div>
+              )}
+
+              {llmsTxtSuccess && (
+                <div className="text-[#15803d] text-sm p-3 rounded-lg mb-5 bg-[#dcfce7] border border-[#86efac]">
+                  llms.txt updated successfully
+                </div>
+              )}
+
+              <div style={{ display: 'flex', gap: '12px', marginTop: '24px', paddingTop: '24px', borderTop: '1px solid #E5E7EB' }}>
+                <button
+                  onClick={handleSaveLlmsTxt}
+                  disabled={!hasLlmsTxtChanges || savingLlmsTxt}
+                  className="btn-save"
+                >
+                  {savingLlmsTxt ? 'Saving...' : 'Save Changes'}
+                </button>
+                <button
+                  onClick={cancelLlmsTxtChanges}
+                  disabled={!hasLlmsTxtChanges}
                   className="btn-cancel"
                 >
                   Cancel

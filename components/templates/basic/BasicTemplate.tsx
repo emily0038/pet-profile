@@ -1,4 +1,5 @@
 import { TemplateData } from '@/lib/templates/types';
+import BasicCustomSection from './BasicCustomSection';
 import BasicNav from './BasicNav';
 import BasicHero from './BasicHero';
 import BasicAbout from './BasicAbout';
@@ -70,6 +71,11 @@ export default function BasicTemplate({ data }: BasicTemplateProps) {
       />
 
       <BasicServices services={services} />
+
+      <BasicCustomSection
+        heading={profile.custom_section_heading}
+        body={profile.custom_section_body}
+      />
 
       <BasicGallery reviews={reviews} />
 

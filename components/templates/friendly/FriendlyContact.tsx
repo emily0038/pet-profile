@@ -14,6 +14,7 @@ export default function FriendlyContact({ profile, services }: FriendlyContactPr
     lastName: '',
     phone: '',
     service: '',
+    foundVia: '',
     message: '',
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -24,25 +25,20 @@ export default function FriendlyContact({ profile, services }: FriendlyContactPr
     setIsSubmitting(true);
 
     try {
-      const response = await fetch('/api/send', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          to: profile.email,
-          subject: `New Inquiry from ${formData.firstName} ${formData.lastName}`,
-          firstName: formData.firstName,
-          lastName: formData.lastName,
-          phone: formData.phone,
-          service: formData.service,
-          message: formData.message,
-          businessName: profile.business_name || profile.display_name,
-        }),
+      const { submitInquiry } = await import('@/app/actions/requests');
+
+      await submitInquiry({
+        profileId: profile.user_id,
+        firstName: formData.firstName,
+        lastName: formData.lastName,
+        phoneNumber: formData.phone,
+        message: formData.message,
+        serviceType: formData.service || undefined,
+        foundVia: formData.foundVia || undefined,
       });
 
-      if (response.ok) {
-        setSubmitted(true);
-        setFormData({ firstName: '', lastName: '', phone: '', service: '', message: '' });
-      }
+      setSubmitted(true);
+      setFormData({ firstName: '', lastName: '', phone: '', service: '', foundVia: '', message: '' });
     } catch (error) {
       console.error('Failed to submit form:', error);
     } finally {
@@ -150,6 +146,17 @@ export default function FriendlyContact({ profile, services }: FriendlyContactPr
                     </>
                   )}
                 </select>
+              </div>
+              <div className="friendly-form-group">
+                <label htmlFor="foundVia">How did you find me?</label>
+                <input
+                  type="text"
+                  id="foundVia"
+                  name="foundVia"
+                  placeholder="Google, Instagram, a friend..."
+                  value={formData.foundVia}
+                  onChange={(e) => setFormData({ ...formData, foundVia: e.target.value })}
+                />
               </div>
               <div className="friendly-form-group">
                 <label htmlFor="message">Message</label>

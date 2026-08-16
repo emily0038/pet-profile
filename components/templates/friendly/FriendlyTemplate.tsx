@@ -1,6 +1,7 @@
 'use client';
 
 import { TemplateData } from '@/lib/templates/types';
+import FriendlyCustomSection from './FriendlyCustomSection';
 import FriendlyNav from './FriendlyNav';
 import FriendlyHero from './FriendlyHero';
 import FriendlyAbout from './FriendlyAbout';
@@ -58,6 +59,10 @@ export default function FriendlyTemplate({ data }: FriendlyTemplateProps) {
           businessName={profile.business_name || profile.display_name}
         />
       )}
+      <FriendlyCustomSection
+        heading={profile.custom_section_heading}
+        body={profile.custom_section_body}
+      />
       {reviews && reviews.length > 0 && (
         <FriendlyReviews reviews={reviews} />
       )}

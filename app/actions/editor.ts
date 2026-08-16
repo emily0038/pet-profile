@@ -470,6 +470,46 @@ export async function updateContactSection(data: {
 }
 
 /**
+ * Update custom section (free-text heading + body)
+ */
+export async function updateCustomSection(data: {
+  custom_section_heading?: string
+  custom_section_body?: string
+}) {
+  const supabase = await createClient()
+  const { data: { user } } = await supabase.auth.getUser()
+
+  if (!user) {
+    throw new Error('Not authenticated')
+  }
+
+  const updateData: Record<string, string> = {
+    updated_at: new Date().toISOString()
+  }
+
+  if (data.custom_section_heading !== undefined) {
+    updateData.custom_section_heading = data.custom_section_heading
+  }
+
+  if (data.custom_section_body !== undefined) {
+    updateData.custom_section_body = data.custom_section_body
+  }
+
+  const { error } = await supabase
+    .from('profiles')
+    .update(updateData)
+    .eq('user_id', user.id)
+
+  if (error) {
+    throw new Error('Failed to update custom section: ' + error.message)
+  }
+
+  revalidatePath('/editor')
+
+  return { success: true, timestamp: new Date().toISOString() }
+}
+
+/**
  * Update service areas section
  */
 export async function updateServiceAreasSection(data: {

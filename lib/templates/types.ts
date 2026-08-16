@@ -20,6 +20,8 @@ export interface Profile {
   personal_tagline: string;
   tagline: string;
   about_business: string;
+  custom_section_heading: string;
+  custom_section_body: string;
 
   // Location
   service_area: string;
@@ -44,6 +46,9 @@ export interface Profile {
 
   // Analytics
   google_measurement_id: string;
+
+  // AI visibility
+  llms_txt_content: string | null;
 
   created_at: string;
   updated_at: string;
@@ -120,6 +125,20 @@ export interface Review {
   owner_name: string;
   review: string
   order: number;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface BlogPost {
+  id: string;
+  profile_id: string;
+  title: string;
+  slug: string;
+  excerpt: string | null;
+  content: string;
+  cover_image_url: string | null;
+  published: boolean;
+  published_at: string | null;
   created_at: string;
   updated_at: string;
 }

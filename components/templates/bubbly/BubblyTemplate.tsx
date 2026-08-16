@@ -1,6 +1,7 @@
 'use client';
 
 import { TemplateData } from '@/lib/templates/types';
+import BubblyCustomSection from './BubblyCustomSection';
 import BubblyNav from './BubblyNav';
 import BubblyHero from './BubblyHero';
 import BubblyAbout from './BubblyAbout';
@@ -59,6 +60,10 @@ export default function BubblyTemplate({ data }: BubblyTemplateProps) {
         <BubblyOwner profile={profile} />
       ) : null}
       <BubblyServices services={services} />
+      <BubblyCustomSection
+        heading={profile.custom_section_heading}
+        body={profile.custom_section_body}
+      />
       <BubblyReviews reviews={reviews} />
       <BubblyGallery reviews={reviews} />
       <BubblyContact profile={profile} serviceAreas={serviceAreas} services={services} />

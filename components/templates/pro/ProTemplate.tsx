@@ -1,4 +1,5 @@
 import { TemplateData } from '@/lib/templates/types';
+import ProCustomSection from './ProCustomSection';
 import ProNav from './ProNav';
 import ProHero from './ProHero';
 import ProAbout from './ProAbout';
@@ -63,6 +64,12 @@ export default function ProTemplate({ data }: ProTemplateProps) {
       />
 
       <ProServices services={services} serviceAreas={serviceAreas} profileServiceArea={profile.service_area} />
+
+      {/* Custom Section */}
+      <ProCustomSection
+        heading={profile.custom_section_heading}
+        body={profile.custom_section_body}
+      />
 
       {/* Reviews Section */}
       <ProReviews reviews={reviews} />
