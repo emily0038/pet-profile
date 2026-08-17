@@ -11,6 +11,7 @@ interface SubmitInquiryData {
   firstName: string
   lastName: string
   phoneNumber: string
+  email?: string
   message: string
   serviceType?: string
   foundVia?: string
@@ -57,6 +58,7 @@ export async function submitInquiry(data: SubmitInquiryData) {
         first_name: data.firstName,
         last_name: data.lastName,
         phone_number: data.phoneNumber,
+        email: data.email,
         message: data.message,
         service_type: data.serviceType,
         found_via: data.foundVia,
@@ -74,11 +76,15 @@ export async function submitInquiry(data: SubmitInquiryData) {
     const { error: emailError } = await resend.emails.send({
       from: 'Pets Friendz <no-reply@petsfriendz.com>',
       to: [profile.email],
+      // Route replies (manual or auto-reply) to the inquirer, not to
+      // the no-reply system address, when they gave an email
+      replyTo: data.email || undefined,
       subject: `New Inquiry from ${data.firstName} ${data.lastName}`,
       react: InquiryEmailTemplate({
         firstName: data.firstName,
         lastName: data.lastName,
         phoneNumber: data.phoneNumber,
+        email: data.email,
         message: data.message,
         serviceType: data.serviceType,
         foundVia: data.foundVia,

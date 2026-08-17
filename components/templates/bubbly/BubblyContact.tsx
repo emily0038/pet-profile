@@ -12,6 +12,7 @@ interface BubblyContactProps {
 export default function BubblyContact({ profile, serviceAreas, services }: BubblyContactProps) {
   const [name, setName] = useState('');
   const [phoneNumber, setPhoneNumber] = useState('');
+  const [email, setEmail] = useState('');
   const [serviceType, setServiceType] = useState('');
   const [foundVia, setFoundVia] = useState('');
   const [message, setMessage] = useState('');
@@ -71,6 +72,7 @@ export default function BubblyContact({ profile, serviceAreas, services }: Bubbl
         firstName,
         lastName,
         phoneNumber,
+        email: email || undefined,
         message,
         serviceType: serviceType || undefined,
         foundVia: foundVia || undefined,
@@ -84,6 +86,7 @@ export default function BubblyContact({ profile, serviceAreas, services }: Bubbl
         setShowSuccess(false);
         setName('');
         setPhoneNumber('');
+        setEmail('');
         setServiceType('');
         setFoundVia('');
         setMessage('');
@@ -263,6 +266,40 @@ export default function BubblyContact({ profile, serviceAreas, services }: Bubbl
                     onBlur={(e) => (e.currentTarget.style.borderColor = '#e5e5e5')}
                   />
                 </div>
+              </div>
+
+              {/* Email */}
+              <div style={{ marginBottom: '24px' }}>
+                <label
+                  htmlFor="email"
+                  style={{
+                    display: 'block',
+                    marginBottom: '8px',
+                    fontWeight: 600,
+                    fontSize: '14px',
+                    color: 'var(--bubbly-text-dark)',
+                  }}
+                >
+                  Email
+                </label>
+                <input
+                  type="email"
+                  id="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  placeholder="you@example.com"
+                  style={{
+                    width: '100%',
+                    padding: '14px 16px',
+                    borderRadius: '12px',
+                    border: '2px solid #e5e5e5',
+                    fontSize: '15px',
+                    outline: 'none',
+                    transition: 'border-color 0.3s',
+                  }}
+                  onFocus={(e) => (e.currentTarget.style.borderColor = 'var(--bubbly-primary)')}
+                  onBlur={(e) => (e.currentTarget.style.borderColor = '#e5e5e5')}
+                />
               </div>
 
               {/* How did you find me? */}

@@ -13,6 +13,7 @@ export default function ProContact({ profile, serviceAreas, services }: ProConta
   const [phoneNumber, setPhoneNumber] = useState('');
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
+  const [email, setEmail] = useState('');
   const [serviceType, setServiceType] = useState('');
   const [foundVia, setFoundVia] = useState('');
   const [message, setMessage] = useState('');
@@ -65,6 +66,7 @@ export default function ProContact({ profile, serviceAreas, services }: ProConta
         firstName,
         lastName,
         phoneNumber,
+        email: email || undefined,
         message,
         serviceType: serviceType || undefined,
         foundVia: foundVia || undefined,
@@ -79,6 +81,7 @@ export default function ProContact({ profile, serviceAreas, services }: ProConta
         setPhoneNumber('');
         setFirstName('');
         setLastName('');
+        setEmail('');
         setServiceType('');
         setFoundVia('');
         setMessage('');
@@ -351,6 +354,26 @@ export default function ProContact({ profile, serviceAreas, services }: ProConta
                     required
                   />
                 </div>
+              </div>
+
+              {/* Email */}
+              <div style={{ marginBottom: '1.5rem' }}>
+                <label style={{ display: 'block', marginBottom: '0.5rem', color: 'var(--primary)', fontWeight: 600 }}>
+                  Email
+                </label>
+                <input
+                  type="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  placeholder="you@example.com"
+                  style={{
+                    width: '100%',
+                    padding: '0.75rem',
+                    border: '1px solid rgba(45, 95, 79, 0.2)',
+                    borderRadius: '10px',
+                    fontSize: '1rem',
+                  }}
+                />
               </div>
 
               {/* How did you find me? */}

@@ -13,6 +13,7 @@ export default function FriendlyContact({ profile, services }: FriendlyContactPr
     firstName: '',
     lastName: '',
     phone: '',
+    email: '',
     service: '',
     foundVia: '',
     message: '',
@@ -32,13 +33,14 @@ export default function FriendlyContact({ profile, services }: FriendlyContactPr
         firstName: formData.firstName,
         lastName: formData.lastName,
         phoneNumber: formData.phone,
+        email: formData.email || undefined,
         message: formData.message,
         serviceType: formData.service || undefined,
         foundVia: formData.foundVia || undefined,
       });
 
       setSubmitted(true);
-      setFormData({ firstName: '', lastName: '', phone: '', service: '', foundVia: '', message: '' });
+      setFormData({ firstName: '', lastName: '', phone: '', email: '', service: '', foundVia: '', message: '' });
     } catch (error) {
       console.error('Failed to submit form:', error);
     } finally {
@@ -146,6 +148,17 @@ export default function FriendlyContact({ profile, services }: FriendlyContactPr
                     </>
                   )}
                 </select>
+              </div>
+              <div className="friendly-form-group">
+                <label htmlFor="email">Email</label>
+                <input
+                  type="email"
+                  id="email"
+                  name="email"
+                  placeholder="you@example.com"
+                  value={formData.email}
+                  onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                />
               </div>
               <div className="friendly-form-group">
                 <label htmlFor="foundVia">How did you find me?</label>
