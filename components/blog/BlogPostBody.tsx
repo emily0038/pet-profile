@@ -1,11 +1,30 @@
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import rehypeRaw from 'rehype-raw';
-import rehypeSanitize from 'rehype-sanitize';
+import rehypeSanitize, { defaultSchema } from 'rehype-sanitize';
 
 interface BlogPostBodyProps {
   content: string;
 }
+
+// Extend the default (GitHub-style) sanitize schema to allow inline
+// `style` attributes, so pasted-in HTML (e.g. styled callout boxes) keeps
+// its look instead of rendering as plain unstyled elements.
+//
+// This is a deliberate, scoped-down security tradeoff: allowing arbitrary
+// inline CSS reopens a UI-redress/exfiltration surface (fixed-position
+// overlays, tracking via background-image, etc. — not script execution;
+// modern browsers don't run JS from plain `style` strings). Acceptable
+// while blog content is authored solely by the site owner. Revisit this
+// schema (drop 'style' back to the default) before opening blog authoring
+// up to other profile owners.
+const schema = {
+  ...defaultSchema,
+  attributes: {
+    ...defaultSchema.attributes,
+    '*': [...(defaultSchema.attributes?.['*'] ?? []), 'style'],
+  },
+};
 
 /**
  * Renders profile-owner-authored blog content.
@@ -26,16 +45,14 @@ interface BlogPostBodyProps {
  * rehype-raw turns embedded raw HTML (e.g. a pasted <div>) into real nodes
  * so it renders instead of showing as literal text. rehype-sanitize then
  * strips script tags, event-handler attributes, and javascript: URLs
- * before anything reaches the browser. Its default (GitHub-style) schema
- * also strips `style` and `class` attributes — safe by default, at the
- * cost of any inline styling in pasted HTML being dropped.
+ * before anything reaches the browser, using the extended schema above.
  */
 export default function BlogPostBody({ content }: BlogPostBodyProps) {
   return (
     <div className="prose prose-lg max-w-none">
       <ReactMarkdown
         remarkPlugins={[remarkGfm]}
-        rehypePlugins={[rehypeRaw, rehypeSanitize]}
+        rehypePlugins={[rehypeRaw, [rehypeSanitize, schema]]}
       >
         {content}
       </ReactMarkdown>
