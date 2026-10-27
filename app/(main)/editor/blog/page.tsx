@@ -6,7 +6,7 @@ import { useRouter } from 'next/navigation'
 import AppHeader from '@/components/appHeader'
 import { getMyBlogPosts, deleteBlogPost } from '@/app/actions/blog'
 import { BlogPost } from '@/lib/templates/types'
-import { getProfileSubPath } from '@/utils/url'
+import { getProfileUrl } from '@/utils/url'
 import { createClient } from '@/utils/supabase/client'
 
 export default function BlogListPage() {
@@ -123,7 +123,7 @@ export default function BlogListPage() {
                   <div className="flex items-center gap-3 flex-shrink-0">
                     {post.published && domain && (
                       <a
-                        href={getProfileSubPath(domain, `/blog/${post.slug}`)}
+                        href={`${getProfileUrl(domain)}/blog/${post.slug}`}
                         target="_blank"
                         rel="noopener noreferrer"
                         className="text-[#7c3aed] text-[14px] font-medium hover:underline"
