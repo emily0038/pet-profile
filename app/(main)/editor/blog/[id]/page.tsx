@@ -6,7 +6,7 @@ import Image from 'next/image'
 import * as Bytescale from '@bytescale/sdk'
 import AppHeader from '@/components/appHeader'
 import { createBlogPost, updateBlogPost, deleteBlogPost, getMyBlogPost } from '@/app/actions/blog'
-import { getProfileSubPath } from '@/utils/url'
+import { getProfileUrl } from '@/utils/url'
 import { createClient } from '@/utils/supabase/client'
 
 // Initialize Bytescale upload manager (matches the rest of the editor's
@@ -156,7 +156,7 @@ export default function BlogPostFormPage() {
               </h1>
               {!isNew && domain && slug && published && (
                 <a
-                  href={getProfileSubPath(domain, `/blog/${slug}`)}
+                  href={`${getProfileUrl(domain)}/blog/${slug}`}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="text-[#7c3aed] text-[14px] hover:underline"
